@@ -1,0 +1,3317 @@
+
+import 'package:flutter/material.dart';
+
+// import 'package:mobile_scanner/mobile_scanner.dart';
+
+import 'package:mobile_scanner/mobile_scanner.dart';
+
+import 'package:pdf/widgets.dart'
+    as pw;
+
+import 'package:printing/printing.dart';
+
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'package:fl_chart/fl_chart.dart';
+
+
+List<Skieur> skieursGlobal = [];
+
+Future<void> main() async {
+
+  WidgetsFlutterBinding.ensureInitialized();
+
+  
+
+  await Hive.initFlutter();
+
+  runApp(const MyApp());
+}
+
+
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: const HomePage(),
+    );
+  }
+}
+
+class Skieur {
+  final String prenom;
+  final String nom;
+  final String naissance;
+  final String telephone;
+  final String email;
+
+  int? unitesClub;
+
+  String? numeroCarteClub;
+
+    bool creditEnCours = false;
+
+  List<SessionHistorique> historique = [];
+
+  Skieur({
+    required this.prenom,
+    required this.nom,
+    required this.naissance,
+    required this.telephone,
+    required this.email,
+
+    this.unitesClub = 0,
+
+    this.numeroCarteClub,
+  });
+}
+
+class SessionHistorique {
+
+
+  final DateTime venue;
+
+  final String discipline;
+
+  final String depart;
+
+  final String arrivee;
+
+  final String duree;
+
+  final int tours;
+
+  final String paiement;
+
+  final double montant;
+
+  final String observation;
+
+  SessionHistorique({
+    required this.venue,
+    required this.discipline,
+    required this.depart,
+    required this.arrivee,
+    required this.duree,
+    required this.tours,
+    required this.paiement,
+    required this.montant,
+    required this.observation,
+  });
+}
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.blue.shade100,
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            // 🌊 Logo
+            const Icon(
+  Icons.waves,
+  size: 120,
+  color: Colors.blue,
+),
+            
+
+            const SizedBox(height: 20),
+
+            // ✨ slogan
+            const Text(
+              "Prépare tes sessions de ski nautique",
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.black54,
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            // ▶️ bouton
+            ElevatedButton(
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const MenuPage()),
+    );
+  },
+  child: const Text("Commencer"),
+),
+
+            
+          ],
+        ),
+      ),
+    );
+  }
+}
+class MenuPage extends StatefulWidget {
+  const MenuPage({super.key});
+
+  @override
+  State<MenuPage> createState() => _MenuPageState();
+}
+
+class _MenuPageState extends State<MenuPage> {
+
+  List<Skieur> skieurs = skieursGlobal;
+
+  final rechercheController =
+      TextEditingController();
+
+  List<Skieur> resultatRecherche = [];
+
+  final prenomController =
+      TextEditingController();
+
+  final nomController =
+      TextEditingController();
+
+  final naissanceController =
+      TextEditingController();
+
+  final telephoneController =
+      TextEditingController();
+
+  final emailController =
+      TextEditingController();
+
+   Skieur? skieurSelectionne;
+
+  @override
+void initState() {
+  super.initState();
+
+  if (skieurs.isEmpty) {
+
+    skieurs.addAll([
+
+      Skieur(
+        prenom: "Paul",
+        nom: "Martin",
+        naissance: "12/05/1995",
+        telephone: "0600000001",
+        email: "paul@test.com",
+        numeroCarteClub: "000001"
+      ),
+
+      Skieur(
+        prenom: "Lucas",
+        nom: "Durand",
+        naissance: "08/11/2000",
+        telephone: "0600000002",
+        email: "lucas@test.com",
+        numeroCarteClub: "000002"
+      ),
+
+      Skieur(
+        prenom: "Emma",
+        nom: "Petit",
+        naissance: "21/03/1998",
+        telephone: "0600000003",
+        email: "emma@test.com",
+        numeroCarteClub: "000003"
+      ),
+
+    ]);
+  }
+
+  resultatRecherche = List.from(skieurs);
+}
+
+  @override
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: Colors.white,
+
+    appBar: AppBar(
+      backgroundColor: Colors.blue.shade900,
+      title: const Text("WATERSKI"),
+    ),
+
+    body: SingleChildScrollView(
+      padding: const EdgeInsets.all(20),
+
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+
+        children: [
+
+          // Recherche
+        // Recherche
+Container(
+  padding: const EdgeInsets.all(8),
+
+  decoration: BoxDecoration(
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(20),
+    border: Border.all(
+      color: Colors.grey.shade300,
+    ),
+  ),
+
+  child: Autocomplete<Skieur>(
+
+    optionsBuilder: (TextEditingValue textEditingValue) {
+
+      if (textEditingValue.text.isEmpty) {
+        return const Iterable<Skieur>.empty();
+      }
+
+      return skieurs.where((skieur) {
+
+        final recherche =
+            textEditingValue.text.toLowerCase();
+
+        return skieur.prenom
+                .toLowerCase()
+                .contains(recherche)
+
+            ||
+
+            skieur.nom
+                .toLowerCase()
+                .contains(recherche);
+
+      });
+    },
+
+    displayStringForOption:
+        (Skieur s) =>
+            "${s.prenom} ${s.nom}",
+
+    onSelected: (Skieur skieur) {
+
+  setState(() {
+
+    skieurSelectionne = skieur;
+
+    prenomController.text =
+        skieur.prenom;
+
+    nomController.text =
+        skieur.nom;
+
+    naissanceController.text =
+        skieur.naissance;
+
+    telephoneController.text =
+        skieur.telephone;
+
+    emailController.text =
+        skieur.email;
+
+  });
+
+},
+
+
+
+
+    fieldViewBuilder:
+        (
+          context,
+          controller,
+          focusNode,
+          onEditingComplete,
+        ) {
+
+      return TextField(
+
+        controller: controller,
+        focusNode: focusNode,
+
+        decoration: InputDecoration(
+
+          hintText:
+              "Rechercher un skieur",
+
+          prefixIcon:
+              const Icon(Icons.search),
+
+          border:
+              InputBorder.none,
+        ),
+      );
+    },
+  ),
+),
+
+
+
+          const SizedBox(height: 30),
+
+          // Nouveau skieur
+        Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+
+    const Text(
+      "Nouveau Skieur",
+      style: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+
+    const SizedBox(height: 10),
+
+    ElevatedButton.icon(
+      onPressed: skieurSelectionne == null
+          ? null
+          : () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => HistoriquePage(
+                    skieur: skieurSelectionne!,
+                  ),
+                ),
+              );
+            },
+      icon: const Icon(Icons.history),
+      label: const Text("Historique"),
+    ),
+  ],
+),
+    
+  
+
+          const SizedBox(height: 20),
+
+          TextField(
+            controller: prenomController,
+            decoration: const InputDecoration(
+              labelText: "Prénom",
+              border: OutlineInputBorder(),
+            ),
+          ),
+
+          const SizedBox(height: 15),
+
+          TextField(
+            controller: nomController,
+            decoration: const InputDecoration(
+              labelText: "Nom",
+              border: OutlineInputBorder(),
+            ),
+          ),
+
+          const SizedBox(height: 15),
+
+          TextField(
+            controller: naissanceController,
+            decoration: const InputDecoration(
+              labelText: "Date de naissance",
+              border: OutlineInputBorder(),
+            ),
+          ),
+
+          const SizedBox(height: 15),
+
+          TextField(
+            controller: telephoneController,
+            decoration: const InputDecoration(
+              labelText: "Téléphone",
+              border: OutlineInputBorder(),
+            ),
+          ),
+
+          const SizedBox(height: 15),
+
+          TextField(
+            controller: emailController,
+            decoration: const InputDecoration(
+              labelText: "Email",
+              border: OutlineInputBorder(),
+            ),
+          ),
+
+          const SizedBox(height: 30),
+
+Row(
+
+  mainAxisAlignment:
+      MainAxisAlignment.spaceBetween,
+
+  children: [
+
+    Text(
+      "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} - "
+      "${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}",
+
+      style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+
+    ElevatedButton.icon(
+
+      onPressed: () {
+
+        Navigator.push(
+
+          context,
+
+          MaterialPageRoute(
+            builder: (context) =>
+                const StatistiquesPage(),
+          ),
+        );
+      },
+
+      icon:
+          const Icon(Icons.bar_chart),
+
+      label:
+          const Text("Statistiques"),
+
+      style:
+          ElevatedButton.styleFrom(
+
+        backgroundColor:
+            Colors.deepPurple,
+
+        foregroundColor:
+            Colors.white,
+      ),
+    ),
+  ],
+),
+
+const SizedBox(height: 30),
+
+          const SizedBox(height: 30),
+
+          // Bouton enregistrer
+          SizedBox(
+            width: double.infinity,
+
+            child: ElevatedButton(
+
+             onPressed: () {
+
+             if (
+                prenomController.text.trim().isEmpty &&
+                nomController.text.trim().isEmpty &&
+                skieurSelectionne == null
+) {
+  setState(() {
+    skieurSelectionne = null;
+  });
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text("Veuillez sélectionner ou saisir un skieur"),
+    ),
+  );
+
+  return;
+}
+
+  Skieur skieurActuel;
+
+  if (skieurSelectionne != null) {
+
+    skieurActuel = skieurSelectionne!;
+
+  } else {
+
+    skieurActuel = Skieur(
+      prenom: prenomController.text,
+      nom: nomController.text,
+      naissance: naissanceController.text,
+      telephone: telephoneController.text,
+      email: emailController.text,
+    );
+
+    if (!skieurs.any(
+      (s) => s.email == skieurActuel.email,
+    )) {
+
+      skieurs.add(skieurActuel);
+
+    }
+
+    setState(() {
+      resultatRecherche =
+          List.from(skieurs);
+    });
+  }
+
+  Navigator.push(
+    context,
+
+    MaterialPageRoute(
+      builder: (_) =>
+          DisciplinePage(
+        skieur: skieurActuel,
+      ),
+    ),
+  );
+},
+
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.green,
+                padding: const EdgeInsets.symmetric(vertical: 18),
+              ),
+
+              child: const Text(
+                "Enregistrer",
+                style: TextStyle(fontSize: 20),
+              ),
+            ),
+          ),
+
+          const SizedBox(height: 40),
+
+      
+
+
+const SizedBox(height: 30),
+
+],
+),
+),
+);
+}
+
+}
+class DisciplinePage extends StatelessWidget {
+
+  final Skieur skieur;
+
+  const DisciplinePage({
+    super.key,
+    required this.skieur,
+  });
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.white,
+
+    appBar: AppBar(
+  backgroundColor: Colors.blue.shade900,
+  title: const Text("DISCIPLINES"),
+
+  actions: [
+    TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FacturationPage(
+              skieur: skieur,
+              discipline: "VENTE UNITÉS",
+              debut: null,
+              fin: null,
+              duree: "00:00",
+              tours: 0,
+            ),
+          ),
+        );
+      },
+      child: const Text(
+        "PASSER",
+        style: TextStyle(color: Colors.white),
+      ),
+    ),
+  ],
+),
+
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+          children: [
+
+            // 👤 Skieur
+         Text(
+        "${skieur.prenom} ${skieur.nom}",
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            if (skieur.creditEnCours)
+  Container(
+    width: double.infinity,
+    margin: const EdgeInsets.only(top: 15),
+    padding: const EdgeInsets.all(12),
+    color: Colors.red,
+    child: const Text(
+      "⚠ CRÉDIT EN COURS",
+      textAlign: TextAlign.center,
+      style: TextStyle(
+        color: Colors.white,
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+      ),
+    ),
+  ),
+
+            const SizedBox(height: 8),
+
+              Text(
+              skieur.naissance,
+              style: TextStyle(
+                fontSize: 18,
+                color: Colors.black54,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            // 📅 date heure
+            Text(
+              "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} - "
+              "${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}",
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            const Text(
+              "Choisir une discipline",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 25),
+
+            disciplineButton(context,skieur," BI-SKI", Colors.blue),
+
+            const SizedBox(height: 15),
+
+            disciplineButton(context,skieur," SLALOM", Colors.red),
+
+            const SizedBox(height: 15),
+
+            disciplineButton(context,skieur," FIGURES", Colors.purple),
+
+            const SizedBox(height: 15),
+
+            disciplineButton(context,skieur," WAKEBOARD", Colors.orange),
+
+            const SizedBox(height: 15),
+
+            disciplineButton(context,skieur," SAUT", Colors.green),
+          ],
+        ),
+      ),
+    );
+  }
+
+  
+}
+Widget disciplineButton(
+  BuildContext context,
+  Skieur skieur,
+  String texte,
+  Color couleur,
+) {
+  return SizedBox(
+    width: double.infinity,
+
+    child: ElevatedButton(
+
+      onPressed: () {
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => SessionPage(
+              skieur: skieur,
+              discipline: texte,
+            ),
+          ),
+        );
+
+      },
+
+      style: ElevatedButton.styleFrom(
+        backgroundColor: couleur,
+        padding: const EdgeInsets.symmetric(vertical: 20),
+      ),
+
+      child: Text(
+        texte,
+        style: const TextStyle(
+          fontSize: 22,
+          color: Colors.white,
+        ),
+      ),
+    ),
+  );
+}
+
+
+class SessionPage extends StatefulWidget {
+
+  final Skieur skieur;
+  final String discipline;
+
+  const SessionPage({
+    super.key,
+    required this.skieur,
+    required this.discipline,
+  });
+
+  @override
+  State<SessionPage> createState() => _SessionPageState();
+}
+
+class _SessionPageState extends State<SessionPage> {
+
+  DateTime? debut;
+  DateTime? fin;
+
+  int tours = 0;
+
+  String get dureeSession {
+
+    if (debut == null || fin == null) {
+      return "00:00";
+    }
+
+    final duree = fin!.difference(debut!);
+
+    final minutes = duree.inMinutes;
+
+return "$minutes mn";
+
+
+  }
+
+ @override
+Widget build(BuildContext context) {
+
+  return Scaffold(
+  resizeToAvoidBottomInset: true,
+
+    backgroundColor: Colors.white,
+
+    appBar: AppBar(
+  backgroundColor: Colors.blue.shade900,
+  title: Text(widget.discipline),
+
+  actions: [
+    TextButton(
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => FacturationPage(
+              skieur: widget.skieur,
+              discipline: widget.discipline,
+              debut: null,
+              fin: null,
+              duree: "00:00",
+              tours: 0,
+            ),
+          ),
+        );
+      },
+      child: const Text(
+        "PASSER",
+        style: TextStyle(color: Colors.white),
+      ),
+    ),
+  ],
+),
+
+    body: SingleChildScrollView(
+  padding: const EdgeInsets.fromLTRB(20, 5, 20, 20),
+
+
+    child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+
+
+        Text(
+          "${widget.skieur.prenom} ${widget.skieur.nom}",
+          style: const TextStyle(
+            fontSize: 28,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        const SizedBox(height: 8),
+
+        Text(
+          widget.skieur.naissance,
+          style: const TextStyle(
+            fontSize: 18,
+            color: Colors.black54,
+          ),
+        ),
+
+        const SizedBox(height: 15),
+
+        Text(
+          "${DateTime.now().day}/${DateTime.now().month}/${DateTime.now().year} - "
+          "${DateTime.now().hour}:${DateTime.now().minute.toString().padLeft(2, '0')}",
+          style: const TextStyle(
+            fontSize: 18,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        const SizedBox(height: 20),
+
+        const Text(
+          "Temps de session",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        const SizedBox(height: 20),
+
+        Center(
+          child: Text(
+            dureeSession,
+            style: const TextStyle(
+              fontSize: 48,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 20),
+
+        if (debut != null)
+          Text(
+            "Départ : ${debut!.hour}:${debut!.minute.toString().padLeft(2, '0')}",
+            style: const TextStyle(fontSize: 18),
+          ),
+
+        if (fin != null)
+          Text(
+            "Arrivée : ${fin!.hour}:${fin!.minute.toString().padLeft(2, '0')}",
+            style: const TextStyle(fontSize: 18),
+          ),
+
+        const SizedBox(height: 20),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  debut = DateTime.now();
+                  fin = null;
+                });
+              },
+              child: const Text("Départ"),
+            ),
+
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  fin = DateTime.now();
+                });
+              },
+              child: const Text("Arrivée"),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 25),
+
+        const Text(
+          "Nombre de tours",
+          style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+
+        const SizedBox(height: 20),
+
+        Center(
+          child: Text(
+            "$tours",
+            style: const TextStyle(
+              fontSize: 50,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+
+        const SizedBox(height: 20),
+
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  if (tours > 0) tours--;
+                });
+              },
+              child: const Text("-"),
+            ),
+
+            const SizedBox(width: 30),
+
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  tours++;
+                });
+              },
+              child: const Text("+"),
+            ),
+          ],
+        ),
+
+        const SizedBox(height: 25),
+
+        SizedBox(
+          width: double.infinity,
+
+          child: ElevatedButton(
+
+            onPressed: () {
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => FacturationPage(
+                    skieur: widget.skieur,
+                    discipline: widget.discipline,
+                    debut: debut,
+                    fin: fin,
+                    duree: dureeSession,
+                    tours: tours,
+                    
+                  ),
+                ),
+              );
+
+            },
+
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.green,
+              padding: const EdgeInsets.symmetric(vertical: 18),
+            ),
+            
+
+            child: const Text(
+              "Enregistrer la session",
+              style: TextStyle(fontSize: 20),
+            ),
+          ),
+         ),
+          const SizedBox(height: 30),
+         
+        
+
+        ],
+     ),
+   ),
+);
+
+
+}      
+
+}
+
+class FacturationPage extends StatefulWidget {
+
+  final Skieur skieur;
+  final String discipline;
+  final DateTime? debut;
+  final DateTime? fin;
+  final String duree;
+  final int tours;
+  
+
+  const FacturationPage({
+    super.key,
+    required this.skieur,
+    required this.discipline,
+    required this.debut,
+    required this.fin,
+    required this.duree,
+    required this.tours,
+    
+  });
+
+  @override
+  State<FacturationPage> createState() => _FacturationPageState();
+}
+
+class _FacturationPageState extends State<FacturationPage> {
+
+  final calculController = TextEditingController();
+
+  final unitesController = TextEditingController();
+
+  String resultat = "";
+
+  int unitesAchetees = 0;
+
+  void calculer() {
+
+    try {
+
+      String expression = calculController.text;
+
+      expression = expression.replaceAll("x", "*");
+
+      double value = 0;
+
+      if (expression.contains("+")) {
+        final parts = expression.split("+");
+        value = double.parse(parts[0]) + double.parse(parts[1]);
+      }
+
+      else if (expression.contains("-")) {
+        final parts = expression.split("-");
+        value = double.parse(parts[0]) - double.parse(parts[1]);
+      }
+
+      else if (expression.contains("*")) {
+
+  final parts = expression.split("*");
+
+  unitesAchetees = int.parse(parts[0]);
+
+  value =
+      double.parse(parts[0]) *
+      double.parse(parts[1]);
+}
+
+      else if (expression.contains("/")) {
+        final parts = expression.split("/");
+        value = double.parse(parts[0]) / double.parse(parts[1]);
+      }
+  
+     else {
+  value = double.parse(expression);
+}  
+
+      setState(() {
+        resultat = value.toStringAsFixed(2);
+      });
+
+    } catch (e) {
+
+      setState(() {
+        resultat = "Erreur";
+      });
+
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor: Colors.blue.shade900,
+        title: const Text("FACTURATION"),
+      ),
+
+      body: SingleChildScrollView(
+         padding: const EdgeInsets.all(20),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+          children: [
+
+            Text(
+              "${widget.skieur.prenom} ${widget.skieur.nom}",
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            Text("Naissance : ${widget.skieur.naissance}"),
+            Text("Discipline : ${widget.discipline}"),
+
+            const SizedBox(height: 20),
+
+            if (widget.debut != null)
+              Text(
+                "Départ : ${widget.debut!.hour}:${widget.debut!.minute.toString().padLeft(2, '0')}",
+              ),
+
+            if (widget.fin != null)
+              Text(
+                "Arrivée : ${widget.fin!.hour}:${widget.fin!.minute.toString().padLeft(2, '0')}",
+              ),
+
+            Text("Temps réalisé : ${widget.duree}"),
+
+            Text("Nombre de tours : ${this.widget.tours}"),
+
+            const SizedBox(height: 40),
+
+            const Text(
+  "Unités à créditer",
+  style: TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  ),
+),
+
+const SizedBox(height: 15),
+
+TextField(
+  controller: unitesController,
+  keyboardType: TextInputType.number,
+  decoration: const InputDecoration(
+    labelText: "Nombre d'unités",
+    border: OutlineInputBorder(),
+  ),
+),
+
+const SizedBox(height: 30),
+
+            const Text(
+              "Calculatrice",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            TextField(
+              controller: calculController,
+              decoration: const InputDecoration(
+                hintText: "Exemple : 25*3",
+                border: OutlineInputBorder(),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: calculer,
+                child: const Text("Calculer"),
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Center(
+              child: Text(
+                resultat,
+                style: const TextStyle(
+                  fontSize: 40,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.green,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            SizedBox(
+              width: double.infinity,
+
+              child: ElevatedButton(
+
+                onPressed: () {
+
+              Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => ReglementPage(
+      skieur: widget.skieur,
+      discipline: widget.discipline,
+      duree: widget.duree,
+      tours: widget.tours,
+      paiement: "",
+      
+    unites: int.tryParse(unitesController.text) ?? 0,
+
+      montant:
+          double.tryParse(resultat) ?? 0,
+          
+
+      depart: widget.debut != null
+          ? "${widget.debut!.hour}:${widget.debut!.minute.toString().padLeft(2,'0')}"
+          : "",
+
+      arrivee: widget.fin != null
+          ? "${widget.fin!.hour}:${widget.fin!.minute.toString().padLeft(2,'0')}"
+          : "",
+    ),
+  ),
+);
+
+},
+
+
+
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.orange,
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                ),
+
+                child: const Text(
+                  "Taper règlement",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+class ReglementPage extends StatelessWidget {
+
+  final Skieur skieur;
+  final String discipline;
+  final String duree;
+  final int tours;
+  final String paiement;
+  final double montant;
+  final int unites;
+  final String depart;
+  final String arrivee;
+
+
+  const ReglementPage({
+    super.key,
+    required this.skieur,
+    required this.discipline,
+    required this.duree,
+    required this.tours,
+    required this.paiement,
+    required this.montant,
+    required this.unites,
+    required this.depart,
+    required this.arrivee,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor: Colors.blue.shade900,
+        title: const Text("RÈGLEMENT"),
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            Text(
+              "${skieur.prenom} ${skieur.nom}",
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+            paiementButton(
+  context,
+  "ESPÈCE",
+  Colors.green,
+  skieur,
+  discipline,
+  duree,
+  tours,
+  depart,
+  arrivee,
+  this.montant,
+  unites,
+),
+
+const SizedBox(height: 15),
+
+paiementButton(
+  context,
+  "CHEQUE",
+  Colors.orange,
+  skieur,
+  discipline,
+  duree,
+  tours,
+  depart,
+  arrivee,
+  this.montant,
+  unites,
+),
+
+            const SizedBox(height: 15),
+
+            paiementButton(
+            context,
+           "CARTE BLEUE",
+           Colors.blue,
+           skieur,
+           discipline,
+           duree,
+           tours,
+           depart,
+           arrivee,
+           this.montant,
+           unites,
+),
+
+            const SizedBox(height: 15),
+
+            paiementButton(
+            context,
+           "VIREMENT",
+           Colors.purple,
+           skieur,
+           discipline,
+           duree,
+           tours,
+           depart,
+           arrivee,
+           this.montant,
+           unites,
+),
+            
+
+            const SizedBox(height: 15),
+
+            paiementButton(
+            context,
+            "CREDIT",
+            Colors.red,
+            skieur,
+            discipline,
+            duree,
+            tours,
+            depart,
+            arrivee,
+            this.montant,
+            unites,
+),
+
+            const SizedBox(height: 15),
+
+       clubButton(
+  context,
+  skieur,
+  discipline,
+  duree,
+  tours,
+  depart,
+  arrivee,
+),   
+
+          ],
+        ),
+      ),
+    );
+  }
+}
+Widget paiementButton(
+  BuildContext context,
+  String texte,
+  Color couleur,
+  Skieur skieur,
+  String discipline,
+  String duree,
+  int tours,
+  String depart,
+  String arrivee,
+  double montant,
+  int unites,
+){
+
+  return SizedBox(
+    width: double.infinity,
+
+    child: ElevatedButton(
+  onPressed: () {
+
+   if (texte == "CREDIT") {
+  skieur.creditEnCours = true;
+}
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Paiement enregistré : $texte"),
+      ),
+    );
+
+    if (unites > 0) {
+      skieur.unitesClub = (skieur.unitesClub ?? 0) + unites;
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => CarteClubPage(
+            skieur: skieur,
+            discipline: discipline,
+            duree: duree,
+            tours: tours,
+            depart: depart,
+            arrivee: arrivee,
+            montant: montant,
+          ),
+        ),
+      );
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => RecapPage(
+            skieur: skieur,
+            discipline: discipline,
+            duree: duree,
+            tours: tours,
+            paiement: texte,
+            montant: montant,
+            depart: depart,
+            arrivee: arrivee,
+          ),
+        ),
+      );
+    }
+  },
+
+  style: ElevatedButton.styleFrom(
+    backgroundColor: couleur,
+    padding: const EdgeInsets.symmetric(vertical: 20),
+  ),
+
+  child: Text(
+    texte,
+    style: const TextStyle(
+      fontSize: 22,
+      color: Colors.white,
+    ),
+  ),
+),
+  );
+}
+Widget clubButton(
+  BuildContext context,
+  Skieur skieur,
+  String discipline,
+  String duree,
+  int tours,
+  String depart,
+  String arrivee,
+)
+{
+
+  return SizedBox(
+    width: double.infinity,
+
+    child: ElevatedButton(
+
+      onPressed: () {
+
+        
+          Navigator.push(
+  context,
+  MaterialPageRoute(
+    builder: (context) => CarteClubPage(
+      skieur: skieur,
+      discipline: discipline,
+      duree: duree,
+      tours: tours,
+      depart: depart,
+      arrivee: arrivee,
+      montant: 0,
+    ),
+  ),
+);
+
+      },
+
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.black,
+        padding: const EdgeInsets.symmetric(vertical: 20),
+      ),
+
+      child: const Text(
+        "CARTE CLUB",
+        style: TextStyle(
+          fontSize: 22,
+          color: Colors.white,
+        ),
+      ),
+    ),
+  );
+}
+
+
+
+    
+class CarteClubPage extends StatefulWidget {
+  final Skieur skieur;
+  final String discipline;
+  final String duree;
+  final int tours;
+  final String depart;
+  final String arrivee;
+  final double montant;
+
+  const CarteClubPage({
+    super.key,
+    required this.skieur,
+    required this.discipline,
+    required this.duree,
+    required this.tours,
+    required this.depart,
+    required this.arrivee,
+    required this.montant,
+  });
+
+  @override
+  State<CarteClubPage> createState() => _CarteClubPageState();
+}
+
+class _CarteClubPageState extends State<CarteClubPage> {
+
+late int unites;
+late int unitesDepart;
+
+@override
+void initState() {
+
+  super.initState();
+
+  widget.skieur.unitesClub ??= 10;
+
+unites = widget.skieur.unitesClub!;
+unitesDepart = unites;
+
+}
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor: Colors.blue.shade900,
+        title: const Text("CARTE CLUB"),
+      ),
+
+      body: SingleChildScrollView(
+  child: Padding(
+    padding: const EdgeInsets.all(20),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+
+            Text(
+              "${widget.skieur.prenom} ${widget.skieur.nom}",
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+
+            const SizedBox(height: 20),
+
+            const Center(
+              child: Text(
+                "Scanner carte club",
+                style: TextStyle(
+                  fontSize: 22,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+           
+           
+const SizedBox(height: 20),
+
+SizedBox(
+  width: double.infinity,
+
+  child: ElevatedButton(
+
+onPressed: () async {
+
+  final result = await Navigator.push(
+
+    context,
+
+    MaterialPageRoute(
+      builder: (context) =>
+          const ScannerPage(),
+    ),
+  );
+
+  if (
+      result != null &&
+      result is Skieur
+     ) {
+
+    Navigator.push(
+
+      context,
+
+      MaterialPageRoute(
+
+        builder: (context) =>
+          CarteClubPage(
+  skieur: result,
+  discipline: widget.discipline,
+  duree: widget.duree,
+  tours: widget.tours,
+  depart: widget.depart,
+  arrivee: widget.arrivee,
+  montant: widget.montant,
+),  
+      ),
+    );
+  }
+
+
+else if (result is String) {
+  widget.skieur.numeroCarteClub = result;
+
+if (!skieursGlobal.contains(widget.skieur)) {
+  skieursGlobal.add(widget.skieur);
+}
+
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(
+        "Carte attribuée à ${widget.skieur.prenom} ${widget.skieur.nom}",
+      ),
+    ),
+  );
+}
+
+},
+child: const Text("Scanner une carte"),
+  ),
+),
+            const SizedBox(height: 40),
+
+            const Text(
+              "Unités restantes",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            Center(
+              child: Text(
+                "$unites",
+                style: const TextStyle(
+                  fontSize: 60,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue,
+                ),
+              ),
+            ),
+
+            const SizedBox(height: 30),
+
+                       Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+
+                ElevatedButton(
+                  onPressed: () {
+                    setState(() {
+                      if (unites > 0) {
+                        unites--;
+
+                widget.skieur.unitesClub =
+                unites;
+                      }
+                    });
+                  },
+                  child: const Text("-1"),
+                ),
+
+const SizedBox(width: 30),
+
+ElevatedButton(
+  onPressed: () {
+    setState(() {
+      unites++;
+      widget.skieur.unitesClub = unites;
+    });
+  },
+  child: const Text("+1"),
+),
+],
+
+),
+
+const SizedBox(height: 30),
+
+SizedBox(
+  width: double.infinity,
+  child: ElevatedButton(
+onPressed: () {
+  final int unitesRestantes = unites;
+final int unitesConsommees = unitesDepart - unitesRestantes;
+
+if (unitesConsommees == 0 && widget.montant == 0) {
+  Navigator.pop(context);
+  return;
+}
+
+setState(() {
+  widget.skieur.unitesClub = unitesRestantes;
+});
+
+  Navigator.push(
+      context,
+      MaterialPageRoute(
+builder: (context) => RecapPage(
+  skieur: widget.skieur,
+  discipline: widget.discipline,
+  duree: widget.duree,
+  tours: widget.tours,
+  paiement: (
+    unitesConsommees < 0
+        ? "CARTE CLUB\n\n"
+          "Crédit : ${unitesRestantes - unitesDepart} unité(s)\n"
+          "Restant : $unitesRestantes unités"
+        : "CARTE CLUB\n\n"
+          "Départ : $unitesDepart unités\n"
+          "Consommé : $unitesConsommees unités\n"
+          "Restant : $unitesRestantes unités"
+  ),
+  montant: widget.montant,
+  depart: widget.depart,
+  arrivee: widget.arrivee,
+),
+      ),
+
+    );
+  
+},
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.green,
+      padding: const EdgeInsets.symmetric(vertical: 18),
+    ),
+    child: const Text(
+      "VALIDER",
+      style: TextStyle(fontSize: 20),
+
+
+    ),
+  ),
+),
+
+          ],
+        ),
+      ),
+    ),
+  );
+}              
+
+}
+
+
+
+class RecapPage extends StatefulWidget {
+
+  final Skieur skieur;
+  final String discipline;
+  final String duree;
+  final int tours;
+  final String paiement;
+
+  final String depart;
+  final String arrivee;
+  
+  final double montant;
+
+  const RecapPage({
+    super.key,
+
+    required this.skieur,
+    required this.discipline,
+    required this.duree,
+    required this.tours,
+    required this.paiement,
+    
+    required this.montant,
+
+    this.depart = "",
+    this.arrivee = "",
+    
+  });
+
+  @override
+  State<RecapPage> createState() => _RecapPageState();
+}
+
+
+
+class _RecapPageState extends State<RecapPage> {
+
+  final observationController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+
+    return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor: Colors.blue.shade900,
+        title: const Text("RÉCAPITULATIF"),
+      ),
+
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+
+          children: [
+
+            Text(
+              "${widget.skieur.prenom} ${widget.skieur.nom}",
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 10),
+
+            Text(
+              "Date de naissance : ${widget.skieur.naissance}",
+              style: const TextStyle(fontSize: 18),
+            ),
+
+            const SizedBox(height: 20),
+
+            Text(
+              "Discipline : ${widget.discipline}",
+              style: const TextStyle(fontSize: 20),
+            ),
+
+            Text(
+              "Durée session : ${widget.duree}",
+              style: const TextStyle(fontSize: 20),
+            ),
+            
+            Text(
+               "Départ : ${widget.depart}",
+              style: const TextStyle(fontSize: 20),
+            ),
+
+             Text(
+               "Arrivée : ${widget.arrivee}",
+               style: const TextStyle(fontSize: 20),
+            ),
+
+
+            Text(
+              "Tours réalisés : ${widget.tours}",
+              style: const TextStyle(fontSize: 20),
+            ),
+
+            Text(
+              "Paiement : ${widget.paiement}",
+              style: const TextStyle(fontSize: 20),
+            ),
+
+            const SizedBox(height: 40),
+
+            const Text(
+              "Observations sportives",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 20),
+
+            TextField(
+              controller: observationController,
+              maxLines: 8,
+
+              decoration: const InputDecoration(
+                hintText:
+                    "Exemple : travailler la tension des bras pour la prochaine séance...",
+                border: OutlineInputBorder(),
+              ),
+            ),
+
+            const SizedBox(height: 40),
+
+            SizedBox(
+              width: double.infinity,
+
+              child: ElevatedButton(
+
+
+
+         onPressed: () {
+
+  widget.skieur.historique.add(
+
+    SessionHistorique(
+
+      venue: DateTime.now(),
+
+      discipline: widget.discipline,
+
+      duree: widget.duree,
+
+      tours: widget.tours,
+
+      paiement: widget.paiement,
+
+      montant: widget.montant,
+
+      observation:
+          observationController.text,
+
+      depart: widget.depart,
+
+      arrivee: widget.arrivee,
+    ),
+  );
+
+  ScaffoldMessenger.of(context)
+      .showSnackBar(
+
+    const SnackBar(
+      content: Text(
+        "Session enregistrée",
+      ),
+    ),
+  );
+
+  Navigator.pushAndRemoveUntil(
+
+    context,
+
+    MaterialPageRoute(
+
+      builder: (context) =>
+
+      HistoriquePage(
+        skieur: widget.skieur,
+      ),
+    ),
+
+    (route) => false,
+  );
+
+},
+
+
+
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(vertical: 18),
+                ),
+
+                                child: const Text(
+                  "Terminer la session",
+                  style: TextStyle(fontSize: 20),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class HistoriquePage extends StatefulWidget {
+
+  final Skieur skieur;
+
+  const HistoriquePage({
+    super.key,
+    required this.skieur,
+  });
+
+  @override
+  State<HistoriquePage> createState() =>
+      _HistoriquePageState();
+}
+
+class _HistoriquePageState
+    extends State<HistoriquePage> {
+
+  DateTime? dateDebut;
+  DateTime? dateFin;
+
+List<SessionHistorique> get sessionsFiltrees {
+
+  return widget.skieur.historique.where((s){
+
+    if (
+      dateDebut != null &&
+      s.venue.isBefore(dateDebut!)
+    ) {
+      return false;
+    }
+
+    if (
+      dateFin != null &&
+      s.venue.isAfter(
+        dateFin!.add(
+          const Duration(days:1),
+        ),
+      )
+    ) {
+      return false;
+    }
+
+    return true;
+
+  }).toList();
+}
+
+Future<void> exporterHistoriquePDF() async {
+
+  final pdf = pw.Document();
+
+  pdf.addPage(
+
+    pw.MultiPage(
+
+      build: (context) => [
+
+        pw.Text(
+          "DOSSIER CLIENT",
+          style: pw.TextStyle(
+            fontSize: 24,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),
+
+        pw.SizedBox(height:20),
+
+        pw.Text(
+          "${widget.skieur.prenom} ${widget.skieur.nom}",
+        ),
+
+        pw.Text(widget.skieur.naissance),
+
+        pw.Text(widget.skieur.telephone),
+
+        pw.Text(widget.skieur.email),
+
+        pw.SizedBox(height:20),
+
+        pw.Text(
+          "Historique des sessions",
+          style: pw.TextStyle(
+            fontSize:18,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),
+
+        ...sessionsFiltrees.map(
+
+          (s)=> pw.Container(
+
+            margin:
+                const pw.EdgeInsets.only(
+                    bottom:10),
+
+            child: pw.Column(
+
+              crossAxisAlignment:
+                  pw.CrossAxisAlignment.start,
+
+              children:[
+
+                pw.Text(
+                  s.discipline,
+                  style: pw.TextStyle(
+                    fontWeight:
+                        pw.FontWeight.bold,
+                  ),
+                ),
+
+                pw.Text(
+                  "${s.venue.day}/"
+                  "${s.venue.month}/"
+                  "${s.venue.year}",
+                ),
+
+                pw.Text(
+                  "Tours : ${s.tours}",
+                ),
+
+                pw.Column(
+  crossAxisAlignment:
+      pw.CrossAxisAlignment.start,
+
+  children: [
+
+    pw.Text(
+      "Discipline : ${s.discipline}",
+    ),
+
+    pw.Text(
+      "Date : "
+      "${s.venue.day}/"
+      "${s.venue.month}/"
+      "${s.venue.year}",
+    ),
+
+    pw.Text(
+      "Départ : ${s.depart}",
+    ),
+
+    pw.Text(
+      "Arrivée : ${s.arrivee}",
+    ),
+
+    pw.Text(
+      "Durée : ${s.duree}",
+    ),
+
+    pw.Text(
+      "Tours : ${s.tours}",
+    ),
+
+    pw.Text(
+      "Paiement : ${s.paiement}",
+    ),
+
+    pw.Text(
+      "Montant : "
+      "${s.montant.toStringAsFixed(2)} €",
+    ),
+
+    pw.Text(
+      "Observation : "
+      "${s.observation}",
+    ),
+
+    pw.Divider(),
+  ],
+),
+              ],
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
+
+  await Printing.sharePdf(
+
+    bytes: await pdf.save(),
+
+    filename:
+        "${widget.skieur.nom}_historique.pdf",
+  );
+}
+
+@override
+Widget build(BuildContext context) {
+
+  
+
+int totalTours = 0;
+
+Map<String,int> disciplines = {};
+
+Map<String,int> paiements = {};
+
+double totalCA = 0;
+
+for (var s in sessionsFiltrees) {
+
+  totalTours += s.tours;
+
+  disciplines[s.discipline] =
+      (disciplines[s.discipline] ?? 0) + 1;
+
+  paiements[s.paiement] =
+      (paiements[s.paiement] ?? 0) + 1;
+
+  totalCA += s.montant;
+}
+
+  return Scaffold(
+
+
+
+
+      appBar: AppBar(
+        backgroundColor: Colors.blue.shade900,
+        title: const Text(
+          "DOSSIER CLIENT",
+        ),
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+
+        child: Column(
+
+          crossAxisAlignment:
+          CrossAxisAlignment.start,
+
+          children: [
+
+            Text(
+              "${widget.skieur.prenom} ${widget.skieur.nom}",
+
+              style: const TextStyle(
+                fontSize: 28,
+                fontWeight:
+                FontWeight.bold,
+              ),
+            ),
+
+            Text(widget.skieur.naissance),
+
+            Text(widget.skieur.telephone),
+
+            Text(widget.skieur.email),
+
+            if (widget.skieur.creditEnCours)
+  Container(
+    width: double.infinity,
+    margin: const EdgeInsets.only(top: 15),
+    child: ElevatedButton(
+      onPressed: () {
+        setState(() {
+          widget.skieur.creditEnCours = false;
+        });
+      },
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.green,
+        foregroundColor: Colors.white,
+      ),
+      child: const Text("CRÉDIT RÉGLÉ"),
+    ),
+  ),
+
+            const SizedBox(height: 30),
+
+
+
+            const Text(
+              "Historique",
+              style: TextStyle(
+                fontSize: 24,
+                fontWeight:
+                FontWeight.bold,
+              ),
+            ),
+
+Row(
+
+  children: [
+
+    Expanded(
+
+      child: ElevatedButton(
+
+        onPressed: () async {
+
+          final date =
+              await showDatePicker(
+
+            context: context,
+
+            initialDate:
+                DateTime.now(),
+
+            firstDate:
+                DateTime(2020),
+
+            lastDate:
+                DateTime(2100),
+          );
+
+          if (date != null) {
+
+            setState(() {
+              dateDebut = date;
+            });
+
+          }
+        },
+
+        child: Text(
+
+          dateDebut == null
+
+          ? "Date début"
+
+          : "${dateDebut!.day}/"
+            "${dateDebut!.month}/"
+            "${dateDebut!.year}",
+        ),
+      ),
+    ),
+
+    const SizedBox(width: 10),
+
+    Expanded(
+
+      child: ElevatedButton(
+
+        onPressed: () async {
+
+          final date =
+              await showDatePicker(
+
+            context: context,
+
+            initialDate:
+                DateTime.now(),
+
+            firstDate:
+                DateTime(2020),
+
+            lastDate:
+                DateTime(2100),
+          );
+
+          if (date != null) {
+
+            setState(() {
+              dateFin = date;
+            });
+
+          }
+        },
+
+        child: Text(
+
+          dateFin == null
+
+          ? "Date fin"
+
+          : "${dateFin!.day}/"
+            "${dateFin!.month}/"
+            "${dateFin!.year}",
+        ),
+      ),
+    ),
+  ],
+),
+
+SizedBox(
+  width: double.infinity,
+
+  child: ElevatedButton.icon(
+
+    onPressed: () {
+
+      Navigator.push(
+
+        context,
+
+        MaterialPageRoute(
+          builder: (context) =>
+              StatistiquesSkieurPage(
+            skieur: widget.skieur,
+          ),
+        ),
+      );
+    },
+
+    icon: const Icon(
+      Icons.bar_chart,
+    ),
+
+    label: const Text(
+      "Statistiques générales",
+    ),
+
+    style:
+        ElevatedButton.styleFrom(
+
+      backgroundColor:
+          Colors.deepPurple,
+
+      foregroundColor:
+          Colors.white,
+    ),
+  ),
+),
+
+const SizedBox(height:10),
+
+SizedBox(
+  width: double.infinity,
+
+  child: ElevatedButton.icon(
+
+    onPressed: () async {
+      await exporterHistoriquePDF();
+    },
+
+    icon: const Icon(
+      Icons.picture_as_pdf,
+    ),
+
+    label: const Text(
+      "Exporter historique PDF",
+    ),
+
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.red,
+      foregroundColor: Colors.white,
+    ),
+  ),
+),
+
+const SizedBox(height:10),
+
+
+
+const SizedBox(height: 20),
+
+const SizedBox(height: 20),
+
+SizedBox(
+  width: double.infinity,
+
+  child: ElevatedButton(
+
+    onPressed: () {
+
+      Navigator.pushAndRemoveUntil(
+
+        context,
+
+        MaterialPageRoute(
+          builder: (context) =>
+              const MenuPage(),
+        ),
+
+        (route) => false,
+      );
+    },
+
+    child: const Text(
+      "Retour accueil",
+    ),
+  ),
+),
+
+
+
+
+Expanded(
+
+              child:
+              ListView.builder(
+
+                itemCount:
+                 sessionsFiltrees.length,
+
+                itemBuilder:
+                (context,index){
+
+                 final s =
+                  sessionsFiltrees[index]; 
+
+                  return Card(
+
+                    child: ListTile(
+
+                      title: Text(
+                        s.discipline,
+                      ),
+
+                      subtitle: Text(
+
+"${s.venue.day}/"
+"${s.venue.month}/"
+"${s.venue.year}\n"
+
+"${s.duree}\n"
+
+"Départ : ${s.depart}\n"
+
+"Arrivée : ${s.arrivee}\n"
+
+"Tours : ${s.tours}\n"
+
+"Paiement : ${s.paiement}\n"
+
+"${s.observation}",
+),
+
+
+
+                    ),
+                  );
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/*
+class ScannerPage extends StatelessWidget {
+ ...
+}
+*/
+
+   class ScannerPage extends StatefulWidget {
+  const ScannerPage({super.key});
+
+  @override
+  State<ScannerPage> createState() => _ScannerPageState();
+}
+
+class _ScannerPageState extends State<ScannerPage> {
+
+  bool dejaScanne = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("SCAN QR"),
+      ),
+
+      body: MobileScanner(
+        onDetect: (capture) {
+
+    if (dejaScanne) return;
+
+setState(() {
+  dejaScanne = true;
+});
+
+  print("DETECTION");
+
+  final code =
+      capture.barcodes.first.rawValue;
+
+  print("QR lu = $code");
+
+  if (code == null) return;
+
+          print("QR lu = $code");
+
+          for (var skieur in skieursGlobal) {
+
+            if (skieur.numeroCarteClub == code) {
+
+              Navigator.pop(
+                context,
+                skieur,
+              );
+
+              return;
+            }
+          }
+
+          Navigator.pop(
+  context,
+  code,
+);
+        },
+      ),
+    );
+  }
+}
+class StatistiquesPage extends StatefulWidget {
+
+  const StatistiquesPage({super.key});
+
+  @override
+  State<StatistiquesPage> createState() =>
+      _StatistiquesPageState();
+}
+
+class _StatistiquesPageState
+    extends State<StatistiquesPage> {
+
+  DateTime? dateDebut;
+  DateTime? dateFin;
+
+  Future<void> exporterStatistiquesSaisonPDF() async {
+  final pdf = pw.Document();
+
+  int totalSkieurs = skieursGlobal.length;
+  int totalTours = 0;
+  double totalCA = 0;
+
+  Map<String, int> disciplines = {};
+  Map<String, int> paiements = {};
+
+  for (var skieur in skieursGlobal) {
+    for (var s in skieur.historique) {
+      if (dateDebut != null && s.venue.isBefore(dateDebut!)) {
+        continue;
+      }
+
+      if (dateFin != null &&
+          s.venue.isAfter(dateFin!.add(const Duration(days: 1)))) {
+        continue;
+      }
+
+      totalTours += s.tours;
+      totalCA += s.montant;
+
+      if (s.discipline != "VENTE UNITÉS") {
+        disciplines[s.discipline] =
+            (disciplines[s.discipline] ?? 0) + 1;
+      }
+
+      final paiementCourt = s.paiement.split('\n').first;
+      paiements[paiementCourt] =
+          (paiements[paiementCourt] ?? 0) + 1;
+    }
+  }
+
+  final int totalDisciplines =
+      disciplines.values.fold(0, (a, b) => a + b);
+
+  final int totalPaiements =
+      paiements.values.fold(0, (a, b) => a + b);
+
+  pdf.addPage(
+    pw.MultiPage(
+      build: (context) => [
+        pw.Text(
+          "WATER SKI APP",
+          style: pw.TextStyle(
+            fontSize: 26,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),
+
+        pw.SizedBox(height: 10),
+
+        pw.Text(
+          "STATISTIQUES SAISON",
+          style: pw.TextStyle(
+            fontSize: 22,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),
+
+        pw.SizedBox(height: 20),
+
+        pw.Text("Skieurs saison : $totalSkieurs"),
+        pw.Text("Tours réalisés : $totalTours"),
+        pw.Text("CA saison : ${totalCA.toStringAsFixed(2)} €"),
+
+        pw.SizedBox(height: 20),
+
+        pw.Text(
+          "Disciplines",
+          style: pw.TextStyle(
+            fontSize: 18,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),
+
+        ...disciplines.entries.map((e) {
+          final pourcentage =
+              totalDisciplines == 0 ? 0 : (e.value / totalDisciplines * 100);
+
+          return pw.Text(
+            "${e.key} : ${pourcentage.toStringAsFixed(0)} %",
+          );
+        }),
+
+        pw.SizedBox(height: 20),
+
+        pw.Text(
+          "Paiements",
+          style: pw.TextStyle(
+            fontSize: 18,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),
+
+        ...paiements.entries.map((e) {
+          final pourcentage =
+              totalPaiements == 0 ? 0 : (e.value / totalPaiements * 100);
+
+          return pw.Text(
+            "${e.key} : ${pourcentage.toStringAsFixed(0)} %",
+          );
+        }),
+      ],
+    ),
+  );
+
+  await Printing.sharePdf(
+    bytes: await pdf.save(),
+    filename: "statistiques_saison.pdf",
+  );
+}
+
+  @override
+  Widget build(BuildContext context) {
+
+    int totalSkieurs = skieursGlobal.length;
+
+    int totalTours = 0;
+
+    int totalSessions = 0;
+
+Map<String,int> disciplines = {};
+
+Map<String,int> paiements = {};
+
+double totalCA = 0;
+
+
+
+    for (var skieur in skieursGlobal) {
+
+    
+
+  for (var s in skieur.historique) {
+
+    if (
+      dateDebut != null &&
+      s.venue.isBefore(dateDebut!)
+    ) {
+      continue;
+    }
+
+    if (
+      dateFin != null &&
+      s.venue.isAfter(
+        dateFin!.add(
+          const Duration(days:1),
+        ),
+      )
+    ) {
+      continue;
+    }
+
+   
+
+    totalSessions++;
+
+    totalTours += s.tours;
+
+    if (s.discipline != "VENTE UNITÉS") {
+  disciplines[s.discipline] =
+      (disciplines[s.discipline] ?? 0) + 1;
+}
+
+    final paiementCourt = s.paiement.split('\n').first;
+
+    paiements[paiementCourt] =
+       (paiements[paiementCourt] ?? 0) + 1;
+
+    totalCA += s.montant;
+  }
+
+
+
+}
+final int totalDisciplines =
+    disciplines.values.fold(0, (a, b) => a + b);
+
+final int totalPaiements =
+    paiements.values.fold(0, (a, b) => a + b);
+
+final couleurs = [
+  Colors.blue,
+  Colors.red,
+  Colors.green,
+  Colors.orange,
+  Colors.purple,
+  Colors.teal,
+];
+
+Widget legendeCouleur(Color couleur, String texte) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 2),
+    child: Row(
+      children: [
+        Container(
+          width: 16,
+          height: 16,
+          decoration: BoxDecoration(
+            color: couleur,
+            borderRadius: BorderRadius.circular(3),
+          ),
+        ),
+        const SizedBox(width: 8),
+        Text(
+          texte,
+          style: const TextStyle(fontSize: 18),
+        ),
+      ],
+    ),
+  );
+}
+
+    return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
+        title: const Text(
+          "STATISTIQUES SAISON",
+        ),
+      ),
+
+      body: Padding(
+        padding: const EdgeInsets.all(20),
+
+        child: ListView(
+
+          children: [
+
+            Row(
+
+  children:[
+
+    Expanded(
+
+      child: ElevatedButton(
+
+        onPressed: () async {
+
+          final date =
+              await showDatePicker(
+
+            context: context,
+
+            initialDate:
+                DateTime.now(),
+
+            firstDate:
+                DateTime(2020),
+
+            lastDate:
+                DateTime(2100),
+          );
+
+          if(date != null){
+
+            setState(() {
+              dateDebut = date;
+            });
+
+          }
+        },
+
+        child: Text(
+
+          dateDebut == null
+
+          ? "Début"
+
+          : "${dateDebut!.day}/"
+            "${dateDebut!.month}/"
+            "${dateDebut!.year}",
+        ),
+      ),
+    ),
+
+    const SizedBox(width:10),
+
+    Expanded(
+
+      child: ElevatedButton(
+
+        onPressed: () async {
+
+          final date =
+              await showDatePicker(
+
+            context: context,
+
+            initialDate:
+                DateTime.now(),
+
+            firstDate:
+                DateTime(2020),
+
+            lastDate:
+                DateTime(2100),
+          );
+
+          if(date != null){
+
+            setState(() {
+              dateFin = date;
+            });
+
+          }
+        },
+
+        child: Text(
+
+          dateFin == null
+
+          ? "Fin"
+
+          : "${dateFin!.day}/"
+            "${dateFin!.month}/"
+            "${dateFin!.year}",
+        ),
+      ),
+    ),
+  ],
+),
+
+const SizedBox(height:20),
+
+            Text(
+  "Skieurs enregistrés : $totalSkieurs",
+  style: const TextStyle(
+    fontSize: 22,
+    fontWeight: FontWeight.bold,
+  ),
+),
+
+const SizedBox(height: 10),
+
+Text(
+  "Sessions réalisées : $totalSessions",
+),
+
+            const SizedBox(height: 20),
+
+            Text(
+              "Tours réalisés : $totalTours",
+            ),
+
+           const SizedBox(height: 20),
+
+Text(
+"CA saison : ${totalCA.toStringAsFixed(2)} €",
+style: const TextStyle(
+fontSize: 20,
+fontWeight: FontWeight.bold,
+),
+),
+const SizedBox(height: 20),
+
+const Text(
+  "Disciplines",
+  style: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  ),
+),
+
+const SizedBox(height: 20),
+
+SizedBox(
+  height: 220,
+  child: PieChart(
+    PieChartData(
+      centerSpaceRadius: 55,
+      sections: disciplines.entries.map((e) {
+        final pourcentage =
+            totalDisciplines == 0
+                ? 0
+                : (e.value / totalDisciplines * 100);
+
+        final couleur = couleurs[
+            disciplines.keys.toList().indexOf(e.key) %
+            couleurs.length];
+
+        return PieChartSectionData(
+          color: couleur,
+          value: e.value.toDouble(),
+          title: "${pourcentage.toStringAsFixed(0)}%",
+          radius: 70,
+          titleStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        );
+      }).toList(),
+    ),
+  ),
+),
+
+const SizedBox(height: 20),
+
+...disciplines.entries.map((e) {
+  final pourcentage =
+      totalDisciplines == 0
+          ? 0
+          : (e.value / totalDisciplines * 100);
+
+  final couleur = couleurs[
+      disciplines.keys.toList().indexOf(e.key) %
+      couleurs.length];
+
+  return legendeCouleur(
+    couleur,
+    "${e.key} : ${pourcentage.toStringAsFixed(0)} %",
+  );
+}),
+
+const SizedBox(height: 20),
+
+const Text(
+  "Paiements",
+  style: TextStyle(
+    fontSize: 20,
+    fontWeight: FontWeight.bold,
+  ),
+),
+
+const SizedBox(height: 20),
+
+SizedBox(
+  height: 220,
+  child: PieChart(
+    PieChartData(
+      centerSpaceRadius: 55,
+      sections: paiements.entries.map((e) {
+        final pourcentage =
+            totalPaiements == 0
+                ? 0
+                : (e.value / totalPaiements * 100);
+
+        final couleur = couleurs[
+            paiements.keys.toList().indexOf(e.key) %
+            couleurs.length];
+
+        return PieChartSectionData(
+          color: couleur,
+          value: e.value.toDouble(),
+          title: "${pourcentage.toStringAsFixed(0)}%",
+          radius: 70,
+          titleStyle: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        );
+      }).toList(),
+    ),
+  ),
+),
+
+
+
+          const SizedBox(height: 20),
+
+
+...paiements.entries.map((e) {
+  final pourcentage =
+      totalPaiements == 0
+          ? 0
+          : (e.value / totalPaiements * 100);
+
+  final couleur = couleurs[
+      paiements.keys.toList().indexOf(e.key) %
+      couleurs.length];
+
+  return legendeCouleur(
+    couleur,
+    "${e.key} : ${pourcentage.toStringAsFixed(0)} %",
+  );
+}),
+
+const SizedBox(height: 30),
+
+SizedBox(
+  width: double.infinity,
+  child: ElevatedButton.icon(
+    onPressed: () async {
+      await exporterStatistiquesSaisonPDF();
+    },
+    icon: const Icon(Icons.picture_as_pdf),
+    label: const Text("Exporter statistiques PDF"),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.red,
+      foregroundColor: Colors.white,
+    ),
+  ),
+),
+
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class StatistiquesSkieurPage
+    extends StatelessWidget {
+
+  final Skieur skieur;
+
+  const StatistiquesSkieurPage({
+    super.key,
+    required this.skieur,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+
+    int totalTours = 0;
+
+    Map<String,int> disciplines = {};
+
+    Map<String,int> paiements = {};
+
+    double totalCA = 0;
+
+    for (var s in skieur.historique){
+
+  totalTours += s.tours;
+
+  if (s.discipline != "VENTE UNITÉS") {
+
+    disciplines[s.discipline] =
+        (disciplines[s.discipline] ?? 0) + 1;
+
+  }
+
+  paiements[s.paiement] =
+      (paiements[s.paiement] ?? 0) + 1;
+
+  totalCA += s.montant;
+}
+
+    return Scaffold(
+
+      appBar: AppBar(
+        backgroundColor:
+            Colors.deepPurple,
+
+        title: const Text(
+          "STATISTIQUES SKIEUR",
+        ),
+      ),
+
+      body: Padding(
+
+        padding:
+            const EdgeInsets.all(20),
+
+        child: ListView(
+
+          children:[
+
+            Text(
+              "${skieur.prenom} ${skieur.nom}",
+
+              style:
+              const TextStyle(
+
+                fontSize:28,
+
+                fontWeight:
+                    FontWeight.bold,
+              ),
+            ),
+
+            Text(skieur.naissance),
+
+            Text(skieur.telephone),
+
+            Text(skieur.email),
+
+            const SizedBox(height:30),
+
+            Text(
+              "Tours : $totalTours",
+            ),
+
+            Text(
+              "CA : ${totalCA.toStringAsFixed(2)} €",
+            ),
+
+            const SizedBox(height:20),
+
+            const Text(
+              "Disciplines",
+            ),
+
+            ...disciplines.entries.map(
+               (e) => Text(
+                  "${e.key} : ${e.value}",
+              ),
+            ),
+
+            const SizedBox(height:20),
+
+            const Text(
+              "Paiements",
+            ),
+
+            ...paiements.entries.map(
+              (e)=>Text(
+                e.key,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}

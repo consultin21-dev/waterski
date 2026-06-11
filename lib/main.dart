@@ -14,6 +14,12 @@ import 'package:hive_flutter/hive_flutter.dart';
 
 import 'package:fl_chart/fl_chart.dart';
 
+import 'dart:typed_data';
+
+import 'dart:ui' as ui;
+
+import 'package:flutter/rendering.dart';
+
 
 List<Skieur> skieursGlobal = [];
 
@@ -2129,6 +2135,8 @@ Future<void> exporterHistoriquePDF() async {
 
   final pdf = pw.Document();
 
+  
+
   pdf.addPage(
 
     pw.MultiPage(
@@ -2288,7 +2296,10 @@ for (var s in sessionsFiltrees) {
   paiements[s.paiement] =
       (paiements[s.paiement] ?? 0) + 1;
 
+if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
+    !s.paiement.toUpperCase().contains('CREDIT')) {
   totalCA += s.montant;
+}
 }
 
   return Scaffold(
@@ -2612,11 +2623,7 @@ Expanded(
   }
 }
 
-/*
-class ScannerPage extends StatelessWidget {
- ...
-}
-*/
+
 
    class ScannerPage extends StatefulWidget {
   const ScannerPage({super.key});
@@ -2693,8 +2700,28 @@ class _StatistiquesPageState
   DateTime? dateDebut;
   DateTime? dateFin;
 
+final GlobalKey disciplinesChartKey = GlobalKey();
+final GlobalKey paiementsChartKey = GlobalKey();
+
+Future<Uint8List> captureChart(GlobalKey key) async {
+  final boundary =
+      key.currentContext!.findRenderObject() as RenderRepaintBoundary;
+
+  final image = await boundary.toImage(pixelRatio: 2);
+  final byteData =
+      await image.toByteData(format: ui.ImageByteFormat.png);
+
+  return byteData!.buffer.asUint8List();
+}
+
   Future<void> exporterStatistiquesSaisonPDF() async {
   final pdf = pw.Document();
+
+  final disciplinesImage =
+    pw.MemoryImage(await captureChart(disciplinesChartKey));
+
+  final paiementsImage =
+    pw.MemoryImage(await captureChart(paiementsChartKey));
 
   int totalSkieurs = skieursGlobal.length;
   int totalTours = 0;
@@ -2715,8 +2742,11 @@ class _StatistiquesPageState
       }
 
       totalTours += s.tours;
+      if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
+          !s.paiement.toUpperCase().contains('CREDIT')) {
       totalCA += s.montant;
-
+      }
+      
       if (s.discipline != "VENTE UNITÉS") {
         disciplines[s.discipline] =
             (disciplines[s.discipline] ?? 0) + 1;
@@ -2759,7 +2789,7 @@ class _StatistiquesPageState
 
         pw.Text("Skieurs saison : $totalSkieurs"),
         pw.Text("Tours réalisés : $totalTours"),
-        pw.Text("CA saison : ${totalCA.toStringAsFixed(2)} €"),
+        pw.Text("CA saison : ${totalCA.toStringAsFixed(2)} EUR"),
 
         pw.SizedBox(height: 20),
 
@@ -2782,6 +2812,13 @@ class _StatistiquesPageState
 
         pw.SizedBox(height: 20),
 
+        pw.Image(
+       disciplinesImage,
+       height: 160,
+        ),
+
+        pw.SizedBox(height: 20),
+
         pw.Text(
           "Paiements",
           style: pw.TextStyle(
@@ -2794,10 +2831,20 @@ class _StatistiquesPageState
           final pourcentage =
               totalPaiements == 0 ? 0 : (e.value / totalPaiements * 100);
 
+            
+
           return pw.Text(
             "${e.key} : ${pourcentage.toStringAsFixed(0)} %",
           );
         }),
+      
+       pw.SizedBox(height: 20),
+
+       pw.Image(
+       paiementsImage,
+       height: 160, 
+        ),
+
       ],
     ),
   );
@@ -2865,9 +2912,11 @@ double totalCA = 0;
     paiements[paiementCourt] =
        (paiements[paiementCourt] ?? 0) + 1;
 
-    totalCA += s.montant;
+    if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
+        !s.paiement.toUpperCase().contains('CREDIT')) {
+     totalCA += s.montant;
+   }
   }
-
 
 
 }
@@ -3044,7 +3093,7 @@ Text(
            const SizedBox(height: 20),
 
 Text(
-"CA saison : ${totalCA.toStringAsFixed(2)} €",
+"CA saison : ${totalCA.toStringAsFixed(2)} EUR",
 style: const TextStyle(
 fontSize: 20,
 fontWeight: FontWeight.bold,
@@ -3064,31 +3113,34 @@ const SizedBox(height: 20),
 
 SizedBox(
   height: 220,
-  child: PieChart(
-    PieChartData(
-      centerSpaceRadius: 55,
-      sections: disciplines.entries.map((e) {
-        final pourcentage =
-            totalDisciplines == 0
-                ? 0
-                : (e.value / totalDisciplines * 100);
+  child: RepaintBoundary(
+    key: disciplinesChartKey,
+    child: PieChart(
+      PieChartData(
+        centerSpaceRadius: 55,
+        sections: disciplines.entries.map((e) {
+          final pourcentage =
+              totalDisciplines == 0
+                  ? 0
+                  : (e.value / totalDisciplines * 100);
 
-        final couleur = couleurs[
-            disciplines.keys.toList().indexOf(e.key) %
-            couleurs.length];
+          final couleur = couleurs[
+              disciplines.keys.toList().indexOf(e.key) %
+              couleurs.length];
 
-        return PieChartSectionData(
-          color: couleur,
-          value: e.value.toDouble(),
-          title: "${pourcentage.toStringAsFixed(0)}%",
-          radius: 70,
-          titleStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        );
-      }).toList(),
+          return PieChartSectionData(
+            color: couleur,
+            value: e.value.toDouble(),
+            title: "${pourcentage.toStringAsFixed(0)}%",
+            radius: 45,
+            titleStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          );
+        }).toList(),
+      ),
     ),
   ),
 ),
@@ -3125,35 +3177,37 @@ const SizedBox(height: 20),
 
 SizedBox(
   height: 220,
-  child: PieChart(
-    PieChartData(
-      centerSpaceRadius: 55,
-      sections: paiements.entries.map((e) {
-        final pourcentage =
-            totalPaiements == 0
-                ? 0
-                : (e.value / totalPaiements * 100);
+  child: RepaintBoundary(
+    key: paiementsChartKey,
+    child: PieChart(
+      PieChartData(
+        centerSpaceRadius: 55,
+        sections: paiements.entries.map((e) {
+          final pourcentage =
+              totalPaiements == 0
+                  ? 0
+                  : (e.value / totalPaiements * 100);
 
-        final couleur = couleurs[
-            paiements.keys.toList().indexOf(e.key) %
-            couleurs.length];
+          final couleur = couleurs[
+              paiements.keys.toList().indexOf(e.key) %
+              couleurs.length];
 
-        return PieChartSectionData(
-          color: couleur,
-          value: e.value.toDouble(),
-          title: "${pourcentage.toStringAsFixed(0)}%",
-          radius: 70,
-          titleStyle: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        );
-      }).toList(),
+          return PieChartSectionData(
+            color: couleur,
+            value: e.value.toDouble(),
+            title: "${pourcentage.toStringAsFixed(0)}%",
+            radius: 45,
+            titleStyle: const TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+            ),
+          );
+        }).toList(),
+      ),
     ),
   ),
 ),
-
 
 
           const SizedBox(height: 20),
@@ -3199,9 +3253,7 @@ SizedBox(
   }
 }
 
-class StatistiquesSkieurPage
-    extends StatelessWidget {
-
+class StatistiquesSkieurPage extends StatelessWidget {
   final Skieur skieur;
 
   const StatistiquesSkieurPage({
@@ -3211,31 +3263,27 @@ class StatistiquesSkieurPage
 
   @override
   Widget build(BuildContext context) {
-
     int totalTours = 0;
-
-    Map<String,int> disciplines = {};
-
-    Map<String,int> paiements = {};
-
+    Map<String, int> disciplines = {};
+    Map<String, int> paiements = {};
     double totalCA = 0;
 
-    for (var s in skieur.historique){
+    for (var s in skieur.historique) {
+      totalTours += s.tours;
 
-  totalTours += s.tours;
+      if (s.discipline != "VENTE UNITÉS") {
+        disciplines[s.discipline] =
+            (disciplines[s.discipline] ?? 0) + 1;
+      }
 
-  if (s.discipline != "VENTE UNITÉS") {
+      paiements[s.paiement] =
+          (paiements[s.paiement] ?? 0) + 1;
 
-    disciplines[s.discipline] =
-        (disciplines[s.discipline] ?? 0) + 1;
-
-  }
-
-  paiements[s.paiement] =
-      (paiements[s.paiement] ?? 0) + 1;
-
-  totalCA += s.montant;
-}
+      if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
+          !s.paiement.toUpperCase().contains('CREDIT')) {
+        totalCA += s.montant;
+      }
+    }
 
     return Scaffold(
 
@@ -3283,7 +3331,7 @@ class StatistiquesSkieurPage
             ),
 
             Text(
-              "CA : ${totalCA.toStringAsFixed(2)} €",
+              "CA : ${totalCA.toStringAsFixed(2)} EUR",
             ),
 
             const SizedBox(height:20),

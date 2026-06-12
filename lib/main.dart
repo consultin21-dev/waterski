@@ -199,6 +199,10 @@ class _MenuPageState extends State<MenuPage> {
 
    Skieur? skieurSelectionne;
 
+   bool get creditEnCoursSelectionne {
+  return skieurSelectionne?.creditEnCours ?? false;
+}
+
   @override
 void initState() {
   super.initState();
@@ -245,10 +249,25 @@ Widget build(BuildContext context) {
   return Scaffold(
     backgroundColor: Colors.white,
 
-    appBar: AppBar(
-      backgroundColor: Colors.blue.shade900,
-      title: const Text("WATERSKI"),
+appBar: AppBar(
+  backgroundColor: Colors.blue.shade900,
+  title: const Text("WATERSKI"),
+  actions: [
+    Padding(
+      padding: const EdgeInsets.only(right: 20),
+      child: Center(
+        child: Container(
+          width: 18,
+          height: 18,
+          decoration: BoxDecoration(
+            color: creditEnCoursSelectionne ? Colors.red : Colors.green,
+            shape: BoxShape.circle,
+          ),
+        ),
+      ),
     ),
+  ],
+),
 
     body: SingleChildScrollView(
       padding: const EdgeInsets.all(20),
@@ -378,21 +397,23 @@ Container(
     const SizedBox(height: 10),
 
     ElevatedButton.icon(
-      onPressed: skieurSelectionne == null
-          ? null
-          : () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => HistoriquePage(
-                    skieur: skieurSelectionne!,
-                  ),
-                ),
-              );
-            },
-      icon: const Icon(Icons.history),
-      label: const Text("Historique"),
-    ),
+  onPressed: skieurSelectionne == null
+      ? null
+      : () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => HistoriquePage(
+                skieur: skieurSelectionne!,
+              ),
+            ),
+          );
+
+          setState(() {});
+        },
+  icon: const Icon(Icons.history),
+  label: const Text("Historique"),
+   ),
   ],
 ),
     
@@ -2623,7 +2644,15 @@ Expanded(
   }
 }
 
+class PresenceLigne {
+  final Skieur skieur;
+  final SessionHistorique session;
 
+  PresenceLigne({
+    required this.skieur,
+    required this.session,
+  });
+}
 
    class ScannerPage extends StatefulWidget {
   const ScannerPage({super.key});
@@ -2764,6 +2793,29 @@ Future<Uint8List> captureChart(GlobalKey key) async {
   final int totalPaiements =
       paiements.values.fold(0, (a, b) => a + b);
 
+final skieursVenuMap = <String, Skieur>{};
+
+for (var skieur in skieursGlobal) {
+  for (var s in skieur.historique) {
+    if (dateDebut != null && s.venue.isBefore(dateDebut!)) {
+      continue;
+    }
+
+    if (dateFin != null &&
+        s.venue.isAfter(dateFin!.add(const Duration(days: 1)))) {
+      continue;
+    }
+
+    final cle = "${skieur.prenom}-${skieur.nom}-${skieur.naissance}";
+    skieursVenuMap[cle] = skieur;
+  }
+}
+
+final skieursVenu = skieursVenuMap.values.toList();
+
+
+
+
   pdf.addPage(
     pw.MultiPage(
       build: (context) => [
@@ -2790,6 +2842,8 @@ Future<Uint8List> captureChart(GlobalKey key) async {
         pw.Text("Skieurs saison : $totalSkieurs"),
         pw.Text("Tours réalisés : $totalTours"),
         pw.Text("CA saison : ${totalCA.toStringAsFixed(2)} EUR"),
+
+        
 
         pw.SizedBox(height: 20),
 
@@ -2925,6 +2979,52 @@ final int totalDisciplines =
 
 final int totalPaiements =
     paiements.values.fold(0, (a, b) => a + b);
+
+    final skieursVenuMap = <String, Skieur>{};
+
+for (var skieur in skieursGlobal) {
+  for (var s in skieur.historique) {
+    if (dateDebut != null && s.venue.isBefore(dateDebut!)) {
+      continue;
+    }
+
+    if (dateFin != null &&
+        s.venue.isAfter(dateFin!.add(const Duration(days: 1)))) {
+      continue;
+    }
+
+    final cle = "${skieur.prenom}-${skieur.nom}-${skieur.naissance}";
+    skieursVenuMap[cle] = skieur;
+  }
+}
+
+final skieursVenu = skieursVenuMap.values.toList();
+
+final presences = <PresenceLigne>[];
+
+for (var skieur in skieursGlobal) {
+  for (var s in skieur.historique) {
+    if (dateDebut != null && s.venue.isBefore(dateDebut!)) {
+      continue;
+    }
+
+    if (dateFin != null &&
+        s.venue.isAfter(dateFin!.add(const Duration(days: 1)))) {
+      continue;
+    }
+
+    presences.add(
+      PresenceLigne(
+        skieur: skieur,
+        session: s,
+      ),
+    );
+  }
+}
+
+presences.sort(
+  (a, b) => a.session.venue.compareTo(b.session.venue),
+);
 
 final couleurs = [
   Colors.blue,
@@ -3099,6 +3199,26 @@ fontSize: 20,
 fontWeight: FontWeight.bold,
 ),
 ),
+ const SizedBox(height: 20),
+
+SizedBox(
+  width: double.infinity,
+  child: ElevatedButton.icon(
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => PresencesPage(
+            presences: presences,
+          ),
+        ),
+      );
+    },
+    icon: const Icon(Icons.people),
+    label: const Text("Liste des présences"),
+  ),
+),
+
 const SizedBox(height: 20),
 
 const Text(
@@ -3359,6 +3479,45 @@ class StatistiquesSkieurPage extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class PresencesPage extends StatelessWidget {
+  final List<PresenceLigne> presences;
+
+  const PresencesPage({
+    super.key,
+    required this.presences,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.deepPurple,
+        title: const Text("PRÉSENCES"),
+      ),
+      body: ListView.builder(
+        padding: const EdgeInsets.all(20),
+        itemCount: presences.length,
+        itemBuilder: (context, index) {
+          final p = presences[index];
+          final skieur = p.skieur;
+          final session = p.session;
+
+          return Card(
+            child: ListTile(
+              title: Text(
+                "${skieur.prenom} ${skieur.nom} - ${skieur.naissance}",
+              ),
+              subtitle: Text(
+                "Arrivée : ${session.depart}\nDépart : ${session.arrivee}",
+              ),
+            ),
+          );
+        },
       ),
     );
   }

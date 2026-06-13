@@ -23,15 +23,42 @@ import 'package:flutter/rendering.dart';
 
 List<Skieur> skieursGlobal = [];
 
+Future<void> sauvegarderDonnees() async {
+  final box = Hive.box('waterski');
+
+  await box.put(
+    'skieurs',
+    skieursGlobal.map((s) => s.toMap()).toList(),
+  );
+}
+
+Future<void> chargerDonnees() async {
+  final box = Hive.box('waterski');
+
+  final data = box.get('skieurs');
+
+  if (data == null) return;
+
+  skieursGlobal = (data as List)
+      .map((e) => Skieur.fromMap(
+            Map<String, dynamic>.from(e),
+          ))
+      .toList();
+}
+
 Future<void> main() async {
 
   WidgetsFlutterBinding.ensureInitialized();
 
   
 
-  await Hive.initFlutter();
+await Hive.initFlutter();
 
-  runApp(const MyApp());
+await Hive.openBox('waterski');
+
+await chargerDonnees();
+
+runApp(const MyApp());
 }
 
 
@@ -72,7 +99,43 @@ class Skieur {
     this.unitesClub = 0,
 
     this.numeroCarteClub,
+
   });
+
+Map<String, dynamic> toMap() {
+  return {
+    'prenom': prenom,
+    'nom': nom,
+    'naissance': naissance,
+    'telephone': telephone,
+    'email': email,
+    'unitesClub': unitesClub,
+    'numeroCarteClub': numeroCarteClub,
+    'creditEnCours': creditEnCours,
+    'historique': historique.map((h) => h.toMap()).toList(),
+  };
+}
+
+factory Skieur.fromMap(Map map) {
+  final skieur = Skieur(
+    prenom: map['prenom'] ?? '',
+    nom: map['nom'] ?? '',
+    naissance: map['naissance'] ?? '',
+    telephone: map['telephone'] ?? '',
+    email: map['email'] ?? '',
+    unitesClub: map['unitesClub'] ?? 0,
+    numeroCarteClub: map['numeroCarteClub'],
+  );
+
+  skieur.creditEnCours = map['creditEnCours'] ?? false;
+
+  skieur.historique = ((map['historique'] ?? []) as List)
+      .map((h) => SessionHistorique.fromMap(h))
+      .toList();
+
+  return skieur;
+}
+
 }
 
 class SessionHistorique {
@@ -107,6 +170,35 @@ class SessionHistorique {
     required this.montant,
     required this.observation,
   });
+
+Map<String, dynamic> toMap() {
+  return {
+    'venue': venue.toIso8601String(),
+    'discipline': discipline,
+    'depart': depart,
+    'arrivee': arrivee,
+    'duree': duree,
+    'tours': tours,
+    'paiement': paiement,
+    'montant': montant,
+    'observation': observation,
+  };
+}
+
+factory SessionHistorique.fromMap(Map map) {
+  return SessionHistorique(
+    venue: DateTime.parse(map['venue']),
+    discipline: map['discipline'] ?? '',
+    depart: map['depart'] ?? '',
+    arrivee: map['arrivee'] ?? '',
+    duree: map['duree'] ?? '',
+    tours: map['tours'] ?? 0,
+    paiement: map['paiement'] ?? '',
+    montant: (map['montant'] ?? 0).toDouble(),
+    observation: map['observation'] ?? '',
+  );
+}
+
 }
 
 class HomePage extends StatefulWidget {
@@ -532,7 +624,7 @@ const SizedBox(height: 30),
 
             child: ElevatedButton(
 
-             onPressed: () {
+             onPressed: () async {
 
              if (
                 prenomController.text.trim().isEmpty &&
@@ -573,6 +665,8 @@ const SizedBox(height: 30),
     )) {
 
       skieurs.add(skieurActuel);
+
+      await sauvegarderDonnees();
 
     }
 
@@ -1753,6 +1847,8 @@ if (!skieursGlobal.contains(widget.skieur)) {
   skieursGlobal.add(widget.skieur);
 }
 
+await sauvegarderDonnees();
+
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
       content: Text(
@@ -1796,27 +1892,31 @@ child: const Text("Scanner une carte"),
               children: [
 
                 ElevatedButton(
-                  onPressed: () {
-                    setState(() {
-                      if (unites > 0) {
-                        unites--;
+                   onPressed: () async {
+                   setState(() {
+                   if (unites > 0) {
+                   unites--;
+           }
 
-                widget.skieur.unitesClub =
-                unites;
-                      }
-                    });
-                  },
+    widget.skieur.unitesClub = unites;
+  });
+
+  await sauvegarderDonnees();
+},
                   child: const Text("-1"),
                 ),
 
 const SizedBox(width: 30),
 
 ElevatedButton(
-  onPressed: () {
+  onPressed: () async {
     setState(() {
       unites++;
       widget.skieur.unitesClub = unites;
     });
+
+  await sauvegarderDonnees();
+
   },
   child: const Text("+1"),
 ),
@@ -2030,7 +2130,7 @@ class _RecapPageState extends State<RecapPage> {
 
 
 
-         onPressed: () {
+      onPressed: () async {   
 
   widget.skieur.historique.add(
 
@@ -2056,6 +2156,8 @@ class _RecapPageState extends State<RecapPage> {
       arrivee: widget.arrivee,
     ),
   );
+
+  await sauvegarderDonnees();
 
   ScaffoldMessenger.of(context)
       .showSnackBar(
@@ -2266,7 +2368,7 @@ Future<void> exporterHistoriquePDF() async {
 
     pw.Text(
       "Montant : "
-      "${s.montant.toStringAsFixed(2)} €",
+      "${s.montant.toStringAsFixed(2)} EUR",
     ),
 
     pw.Text(
@@ -2366,10 +2468,13 @@ if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
     width: double.infinity,
     margin: const EdgeInsets.only(top: 15),
     child: ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
         setState(() {
           widget.skieur.creditEnCours = false;
         });
+
+       await sauvegarderDonnees();
+
       },
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.green,
@@ -3492,6 +3597,78 @@ class PresencesPage extends StatelessWidget {
     required this.presences,
   });
 
+  Future<void> exporterPresencesPDF() async {
+    final pdf = pw.Document();
+
+    pdf.addPage(
+      pw.MultiPage(
+        build: (context) => [
+          pw.Text(
+            "WATER SKI APP",
+            style: pw.TextStyle(
+              fontSize: 26,
+              fontWeight: pw.FontWeight.bold,
+            ),
+          ),
+
+          pw.SizedBox(height: 10),
+
+          pw.Text(
+            "LISTE DES PRÉSENCES",
+            style: pw.TextStyle(
+              fontSize: 22,
+              fontWeight: pw.FontWeight.bold,
+            ),
+          ),
+
+          pw.SizedBox(height: 20),
+
+          pw.Text("Nombre de présences : ${presences.length}"),
+
+          pw.SizedBox(height: 20),
+
+          ...presences.map((p) {
+            final skieur = p.skieur;
+            final session = p.session;
+
+            return pw.Container(
+              margin: const pw.EdgeInsets.only(bottom: 12),
+              padding: const pw.EdgeInsets.all(8),
+              decoration: pw.BoxDecoration(
+                border: pw.Border.all(),
+              ),
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text(
+                    "${skieur.prenom} ${skieur.nom}",
+                    style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Text("Naissance : ${skieur.naissance}"),
+                  pw.Text(
+                    "Date : ${session.venue.day}/${session.venue.month}/${session.venue.year}",
+                  ),
+                  pw.Text("Discipline : ${session.discipline}"),
+                  pw.Text("Arrivée : ${session.depart}"),
+                  pw.Text("Départ : ${session.arrivee}"),
+                  pw.Text("Durée : ${session.duree}"),
+                  pw.Text("Tours : ${session.tours}"),
+                ],
+              ),
+            );
+          }),
+        ],
+      ),
+    );
+
+    await Printing.sharePdf(
+      bytes: await pdf.save(),
+      filename: "presences.pdf",
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -3499,25 +3676,51 @@ class PresencesPage extends StatelessWidget {
         backgroundColor: Colors.deepPurple,
         title: const Text("PRÉSENCES"),
       ),
-      body: ListView.builder(
-        padding: const EdgeInsets.all(20),
-        itemCount: presences.length,
-        itemBuilder: (context, index) {
-          final p = presences[index];
-          final skieur = p.skieur;
-          final session = p.session;
 
-          return Card(
-            child: ListTile(
-              title: Text(
-                "${skieur.prenom} ${skieur.nom} - ${skieur.naissance}",
-              ),
-              subtitle: Text(
-                "Arrivée : ${session.depart}\nDépart : ${session.arrivee}",
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(20),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: exporterPresencesPDF,
+                icon: const Icon(Icons.picture_as_pdf),
+                label: const Text("Exporter présences PDF"),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.red,
+                  foregroundColor: Colors.white,
+                ),
               ),
             ),
-          );
-        },
+          ),
+
+          Expanded(
+            child: ListView.builder(
+              padding: const EdgeInsets.all(20),
+              itemCount: presences.length,
+              itemBuilder: (context, index) {
+                final p = presences[index];
+                final skieur = p.skieur;
+                final session = p.session;
+
+                return Card(
+                  child: ListTile(
+                    title: Text(
+                      "${skieur.prenom} ${skieur.nom} - ${skieur.naissance}",
+                    ),
+                    subtitle: Text(
+                      "Date : ${session.venue.day}/${session.venue.month}/${session.venue.year}\n"
+                      "Discipline : ${session.discipline}\n"
+                      "Arrivée : ${session.depart}\n"
+                      "Départ : ${session.arrivee}",
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+        ],
       ),
     );
   }

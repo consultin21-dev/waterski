@@ -295,6 +295,20 @@ class _MenuPageState extends State<MenuPage> {
   return skieurSelectionne?.creditEnCours ?? false;
 }
 
+int get totalSessions {
+  int total = 0;
+
+  for (var skieur in skieurs) {
+    total += skieur.historique.length;
+  }
+
+  return total;
+}
+
+int get totalCredits {
+  return skieurs.where((s) => s.creditEnCours).length;
+}
+
   @override
 void initState() {
   super.initState();
@@ -368,7 +382,48 @@ appBar: AppBar(
         crossAxisAlignment: CrossAxisAlignment.start,
 
         children: [
+Container(
+  width: double.infinity,
+  padding: const EdgeInsets.all(20),
+  decoration: BoxDecoration(
+    color: Colors.blue.shade50,
+    borderRadius: BorderRadius.circular(20),
+    border: Border.all(
+      color: Colors.blue.shade200,
+    ),
+  ),
+  child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      const Text(
+        "WATERSKI",
+        style: TextStyle(
+          fontSize: 30,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
 
+      const SizedBox(height: 15),
+
+      Text(
+        "Skieurs enregistrés : ${skieurs.length}",
+        style: const TextStyle(fontSize: 18),
+      ),
+
+      Text(
+        "Crédits en cours : $totalCredits",
+        style: const TextStyle(fontSize: 18),
+      ),
+
+      Text(
+        "Sessions : $totalSessions",
+        style: const TextStyle(fontSize: 18),
+      ),
+    ],
+  ),
+),
+
+const SizedBox(height: 25),
           // Recherche
         // Recherche
 Container(

@@ -350,6 +350,36 @@ void initState() {
   resultatRecherche = List.from(skieurs);
 }
 
+Widget boutonMenu({
+  required IconData icon,
+  required String texte,
+  required Color couleur,
+  required VoidCallback onPressed,
+}) {
+  return SizedBox(
+    width: double.infinity,
+    height: 60,
+    child: ElevatedButton.icon(
+      icon: Icon(icon),
+      label: Text(
+        texte,
+        style: const TextStyle(
+          fontSize: 18,
+          fontWeight: FontWeight.bold,
+        ),
+      ),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: couleur,
+        foregroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(15),
+        ),
+      ),
+      onPressed: onPressed,
+    ),
+  );
+}
+
   @override
 Widget build(BuildContext context) {
   return Scaffold(
@@ -422,6 +452,98 @@ Container(
     ],
   ),
 ),
+
+boutonMenu(
+  icon: Icons.bar_chart,
+  texte: "Statistiques",
+  couleur: Colors.deepPurple,
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const StatistiquesPage(),
+      ),
+    );
+  },
+),
+
+const SizedBox(height: 12),
+
+boutonMenu(
+  icon: Icons.people,
+  texte: "Présences",
+  couleur: Colors.orange,
+  onPressed: () {
+    final presences = <PresenceLigne>[];
+
+    for (var skieur in skieursGlobal) {
+      for (var session in skieur.historique) {
+        presences.add(
+          PresenceLigne(
+            skieur: skieur,
+            session: session,
+          ),
+        );
+      }
+    }
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => PresencesPage(
+          presences: presences,
+        ),
+      ),
+    );
+  },
+),
+
+const SizedBox(height: 12),
+
+boutonMenu(
+  icon: Icons.qr_code_scanner,
+  texte: "Scanner carte",
+  couleur: Colors.black,
+  onPressed: () async {
+    final result = await Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const ScannerPage(),
+      ),
+    );
+
+    if (result != null && result is Skieur) {
+      setState(() {
+        skieurSelectionne = result;
+        prenomController.text = result.prenom;
+        nomController.text = result.nom;
+        naissanceController.text = result.naissance;
+        telephoneController.text = result.telephone;
+        emailController.text = result.email;
+      });
+    }
+  },
+),
+
+const SizedBox(height: 12),
+
+boutonMenu(
+  icon: Icons.person_add,
+  texte: "Nouveau skieur",
+  couleur: Colors.green,
+  onPressed: () {
+    setState(() {
+      skieurSelectionne = null;
+      prenomController.clear();
+      nomController.clear();
+      naissanceController.clear();
+      telephoneController.clear();
+      emailController.clear();
+    });
+  },
+),
+
+const SizedBox(height: 12),
 
 const SizedBox(height: 25),
           // Recherche

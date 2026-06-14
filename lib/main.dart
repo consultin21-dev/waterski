@@ -387,7 +387,7 @@ Widget build(BuildContext context) {
 
 appBar: AppBar(
   backgroundColor: Colors.blue.shade900,
-  title: const Text("WATERSKI"),
+  title: const Text("WATERSKI SKI App"),
   actions: [
     Padding(
       padding: const EdgeInsets.only(right: 20),

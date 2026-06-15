@@ -432,14 +432,23 @@ Container(
   children: [
     const Text(
       "WATER SKI APP",
-        style: TextStyle(
-          fontSize: 30,
-          fontWeight: FontWeight.bold,
-        ),
+      style: TextStyle(
+        fontSize: 30,
+        fontWeight: FontWeight.bold,
       ),
+    ),
 
-    ],
-  ),
+    const SizedBox(height: 20),
+
+    Text(
+      "Skieurs : ${skieurs.length}   •   Crédits : $totalCredits   •   Sessions : $totalSessions",
+      style: const TextStyle(
+        fontSize: 18,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+  ],
+),
 ),
 
 boutonMenu(

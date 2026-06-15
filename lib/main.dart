@@ -430,24 +430,75 @@ Container(
   ),
   child: Column(
   children: [
-    const Text(
-      "WATER SKI APP",
-      style: TextStyle(
-        fontSize: 30,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
+  const Icon(
+    Icons.waves,
+    color: Colors.blue,
+    size: 44,
+  ),
 
-    const SizedBox(height: 20),
+  const SizedBox(height: 12),
 
-    Text(
-      "Skieurs : ${skieurs.length}   •   Crédits : $totalCredits   •   Sessions : $totalSessions",
-      style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-      ),
+  const Text(
+    "WATER SKI APP",
+    textAlign: TextAlign.center,
+    style: TextStyle(
+      fontSize: 30,
+      fontWeight: FontWeight.bold,
     ),
-  ],
+  ),
+
+  const SizedBox(height: 20),
+
+  Row(
+    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    children: [
+      Column(
+        children: [
+          const Icon(Icons.people, color: Colors.blue, size: 30),
+          Text(
+            "${skieurs.length}",
+            style: const TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
+            ),
+          ),
+          const Text("Skieurs"),
+        ],
+      ),
+
+      Column(
+        children: [
+          const Icon(Icons.confirmation_number, color: Colors.blue, size: 30),
+          Text(
+            "$totalCredits",
+            style: const TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
+            ),
+          ),
+          const Text("Crédits"),
+        ],
+      ),
+
+      Column(
+        children: [
+          const Icon(Icons.calendar_month, color: Colors.blue, size: 30),
+          Text(
+            "$totalSessions",
+            style: const TextStyle(
+              fontSize: 28,
+              fontWeight: FontWeight.bold,
+              color: Colors.blue,
+            ),
+          ),
+          const Text("Sessions"),
+        ],
+      ),
+    ],
+  ),
+],
 ),
 ),
 

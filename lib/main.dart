@@ -387,7 +387,13 @@ Widget build(BuildContext context) {
 
 appBar: AppBar(
   backgroundColor: Colors.blue.shade900,
-  title: const Text("WATERSKI SKI App"),
+  title: const Text(
+  "WATERSKI",
+  style: TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+  ),
+),
   actions: [
     Padding(
       padding: const EdgeInsets.only(right: 20),
@@ -423,32 +429,15 @@ Container(
     ),
   ),
   child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      const Text(
-        "WATERSKI",
+  children: [
+    const Text(
+      "WATER SKI APP",
         style: TextStyle(
           fontSize: 30,
           fontWeight: FontWeight.bold,
         ),
       ),
 
-      const SizedBox(height: 15),
-
-      Text(
-        "Skieurs enregistrés : ${skieurs.length}",
-        style: const TextStyle(fontSize: 18),
-      ),
-
-      Text(
-        "Crédits en cours : $totalCredits",
-        style: const TextStyle(fontSize: 18),
-      ),
-
-      Text(
-        "Sessions : $totalSessions",
-        style: const TextStyle(fontSize: 18),
-      ),
     ],
   ),
 ),

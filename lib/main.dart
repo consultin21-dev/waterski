@@ -422,7 +422,7 @@ Container(
   width: double.infinity,
   padding: const EdgeInsets.all(20),
   decoration: BoxDecoration(
-    color: Colors.blue.shade50,
+  color: const Color(0xFFFFEB3B),
     borderRadius: BorderRadius.circular(20),
     border: Border.all(
       color: Colors.blue.shade200,
@@ -444,6 +444,7 @@ Container(
     style: TextStyle(
       fontSize: 30,
       fontWeight: FontWeight.bold,
+      color: const Color(0xFF0D47A1),
     ),
   ),
 
@@ -552,7 +553,7 @@ const SizedBox(height: 12),
 boutonMenu(
   icon: Icons.qr_code_scanner,
   texte: "Scanner carte",
-  couleur: Colors.black,
+  couleur: Colors.redAccent,
   onPressed: () async {
     final result = await Navigator.push(
       context,

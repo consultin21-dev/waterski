@@ -751,7 +751,7 @@ Container(
           setState(() {});
         },
   icon: const Icon(Icons.history),
-  label: const Text("Historique"),
+  label: Text(t("Historique", "History"))
    ),
   ],
 ),
@@ -762,8 +762,8 @@ Container(
 
           TextField(
             controller: prenomController,
-            decoration: const InputDecoration(
-              labelText: "Prénom",
+            decoration:  InputDecoration(
+              labelText: t("Prénom", "First name"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -772,8 +772,8 @@ Container(
 
           TextField(
             controller: nomController,
-            decoration: const InputDecoration(
-              labelText: "Nom",
+            decoration:  InputDecoration(
+              labelText: t("Nom", "Last name"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -782,8 +782,8 @@ Container(
 
           TextField(
             controller: naissanceController,
-            decoration: const InputDecoration(
-              labelText: "Date de naissance",
+            decoration:  InputDecoration(
+              labelText: t("Date de naissance", "Date of birth"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -792,8 +792,8 @@ Container(
 
           TextField(
             controller: telephoneController,
-            decoration: const InputDecoration(
-              labelText: "Téléphone",
+            decoration:  InputDecoration(
+              labelText: t("Téléphone", "Phone"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -802,8 +802,8 @@ Container(
 
           TextField(
             controller: emailController,
-            decoration: const InputDecoration(
-              labelText: "Email",
+            decoration: InputDecoration(
+              labelText: t("Email", "Email"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -845,8 +845,7 @@ Row(
       icon:
           const Icon(Icons.bar_chart),
 
-      label:
-          const Text("Statistiques"),
+      label: Text(t("Statistiques", "Statistics")),
 
       style:
           ElevatedButton.styleFrom(
@@ -940,9 +939,9 @@ const SizedBox(height: 30),
                 padding: const EdgeInsets.symmetric(vertical: 18),
               ),
 
-              child: const Text(
-                "Enregistrer",
-                style: TextStyle(fontSize: 20),
+              child: Text(
+                t("Enregistrer", "Save"),
+                style: const TextStyle(fontSize: 20),
               ),
             ),
           ),

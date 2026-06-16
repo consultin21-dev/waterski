@@ -23,6 +23,12 @@ import 'package:flutter/rendering.dart';
 
 List<Skieur> skieursGlobal = [];
 
+bool anglais = false;
+
+String t(String fr, String en) {
+  return anglais ? en : fr;
+}
+
 Future<void> sauvegarderDonnees() async {
   final box = Hive.box('waterski');
 
@@ -395,6 +401,20 @@ appBar: AppBar(
   ),
 ),
   actions: [
+    TextButton(
+  onPressed: () {
+    setState(() {
+      anglais = !anglais;
+    });
+  },
+  child: Text(
+    anglais ? "FR" : "EN",
+    style: const TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+    ),
+  ),
+),
     Padding(
       padding: const EdgeInsets.only(right: 20),
       child: Center(
@@ -505,7 +525,7 @@ Container(
 
 boutonMenu(
   icon: Icons.bar_chart,
-  texte: "Statistiques",
+  texte: t("Statistiques", "Statistics"),
   couleur: Colors.deepPurple,
   onPressed: () {
     Navigator.push(
@@ -521,7 +541,7 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.people,
-  texte: "Présences",
+  texte: t("Présences", "Attendance"),
   couleur: Colors.orange,
   onPressed: () {
     final presences = <PresenceLigne>[];
@@ -552,7 +572,7 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.qr_code_scanner,
-  texte: "Scanner carte",
+  texte: t("Scanner carte", "Scan card"),
   couleur: Colors.redAccent,
   onPressed: () async {
     final result = await Navigator.push(
@@ -579,7 +599,7 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.person_add,
-  texte: "Nouveau skieur",
+  texte: t("Nouveau skieur", "New skier"),
   couleur: Colors.green,
   onPressed: () {
     setState(() {

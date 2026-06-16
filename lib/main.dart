@@ -444,7 +444,7 @@ Container(
     style: TextStyle(
       fontSize: 30,
       fontWeight: FontWeight.bold,
-      color: const Color(0xFF0D47A1),
+      color: Color(0xFF0D47A1),
     ),
   ),
 
@@ -1530,7 +1530,7 @@ class _FacturationPageState extends State<FacturationPage> {
 
             Text("Temps réalisé : ${widget.duree}"),
 
-            Text("Nombre de tours : ${this.widget.tours}"),
+            Text("Nombre de tours : ${widget.tours}"),
 
             const SizedBox(height: 40),
 
@@ -1716,7 +1716,7 @@ class ReglementPage extends StatelessWidget {
   tours,
   depart,
   arrivee,
-  this.montant,
+  montant,
   unites,
 ),
 
@@ -1732,7 +1732,7 @@ paiementButton(
   tours,
   depart,
   arrivee,
-  this.montant,
+  montant,
   unites,
 ),
 
@@ -1748,7 +1748,7 @@ paiementButton(
            tours,
            depart,
            arrivee,
-           this.montant,
+           montant,
            unites,
 ),
 
@@ -1764,7 +1764,7 @@ paiementButton(
            tours,
            depart,
            arrivee,
-           this.montant,
+           montant,
            unites,
 ),
             
@@ -1781,7 +1781,7 @@ paiementButton(
             tours,
             depart,
             arrivee,
-            this.montant,
+            montant,
             unites,
 ),
 
@@ -2637,17 +2637,17 @@ Widget build(BuildContext context) {
 
   
 
-int totalTours = 0;
+
 
 Map<String,int> disciplines = {};
 
 Map<String,int> paiements = {};
 
-double totalCA = 0;
+
 
 for (var s in sessionsFiltrees) {
 
-  totalTours += s.tours;
+  
 
   disciplines[s.discipline] =
       (disciplines[s.discipline] ?? 0) + 1;
@@ -2657,7 +2657,7 @@ for (var s in sessionsFiltrees) {
 
 if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
     !s.paiement.toUpperCase().contains('CREDIT')) {
-  totalCA += s.montant;
+  
 }
 }
 
@@ -3022,17 +3022,12 @@ setState(() {
   dejaScanne = true;
 });
 
-  print("DETECTION");
-
   final code =
       capture.barcodes.first.rawValue;
-
-  print("QR lu = $code");
-
+  
   if (code == null) return;
 
-          print("QR lu = $code");
-
+          
           for (var skieur in skieursGlobal) {
 
             if (skieur.numeroCarteClub == code) {
@@ -3152,7 +3147,7 @@ for (var skieur in skieursGlobal) {
   }
 }
 
-final skieursVenu = skieursVenuMap.values.toList();
+
 
 
 
@@ -3339,7 +3334,7 @@ for (var skieur in skieursGlobal) {
   }
 }
 
-final skieursVenu = skieursVenuMap.values.toList();
+
 
 final presences = <PresenceLigne>[];
 

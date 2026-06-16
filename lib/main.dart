@@ -2455,29 +2455,38 @@ class _HistoriquePageState
   DateTime? dateFin;
 
 List<SessionHistorique> get sessionsFiltrees {
+  return widget.skieur.historique.where((s) {
+    final dateSession = DateTime(
+      s.venue.year,
+      s.venue.month,
+      s.venue.day,
+    );
 
-  return widget.skieur.historique.where((s){
+    if (dateDebut != null) {
+      final debut = DateTime(
+        dateDebut!.year,
+        dateDebut!.month,
+        dateDebut!.day,
+      );
 
-    if (
-      dateDebut != null &&
-      s.venue.isBefore(dateDebut!)
-    ) {
-      return false;
+      if (dateSession.isBefore(debut)) {
+        return false;
+      }
     }
 
-    if (
-      dateFin != null &&
-      s.venue.isAfter(
-        dateFin!.add(
-          const Duration(days:1),
-        ),
-      )
-    ) {
-      return false;
+    if (dateFin != null) {
+      final fin = DateTime(
+        dateFin!.year,
+        dateFin!.month,
+        dateFin!.day,
+      );
+
+      if (dateSession.isAfter(fin)) {
+        return false;
+      }
     }
 
     return true;
-
   }).toList();
 }
 
@@ -2740,7 +2749,7 @@ Row(
             context: context,
 
             initialDate:
-                DateTime.now(),
+            dateDebut ?? DateTime.now(),
 
             firstDate:
                 DateTime(2020),
@@ -2785,7 +2794,7 @@ Row(
             context: context,
 
             initialDate:
-                DateTime.now(),
+            dateFin ?? dateDebut ?? DateTime.now(),
 
             firstDate:
                 DateTime(2020),

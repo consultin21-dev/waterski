@@ -408,7 +408,7 @@ appBar: AppBar(
     });
   },
   child: Text(
-    anglais ? "FR" : "EN",
+  anglais ? "EN" : "FR",
     style: const TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.bold,
@@ -725,13 +725,13 @@ Container(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
 
-    const Text(
-      "Nouveau Skieur",
-      style: TextStyle(
-        fontSize: 24,
-        fontWeight: FontWeight.bold,
-      ),
-    ),
+    Text(
+  t("Nouveau Skieur", "New Skier"),
+  style: const TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  ),
+),
 
     const SizedBox(height: 10),
 
@@ -2688,10 +2688,9 @@ if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
 
       appBar: AppBar(
         backgroundColor: Colors.blue.shade900,
-        title: const Text(
-          "DOSSIER CLIENT",
+        title: Text(t("DOSSIER CLIENT", "CUSTOMER FILE")),
         ),
-      ),
+      
 
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -2736,22 +2735,24 @@ if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
         backgroundColor: Colors.green,
         foregroundColor: Colors.white,
       ),
-      child: const Text("CRÉDIT RÉGLÉ"),
-    ),
+      child: Text(
+      t("CRÉDIT RÉGLÉ", "CREDIT PAID"),
+   ),
+    
+  ),
   ),
 
             const SizedBox(height: 30),
 
 
 
-            const Text(
-              "Historique",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight:
-                FontWeight.bold,
-              ),
-            ),
+      Text(
+  t("Historique", "History"),
+  style: const TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  ),
+),
 
 Row(
 
@@ -2791,7 +2792,7 @@ Row(
 
           dateDebut == null
 
-          ? "Date début"
+          ? t("Date début", "Start date")
 
           : "${dateDebut!.day}/"
             "${dateDebut!.month}/"
@@ -2836,7 +2837,7 @@ Row(
 
           dateFin == null
 
-          ? "Date fin"
+          ? t("Date fin", "End date")
 
           : "${dateFin!.day}/"
             "${dateFin!.month}/"

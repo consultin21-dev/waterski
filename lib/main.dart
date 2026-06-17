@@ -2871,8 +2871,8 @@ SizedBox(
       Icons.bar_chart,
     ),
 
-    label: const Text(
-      "Statistiques générales",
+    label:  Text(
+      t("Statistiques générales", "General statistics"),
     ),
 
     style:
@@ -2902,9 +2902,9 @@ SizedBox(
       Icons.picture_as_pdf,
     ),
 
-    label: const Text(
-      "Exporter historique PDF",
-    ),
+    label: Text(
+  t("Exporter historique PDF", "Export history PDF"),
+),
 
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.red,
@@ -2941,9 +2941,9 @@ SizedBox(
       );
     },
 
-    child: const Text(
-      "Retour accueil",
-    ),
+child: Text(
+  t("Retour accueil", "Back to home"),
+   ),
   ),
 ),
 
@@ -2980,15 +2980,15 @@ Expanded(
 
 "${s.duree}\n"
 
-"Départ : ${s.depart}\n"
+"${t("Départ", "Departure")} : ${s.depart}\n"
 
-"Arrivée : ${s.arrivee}\n"
+"${t("Arrivée", "Arrival")} : ${s.arrivee}\n"
 
-"Tours : ${s.tours}\n"
+"${t("Tours", "Laps")} : ${s.tours}\n"
 
-"Paiement : ${s.paiement}\n"
+"${t("Paiement", "Payment")} : ${s.paiement}\n"
 
-"${s.observation}",
+"${t("Observation", "Observation")} : ${s.observation}",
 ),
 
 

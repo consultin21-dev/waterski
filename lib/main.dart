@@ -977,7 +977,9 @@ class DisciplinePage extends StatelessWidget {
 
     appBar: AppBar(
   backgroundColor: Colors.blue.shade900,
-  title: const Text("DISCIPLINES"),
+  title: Text(
+  t("DISCIPLINES", "DISCIPLINES"),
+),
 
   actions: [
     TextButton(
@@ -996,8 +998,8 @@ class DisciplinePage extends StatelessWidget {
           ),
         );
       },
-      child: const Text(
-        "PASSER",
+      child: Text(
+        t("PASSER", "SKIP"),
         style: TextStyle(color: Colors.white),
       ),
     ),
@@ -1062,8 +1064,8 @@ class DisciplinePage extends StatelessWidget {
 
             const SizedBox(height: 40),
 
-            const Text(
-              "Choisir une discipline",
+             Text(
+              t("Choisissez une discipline", "Choose a discipline"),
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -1072,23 +1074,23 @@ class DisciplinePage extends StatelessWidget {
 
             const SizedBox(height: 25),
 
-            disciplineButton(context,skieur," BI-SKI", Colors.blue),
+            disciplineButton(context,skieur,"BI-SKI", Colors.blue),
 
             const SizedBox(height: 15),
 
-            disciplineButton(context,skieur," SLALOM", Colors.red),
+            disciplineButton(context,skieur,"SLALOM", Colors.red),
 
             const SizedBox(height: 15),
 
-            disciplineButton(context,skieur," FIGURES", Colors.purple),
+            disciplineButton(context,skieur,"FIGURES", Colors.purple),
 
             const SizedBox(height: 15),
 
-            disciplineButton(context,skieur," WAKEBOARD", Colors.orange),
+            disciplineButton(context,skieur,"WAKEBOARD", Colors.orange),
 
             const SizedBox(height: 15),
 
-            disciplineButton(context,skieur," SAUT", Colors.green),
+            disciplineButton(context,skieur,"SAUT", Colors.green),
           ],
         ),
       ),
@@ -1128,12 +1130,20 @@ Widget disciplineButton(
       ),
 
       child: Text(
-        texte,
-        style: const TextStyle(
-          fontSize: 22,
-          color: Colors.white,
-        ),
+  texte == "BI-SKI"
+      ? t("BI-SKI", "BI-SKIING")
+      : texte == "SLALOM"
+          ? t("SLALOM", "SLALOM")
+          : texte == "FIGURES"
+              ? t("FIGURES", "TRICKS")
+              : texte == "SAUT"
+                  ? t("SAUT", "JUMPING")
+                  : texte,
+  style: const TextStyle(
+    fontSize: 22,
+    color: Colors.white,
       ),
+     ),
     ),
   );
 }
@@ -1205,10 +1215,10 @@ Widget build(BuildContext context) {
           ),
         );
       },
-      child: const Text(
-        "PASSER",
-        style: TextStyle(color: Colors.white),
-      ),
+     child: Text(
+        t("PASSER", "SKIP"),
+        style: const TextStyle(color: Colors.white),
+      ), 
     ),
   ],
 ),

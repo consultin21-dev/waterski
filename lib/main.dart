@@ -703,7 +703,7 @@ Container(
         decoration: InputDecoration(
 
           hintText:
-              "Rechercher un skieur",
+            t("Rechercher un skieur", "Search skier"),
 
           prefixIcon:
               const Icon(Icons.search),
@@ -3418,8 +3418,8 @@ Widget legendeCouleur(Color couleur, String texte) {
 
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
-        title: const Text(
-          "STATISTIQUES SAISON",
+        title: Text(
+          t("STATISTIQUES SAISON", "SEASON STATISTICS"),
         ),
       ),
 
@@ -3468,7 +3468,7 @@ Widget legendeCouleur(Color couleur, String texte) {
 
           dateDebut == null
 
-          ? "Début"
+          ? t("Début", "Start")
 
           : "${dateDebut!.day}/"
             "${dateDebut!.month}/"
@@ -3513,7 +3513,7 @@ Widget legendeCouleur(Color couleur, String texte) {
 
           dateFin == null
 
-          ? "Fin"
+          ? t("Fin", "End")
 
           : "${dateFin!.day}/"
             "${dateFin!.month}/"
@@ -3527,7 +3527,7 @@ Widget legendeCouleur(Color couleur, String texte) {
 const SizedBox(height:20),
 
             Text(
-  "Skieurs enregistrés : $totalSkieurs",
+  "${t("Skieurs enregistrés", "Registered skiers")} : $totalSkieurs",
   style: const TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.bold,
@@ -3537,13 +3537,13 @@ const SizedBox(height:20),
 const SizedBox(height: 10),
 
 Text(
-  "Sessions réalisées : $totalSessions",
+"${t("Sessions réalisées", "Completed sessions")} : $totalSessions",
 ),
 
             const SizedBox(height: 20),
 
             Text(
-              "Tours réalisés : $totalTours",
+              "${t("Tours réalisés", "Completed laps")} : $totalTours",
             ),
 
            const SizedBox(height: 20),
@@ -3571,7 +3571,7 @@ SizedBox(
       );
     },
     icon: const Icon(Icons.people),
-    label: const Text("Liste des présences"),
+    label: Text(t("Liste des présences", "Attendance list")),
   ),
 ),
 

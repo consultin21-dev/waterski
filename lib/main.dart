@@ -3969,10 +3969,10 @@ class PresencesPage extends StatelessWidget {
                       "${skieur.prenom} ${skieur.nom} - ${skieur.naissance}",
                     ),
                     subtitle: Text(
-                      "Date : ${session.venue.day}/${session.venue.month}/${session.venue.year}\n"
-                      "Discipline : ${session.discipline}\n"
-                      "Arrivée : ${session.depart}\n"
-                      "Départ : ${session.arrivee}",
+                      "${t("Date", "Date")} : ${session.venue.day}/${session.venue.month}/${session.venue.year}\n"
+                        "${t("Discipline", "Discipline")} : ${session.discipline}\n"
+                        "${t("Arrivée", "Arrival")} : ${session.depart}\n"
+                        "${t("Départ", "Departure")} : ${session.arrivee}"
                     ),
                   ),
                 );

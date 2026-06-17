@@ -3549,7 +3549,7 @@ Text(
            const SizedBox(height: 20),
 
 Text(
-"CA saison : ${totalCA.toStringAsFixed(2)} EUR",
+"${t("CA saison", "Season revenue")} : ${totalCA.toStringAsFixed(2)} EUR",
 style: const TextStyle(
 fontSize: 20,
 fontWeight: FontWeight.bold,
@@ -3577,8 +3577,9 @@ SizedBox(
 
 const SizedBox(height: 20),
 
-const Text(
-  "Disciplines",
+
+  Text(
+  t("Disciplines", "Disciplines"),
   style: TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
@@ -3641,8 +3642,9 @@ const SizedBox(height: 20),
 
 const SizedBox(height: 20),
 
-const Text(
-  "Paiements",
+
+  Text(
+  t("Paiements", "Payments"),
   style: TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
@@ -3714,7 +3716,9 @@ SizedBox(
       await exporterStatistiquesSaisonPDF();
     },
     icon: const Icon(Icons.picture_as_pdf),
-    label: const Text("Exporter statistiques PDF"),
+    label: Text(
+    t("Exporter statistiques PDF", "Export statistics PDF"),
+  ),
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.red,
       foregroundColor: Colors.white,
@@ -3925,7 +3929,9 @@ class PresencesPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
-        title: const Text("PRÉSENCES"),
+        title: Text(
+           t("PRÉSENCES", "ATTENDANCE"),
+         )
       ),
 
       body: Column(
@@ -3937,7 +3943,9 @@ class PresencesPage extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: exporterPresencesPDF,
                 icon: const Icon(Icons.picture_as_pdf),
-                label: const Text("Exporter présences PDF"),
+              label: Text(
+                 t("Exporter présences PDF", "Export attendance PDF"),
+               ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
                   foregroundColor: Colors.white,

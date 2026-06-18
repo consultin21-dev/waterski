@@ -1074,23 +1074,23 @@ class DisciplinePage extends StatelessWidget {
 
             const SizedBox(height: 25),
 
-            disciplineButton(context,skieur,"BI-SKI", Colors.blue),
+            disciplineButton(context, skieur, "BI-SKI", "BI-SKIING", Colors.blue),
 
             const SizedBox(height: 15),
 
-            disciplineButton(context,skieur,"SLALOM", Colors.red),
+            disciplineButton(context, skieur, "SLALOM", "SLALOM", Colors.red),
 
             const SizedBox(height: 15),
 
-            disciplineButton(context,skieur,"FIGURES", Colors.purple),
+            disciplineButton(context, skieur, "FIGURES", "TRICKS", Colors.purple),
 
             const SizedBox(height: 15),
 
-            disciplineButton(context,skieur,"WAKEBOARD", Colors.orange),
+            disciplineButton(context, skieur, "WAKEBOARD", "WAKEBOARD", Colors.orange),
 
             const SizedBox(height: 15),
 
-            disciplineButton(context,skieur,"SAUT", Colors.green),
+            disciplineButton(context, skieur, "SAUT", "JUMPING", Colors.green),
           ],
         ),
       ),
@@ -1102,52 +1102,40 @@ class DisciplinePage extends StatelessWidget {
 Widget disciplineButton(
   BuildContext context,
   Skieur skieur,
-  String texte,
+  String texteFr,
+  String texteEn,
   Color couleur,
 ) {
+  final discipline = t(texteFr, texteEn);
+
   return SizedBox(
     width: double.infinity,
-
     child: ElevatedButton(
-
       onPressed: () {
-
         Navigator.push(
           context,
           MaterialPageRoute(
             builder: (context) => SessionPage(
               skieur: skieur,
-              discipline: texte,
+              discipline: discipline,
             ),
           ),
         );
-
       },
-
       style: ElevatedButton.styleFrom(
         backgroundColor: couleur,
         padding: const EdgeInsets.symmetric(vertical: 20),
       ),
-
       child: Text(
-  texte == "BI-SKI"
-      ? t("BI-SKI", "BI-SKIING")
-      : texte == "SLALOM"
-          ? t("SLALOM", "SLALOM")
-          : texte == "FIGURES"
-              ? t("FIGURES", "TRICKS")
-              : texte == "SAUT"
-                  ? t("SAUT", "JUMPING")
-                  : texte,
-  style: const TextStyle(
-    fontSize: 22,
-    color: Colors.white,
+        discipline,
+        style: const TextStyle(
+          fontSize: 22,
+          color: Colors.white,
+        ),
       ),
-     ),
     ),
   );
 }
-
 
 class SessionPage extends StatefulWidget {
 
@@ -1263,8 +1251,8 @@ Widget build(BuildContext context) {
 
         const SizedBox(height: 20),
 
-        const Text(
-          "Temps de session",
+        Text(
+          t("Temps de session", "Session time"),
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -1287,14 +1275,14 @@ Widget build(BuildContext context) {
 
         if (debut != null)
           Text(
-            "Départ : ${debut!.hour}:${debut!.minute.toString().padLeft(2, '0')}",
+            "${t("Départ", "Start")} : ${debut!.hour}:${debut!.minute.toString().padLeft(2, '0')}",
             style: const TextStyle(fontSize: 18),
           ),
 
         if (fin != null)
-          Text(
-            "Arrivée : ${fin!.hour}:${fin!.minute.toString().padLeft(2, '0')}",
-            style: const TextStyle(fontSize: 18),
+           Text(
+             "${t("Arrivée", "Finish")} : ${fin!.hour}:${fin!.minute.toString().padLeft(2, '0')}",
+             style: const TextStyle(fontSize: 18),
           ),
 
         const SizedBox(height: 20),
@@ -1310,7 +1298,7 @@ Widget build(BuildContext context) {
                   fin = null;
                 });
               },
-              child: const Text("Départ"),
+              child: Text(t("Départ", "Start")),
             ),
 
             ElevatedButton(
@@ -1319,15 +1307,15 @@ Widget build(BuildContext context) {
                   fin = DateTime.now();
                 });
               },
-              child: const Text("Arrivée"),
+              child: Text(t("Arrivée", "Finish")),
             ),
           ],
         ),
 
         const SizedBox(height: 25),
 
-        const Text(
-          "Nombre de tours",
+           Text(
+             t("Nombre de tours", "Number of laps"),
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -1406,8 +1394,8 @@ Widget build(BuildContext context) {
             ),
             
 
-            child: const Text(
-              "Enregistrer la session",
+            child: Text(
+              t("Enregistrer la session", "Save session"),
               style: TextStyle(fontSize: 20),
             ),
           ),

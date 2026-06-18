@@ -1509,7 +1509,7 @@ class _FacturationPageState extends State<FacturationPage> {
 
       appBar: AppBar(
         backgroundColor: Colors.blue.shade900,
-        title: const Text("FACTURATION"),
+       title: Text(t("FACTURATION", "BILLING")), 
       ),
 
       body: SingleChildScrollView(
@@ -1530,30 +1530,30 @@ class _FacturationPageState extends State<FacturationPage> {
 
             const SizedBox(height: 10),
 
-            Text("Naissance : ${widget.skieur.naissance}"),
-            Text("Discipline : ${widget.discipline}"),
+            Text("${t("Naissance", "Birth date")} : ${widget.skieur.naissance}"),
+            Text("${t("Discipline", "Discipline")} : ${widget.discipline}"),
 
             const SizedBox(height: 20),
 
             if (widget.debut != null)
-              Text(
-                "Départ : ${widget.debut!.hour}:${widget.debut!.minute.toString().padLeft(2, '0')}",
-              ),
+            Text(
+                "${t("Départ", "Start")} : ${widget.debut!.hour}:${widget.debut!.minute.toString().padLeft(2, '0')}",
+            ),
 
             if (widget.fin != null)
-              Text(
-                "Arrivée : ${widget.fin!.hour}:${widget.fin!.minute.toString().padLeft(2, '0')}",
-              ),
+             Text(
+                "${t("Arrivée", "Finish")} : ${widget.fin!.hour}:${widget.fin!.minute.toString().padLeft(2, '0')}",
+            ),
 
-            Text("Temps réalisé : ${widget.duree}"),
+             Text("${t("Temps réalisé", "Time achieved")} : ${widget.duree}"),
 
-            Text("Nombre de tours : ${widget.tours}"),
+             Text("${t("Nombre de tours", "Number of laps")} : ${widget.tours}"),
 
             const SizedBox(height: 40),
 
-            const Text(
-  "Unités à créditer",
-  style: TextStyle(
+Text(
+  t("Unités à créditer", "Units to credit"),
+  style: const TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
   ),
@@ -1564,106 +1564,94 @@ const SizedBox(height: 15),
 TextField(
   controller: unitesController,
   keyboardType: TextInputType.number,
-  decoration: const InputDecoration(
-    labelText: "Nombre d'unités",
-    border: OutlineInputBorder(),
-  ),
+  decoration: InputDecoration(
+  labelText: t("Nombre d'unités", "Number of units"),
+  border: const OutlineInputBorder(),
+),
 ),
 
 const SizedBox(height: 30),
 
-            const Text(
-              "Calculatrice",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text(
+  t("Calculatrice", "Calculator"),
+  style: const TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  ),
+),
 
             const SizedBox(height: 20),
 
             TextField(
               controller: calculController,
-              decoration: const InputDecoration(
-                hintText: "Exemple : 25*3",
+              decoration: InputDecoration(
+                hintText: t("Exemple : 25*3", "Example: 25*3"),
                 border: OutlineInputBorder(),
               ),
             ),
 
             const SizedBox(height: 20),
 
-            SizedBox(
-              width: double.infinity,
-              child: ElevatedButton(
-                onPressed: calculer,
-                child: const Text("Calculer"),
-              ),
-            ),
+      SizedBox(
+  width: double.infinity,
+  child: ElevatedButton(
+    onPressed: calculer,
+    child: Text(
+      t("Calculer", "Calculate"),
+    ),
+  ),
+),
+
+const SizedBox(height: 20),
+
+Center(
+  child: Text(
+    resultat,
+    style: const TextStyle(
+      fontSize: 40,
+      fontWeight: FontWeight.bold,
+      color: Colors.green,
+    ),
+  ),
+),
 
             const SizedBox(height: 20),
 
-            Center(
-              child: Text(
-                resultat,
-                style: const TextStyle(
-                  fontSize: 40,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.green,
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 40),
-
-            SizedBox(
-              width: double.infinity,
-
-              child: ElevatedButton(
-
-                onPressed: () {
-
-              Navigator.push(
-  context,
-  MaterialPageRoute(
-    builder: (context) => ReglementPage(
-      skieur: widget.skieur,
-      discipline: widget.discipline,
-      duree: widget.duree,
-      tours: widget.tours,
-      paiement: "",
-      
-    unites: int.tryParse(unitesController.text) ?? 0,
-
-      montant:
-          double.tryParse(resultat) ?? 0,
-          
-
-      depart: widget.debut != null
-          ? "${widget.debut!.hour}:${widget.debut!.minute.toString().padLeft(2,'0')}"
-          : "",
-
-      arrivee: widget.fin != null
-          ? "${widget.fin!.hour}:${widget.fin!.minute.toString().padLeft(2,'0')}"
-          : "",
+           SizedBox(
+  width: double.infinity,
+  child: ElevatedButton(
+    onPressed: () {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ReglementPage(
+            skieur: widget.skieur,
+            discipline: widget.discipline,
+            duree: widget.duree,
+            tours: widget.tours,
+            paiement: "",
+            unites: int.tryParse(unitesController.text) ?? 0,
+            montant: double.tryParse(resultat) ?? 0,
+            depart: widget.debut != null
+                ? "${widget.debut!.hour}:${widget.debut!.minute.toString().padLeft(2, '0')}"
+                : "",
+            arrivee: widget.fin != null
+                ? "${widget.fin!.hour}:${widget.fin!.minute.toString().padLeft(2, '0')}"
+                : "",
+          ),
+        ),
+      );
+    },
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.orange,
+      padding: const EdgeInsets.symmetric(vertical: 18),
+    ),
+    child: Text(
+      t("Taper règlement", "Enter payment"),
+      style: const TextStyle(fontSize: 20),
     ),
   ),
-);
-
-},
-
-
-
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.orange,
-                  padding: const EdgeInsets.symmetric(vertical: 18),
-                ),
-
-                child: const Text(
-                  "Taper règlement",
-                  style: TextStyle(fontSize: 20),
-                ),
-              ),
-            ),
+),
           ],
         ),
       ),
@@ -1702,9 +1690,9 @@ class ReglementPage extends StatelessWidget {
     return Scaffold(
 
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade900,
-        title: const Text("RÈGLEMENT"),
-      ),
+  backgroundColor: Colors.blue.shade900,
+  title: Text(t("Règlement", "Payment")),
+),
 
       body: Padding(
         padding: const EdgeInsets.all(20),
@@ -1725,7 +1713,7 @@ class ReglementPage extends StatelessWidget {
 
             paiementButton(
   context,
-  "ESPÈCE",
+  t("ESPÈCE", "CASH"),
   Colors.green,
   skieur,
   discipline,
@@ -1741,7 +1729,7 @@ const SizedBox(height: 15),
 
 paiementButton(
   context,
-  "CHEQUE",
+  t("CHEQUE", "CHECK"),
   Colors.orange,
   skieur,
   discipline,
@@ -1757,7 +1745,7 @@ paiementButton(
 
             paiementButton(
             context,
-           "CARTE BLEUE",
+           t("CARTE BLEUE", "CREDIT CARD"),
            Colors.blue,
            skieur,
            discipline,
@@ -1773,7 +1761,7 @@ paiementButton(
 
             paiementButton(
             context,
-           "VIREMENT",
+           t("VIREMENT", "BANK TRANSFER"),
            Colors.purple,
            skieur,
            discipline,
@@ -1790,7 +1778,7 @@ paiementButton(
 
             paiementButton(
             context,
-            "CREDIT",
+            t("CREDIT", "CREDIT"),
             Colors.red,
             skieur,
             discipline,
@@ -1942,8 +1930,8 @@ Widget clubButton(
         padding: const EdgeInsets.symmetric(vertical: 20),
       ),
 
-      child: const Text(
-        "CARTE CLUB",
+      child:  Text(
+        t("CARTE CLUB", "CLUB CARD"),
         style: TextStyle(
           fontSize: 22,
           color: Colors.white,
@@ -2003,9 +1991,9 @@ unitesDepart = unites;
     return Scaffold(
 
       appBar: AppBar(
-        backgroundColor: Colors.blue.shade900,
-        title: const Text("CARTE CLUB"),
-      ),
+  backgroundColor: Colors.blue.shade900,
+  title: Text(t("CARTE CLUB", "CLUB CARD")),
+),
 
       body: SingleChildScrollView(
   child: Padding(
@@ -2028,9 +2016,9 @@ unitesDepart = unites;
 
             const SizedBox(height: 20),
 
-            const Center(
+             Center(
               child: Text(
-                "Scanner carte club",
+                t("Scanner une carte", "Scan a card"),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -2103,18 +2091,18 @@ await sauvegarderDonnees();
 }
 
 },
-child: const Text("Scanner une carte"),
+child: Text(t("Scanner une carte", "Scan a card"))
   ),
 ),
             const SizedBox(height: 40),
 
-            const Text(
-              "Unités restantes",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text(
+  t("Unités restantes", "Remaining units"),
+  style: const TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  ),
+),
 
             const SizedBox(height: 20),
 
@@ -2217,12 +2205,11 @@ builder: (context) => RecapPage(
       backgroundColor: Colors.green,
       padding: const EdgeInsets.symmetric(vertical: 18),
     ),
-    child: const Text(
-      "VALIDER",
-      style: TextStyle(fontSize: 20),
+    child: Text(
+  t("VALIDER", "VALIDATE"),
+  style: const TextStyle(fontSize: 20),
+),
 
-
-    ),
   ),
 ),
 

@@ -319,39 +319,7 @@ int get totalCredits {
 void initState() {
   super.initState();
 
-  if (skieurs.isEmpty) {
-
-    skieurs.addAll([
-
-      Skieur(
-        prenom: "Paul",
-        nom: "Martin",
-        naissance: "12/05/1995",
-        telephone: "0600000001",
-        email: "paul@test.com",
-        numeroCarteClub: "000001"
-      ),
-
-      Skieur(
-        prenom: "Lucas",
-        nom: "Durand",
-        naissance: "08/11/2000",
-        telephone: "0600000002",
-        email: "lucas@test.com",
-        numeroCarteClub: "000002"
-      ),
-
-      Skieur(
-        prenom: "Emma",
-        nom: "Petit",
-        naissance: "21/03/1998",
-        telephone: "0600000003",
-        email: "emma@test.com",
-        numeroCarteClub: "000003"
-      ),
-
-    ]);
-  }
+ 
 
   resultatRecherche = List.from(skieurs);
 }
@@ -614,6 +582,38 @@ boutonMenu(
 ),
 
 const SizedBox(height: 12),
+
+boutonMenu(
+  icon: Icons.delete_forever,
+  texte: "RESET TEST",
+  couleur: Colors.red,
+  onPressed: () async {
+
+    final box = Hive.box('waterski');
+
+    await box.clear();
+
+    skieursGlobal.clear();
+
+    setState(() {
+      skieurs.clear();
+      resultatRecherche.clear();
+      skieurSelectionne = null;
+
+      prenomController.clear();
+      nomController.clear();
+      naissanceController.clear();
+      telephoneController.clear();
+      emailController.clear();
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text("Base de test effacée"),
+      ),
+    );
+  },
+),
 
 const SizedBox(height: 25),
           // Recherche
@@ -1833,10 +1833,12 @@ Widget paiementButton(
 }
 
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("Paiement enregistré : $texte"),
-      ),
-    );
+  SnackBar(
+    content: Text(
+      "${t("Paiement enregistré", "Payment saved")} : $texte",
+    ),
+  ),
+);
 
     if (unites > 0) {
       skieur.unitesClub = (skieur.unitesClub ?? 0) + unites;
@@ -2083,9 +2085,10 @@ await sauvegarderDonnees();
 
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(
-        "Carte attribuée à ${widget.skieur.prenom} ${widget.skieur.nom}",
-      ),
+content: Text(
+  "${t("Carte attribuée à", "Card assigned to")} ${widget.skieur.prenom} ${widget.skieur.nom}",
+),
+      
     ),
   );
 }
@@ -2270,7 +2273,7 @@ class _RecapPageState extends State<RecapPage> {
 
       appBar: AppBar(
         backgroundColor: Colors.blue.shade900,
-        title: const Text("RÉCAPITULATIF"),
+        title: Text(t("RÉCAPITULATIF", "SUMMARY")),
       ),
 
       body: SingleChildScrollView(
@@ -2292,47 +2295,48 @@ class _RecapPageState extends State<RecapPage> {
             const SizedBox(height: 10),
 
             Text(
-              "Date de naissance : ${widget.skieur.naissance}",
+              "${t("Date de naissance", "Date of birth")} : ${widget.skieur.naissance}",
               style: const TextStyle(fontSize: 18),
             ),
 
             const SizedBox(height: 20),
 
             Text(
-              "Discipline : ${widget.discipline}",
+              "${t("Discipline", "Discipline")} : ${widget.discipline}",
               style: const TextStyle(fontSize: 20),
             ),
 
             Text(
-              "Durée session : ${widget.duree}",
+              "${t("Durée session", "Session duration")} : ${widget.duree}",
               style: const TextStyle(fontSize: 20),
             ),
             
             Text(
-               "Départ : ${widget.depart}",
+               "${t("Départ", "Start")} : ${widget.depart}",
               style: const TextStyle(fontSize: 20),
             ),
 
              Text(
-               "Arrivée : ${widget.arrivee}",
+               "${t("Arrivée", "Finish")} : ${widget.arrivee}",
                style: const TextStyle(fontSize: 20),
             ),
 
 
             Text(
-              "Tours réalisés : ${widget.tours}",
+              "${t("Tours réalisés", "Completed laps")} : ${widget.tours}",
               style: const TextStyle(fontSize: 20),
             ),
 
             Text(
-              "Paiement : ${widget.paiement}",
+              "${t("Paiement", "Payment")} : ${widget.paiement}",
               style: const TextStyle(fontSize: 20),
             ),
 
             const SizedBox(height: 40),
 
-            const Text(
-              "Observations sportives",
+            Text(
+              t("Observations sportives", "Coaching notes"),
+              
               style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
@@ -2345,10 +2349,12 @@ class _RecapPageState extends State<RecapPage> {
               controller: observationController,
               maxLines: 8,
 
-              decoration: const InputDecoration(
-                hintText:
-                    "Exemple : travailler la tension des bras pour la prochaine séance...",
-                border: OutlineInputBorder(),
+              decoration: InputDecoration(
+                   hintText: t(
+                   "Exemple : travailler la tension des bras pour la prochaine séance...",
+                   "Example: work on arm tension for the next session...",
+                ),
+                border: const OutlineInputBorder(),
               ),
             ),
 
@@ -2393,10 +2399,11 @@ class _RecapPageState extends State<RecapPage> {
   ScaffoldMessenger.of(context)
       .showSnackBar(
 
-    const SnackBar(
+    SnackBar(
       content: Text(
-        "Session enregistrée",
-      ),
+    t("Session enregistrée", "Session saved"),
+       
+     )
     ),
   );
 
@@ -2425,8 +2432,10 @@ class _RecapPageState extends State<RecapPage> {
                   padding: const EdgeInsets.symmetric(vertical: 18),
                 ),
 
-                                child: const Text(
-                  "Terminer la session",
+    child: 
+      Text(
+        t("Terminer la session", "End session"),
+                  
                   style: TextStyle(fontSize: 20),
                 ),
               ),

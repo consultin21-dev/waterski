@@ -2469,32 +2469,20 @@ class _HistoriquePageState
 
 List<SessionHistorique> get sessionsFiltrees {
   return widget.skieur.historique.where((s) {
-    final dateSession = DateTime(
-      s.venue.year,
-      s.venue.month,
-      s.venue.day,
-    );
+    final sessionDate = DateTime(s.venue.year, s.venue.month, s.venue.day);
 
     if (dateDebut != null) {
-      final debut = DateTime(
-        dateDebut!.year,
-        dateDebut!.month,
-        dateDebut!.day,
-      );
+      final debut = DateTime(dateDebut!.year, dateDebut!.month, dateDebut!.day);
 
-      if (dateSession.isBefore(debut)) {
+      if (sessionDate.isBefore(debut)) {
         return false;
       }
     }
 
     if (dateFin != null) {
-      final fin = DateTime(
-        dateFin!.year,
-        dateFin!.month,
-        dateFin!.day,
-      );
+      final fin = DateTime(dateFin!.year, dateFin!.month, dateFin!.day);
 
-      if (dateSession.isAfter(fin)) {
+      if (sessionDate.isAfter(fin)) {
         return false;
       }
     }
@@ -2746,7 +2734,12 @@ if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
     fontWeight: FontWeight.bold,
   ),
 ),
-
+Text(
+  "Filtre : ${dateDebut?.day}/${dateDebut?.month}/${dateDebut?.year} - ${dateFin?.day}/${dateFin?.month}/${dateFin?.year}",
+),
+Text(
+  "Sessions affichées : ${sessionsFiltrees.length}",
+),
 Row(
 
   children: [
@@ -2854,9 +2847,10 @@ SizedBox(
 
         MaterialPageRoute(
           builder: (context) =>
-              StatistiquesSkieurPage(
-            skieur: widget.skieur,
-          ),
+            StatistiquesSkieurPage(
+               skieur: widget.skieur,
+               sessions: sessionsFiltrees,
+          ),  
         ),
       );
     },
@@ -3729,10 +3723,12 @@ SizedBox(
 
 class StatistiquesSkieurPage extends StatelessWidget {
   final Skieur skieur;
+  final List<SessionHistorique> sessions;
 
   const StatistiquesSkieurPage({
     super.key,
     required this.skieur,
+    required this.sessions,
   });
 
   @override
@@ -3742,7 +3738,7 @@ class StatistiquesSkieurPage extends StatelessWidget {
     Map<String, int> paiements = {};
     double totalCA = 0;
 
-    for (var s in skieur.historique) {
+      for (var s in sessions) {
       totalTours += s.tours;
 
       if (s.discipline != "VENTE UNITÉS") {

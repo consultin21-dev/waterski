@@ -492,6 +492,22 @@ Container(
 ),
 
 boutonMenu(
+  icon: Icons.menu_book,
+  texte: t("Guide utilisateur", "User Guide"),
+  couleur: Colors.teal,
+  onPressed: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const GuidePage(),
+      ),
+    );
+  },
+),
+
+const SizedBox(height: 12),
+
+boutonMenu(
   icon: Icons.bar_chart,
   texte: t("Statistiques", "Statistics"),
   couleur: Colors.deepPurple,
@@ -2332,6 +2348,11 @@ class _RecapPageState extends State<RecapPage> {
               style: const TextStyle(fontSize: 20),
             ),
 
+            Text(
+              "${t("Montant", "Amount")} : ${widget.montant.toStringAsFixed(2)} €",
+             style: const TextStyle(fontSize: 20),
+            ),
+
             const SizedBox(height: 40),
 
             Text(
@@ -2734,9 +2755,13 @@ if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
     fontWeight: FontWeight.bold,
   ),
 ),
-Text(
-  "Filtre : ${dateDebut?.day}/${dateDebut?.month}/${dateDebut?.year} - ${dateFin?.day}/${dateFin?.month}/${dateFin?.year}",
-),
+if (dateDebut != null || dateFin != null)
+  Text(
+    "Filtre : "
+    "${dateDebut == null ? "" : "${dateDebut!.day}/${dateDebut!.month}/${dateDebut!.year}"}"
+    " - "
+    "${dateFin == null ? "" : "${dateFin!.day}/${dateFin!.month}/${dateFin!.year}"}",
+  ),
 Text(
   "Sessions affichées : ${sessionsFiltrees.length}",
 ),
@@ -2975,6 +3000,8 @@ Expanded(
 "${t("Tours", "Laps")} : ${s.tours}\n"
 
 "${t("Paiement", "Payment")} : ${s.paiement}\n"
+
+"${t("Montant", "Amount")} : ${s.montant.toStringAsFixed(2)} €\n"
 
 "${t("Observation", "Observation")} : ${s.observation}",
 ),
@@ -3970,6 +3997,439 @@ class PresencesPage extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+class GuidePage extends StatelessWidget {
+  const GuidePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.teal,
+        title: Text(
+          t("GUIDE UTILISATEUR", "USER GUIDE"),
+        ),
+      ),
+
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(20),
+
+        child: Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+
+   
+
+    Text(
+      t(
+        "GUIDE RAPIDE D'UTILISATION",
+        "QUICK USER GUIDE",
+      ),
+      style: const TextStyle(
+        fontSize: 26,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+
+    const SizedBox(height: 20),
+
+    Text(
+      t(
+        """
+1. Nouveau skieur
+
+Saisissez :
+• Nom
+• Prénom
+• Date de naissance
+• Téléphone
+• E-mail
+
+Puis cliquez sur Enregistrer.
+
+2. Choisir une discipline
+
+Sélectionnez :
+• BI-SKI
+• SLALOM
+• FIGURES
+• WAKEBOARD
+• SAUT
+
+3. Temps de session
+
+Enregistrez :
+• Heure de départ
+• Heure d'arrivée
+• Nombre de tours
+
+Puis cliquez sur Enregistrer la session.
+
+4. Facturation
+
+Utilisez la calculatrice intégrée.
+
+Exemple :
+10 x 5 = 50 €
+
+Puis cliquez sur Taper règlement.
+
+5. Règlement
+
+Choisissez :
+• Espèces
+• Chèque
+• Carte bancaire
+• Virement
+• Crédit
+• Carte Club
+
+6. Récapitulatif
+
+Ajoutez une observation si nécessaire puis cliquez sur :
+
+Terminer la session.
+
+La session est enregistrée dans l'historique du client.
+
+GESTION DU CRÉDIT
+
+• Un voyant rouge apparaît.
+• Le montant n'est pas comptabilisé dans le chiffre d'affaires.
+
+RÉGULARISATION D'UN CRÉDIT
+
+Lorsqu'une session ou un achat d'unités est enregistré en Crédit :
+
+• Le crédit apparaît dans le dossier client.
+• Un voyant rouge apparaît sur la page d'accueil.
+• Le montant n'est pas comptabilisé dans le chiffre d'affaires.
+
+RÈGLEMENT D'UN CRÉDIT
+
+1. Depuis la page d'accueil, saisir le nom du client.
+
+2. Ouvrir le dossier client.
+
+3. Accéder à l'Historique.
+
+4. Cliquer sur Crédit réglé.
+
+• Le voyant rouge disparaît.
+
+• Le voyant passe au vert.
+
+5. Revenir à la page d'accueil.
+
+6. Rechercher à nouveau le client.
+
+7. Vérifier les coordonnées affichées.
+
+DISCIPLINE
+
+
+• Cliquer sur PASSER pour aller à facturation
+
+FACTURATION
+
+1. Saisir le montant à régulariser.
+2. Cliquer sur Taper règlement.
+
+RÈGLEMENT
+
+Choisir le mode de paiement :
+
+• Espèces
+• Chèque
+• Carte bancaire
+• Virement
+
+RÉCAPITULATIF
+
+1. Vérifier les informations affichées.
+2. Ajouter une observation si nécessaire.
+3. Cliquer sur Terminer la session.
+
+DOSSIER CLIENT
+
+Le crédit est alors marqué comme réglé.
+
+Le montant est intégré :
+
+• Au chiffre d'affaires
+• Aux statistiques
+• Aux exports PDF
+• Le voyant de suivi passe au vert.
+
+Puis revenir à l'accueil.
+
+
+CARTE CLUB
+
+• 1 tour = 1 unité.
+• Recharge possible à tout moment.
+
+CRÉATION ET CHARGEMENT D'UNE CARTE
+
+1. Créer un nouveau skieur.
+2. Saisir :
+   - Nom
+   - Prénom
+   - Date de naissance
+   - Téléphone
+   - E-mail
+3. Cliquer sur Enregistrer.
+
+DISCIPLINE
+
+Cliquer sur PASSER.
+
+FACTURATION
+
+1. Saisir le nombre d'unités à créditer.
+
+Exemple :
+60 unités
+
+2. Calculer le montant.
+
+Exemple :
+60 x 5 € = 300 €
+
+3. Cliquer sur Taper règlement.
+
+RÈGLEMENT
+
+Choisir :
+• Espèces
+• Chèque
+• Carte bancaire
+• Virement
+• Crédit
+
+CARTE CLUB
+
+1. Vérifier le nombre d'unités affiché.
+2. Scanner une carte.
+3. Vérifier l'attribution.
+4. Cliquer sur VALIDER.
+
+RÉCAPITULATIF
+
+• Paiement effectué
+• Montant réglé
+• Unités chargées
+• Unités restantes
+
+Cliquer sur Terminer la session.
+
+DOSSIER CLIENT
+
+• Historique client
+• Statistiques
+• Exports PDF
+
+Retour à l'accueil.
+
+UTILISATION D'UNE CARTE CLUB
+
+Lorsqu'un skieur possède déjà une Carte Club :
+
+1. Scanner la carte.
+
+2. Vérifier les informations affichées :
+   - Nom
+   - Prénom
+   - Date de naissance
+   - Téléphone
+   - E-mail
+
+3. Cliquer sur Enregistrer.
+
+DISCIPLINE
+
+Sélectionner la discipline :
+
+• BI-SKI
+• SLALOM
+• FIGURES
+• WAKEBOARD
+• SAUT
+
+L'application passe à la page Temps de session.
+
+TEMPS DE SESSION
+
+Saisir :
+
+• Heure de départ
+• Heure d'arrivée
+• Nombre de tours réalisés
+
+Puis cliquer sur Enregistrer la session.
+
+FACTURATION
+
+Vérifier le nombre de tours enregistrés.
+
+Cliquer sur Taper règlement.
+
+RÈGLEMENT
+
+Choisir :
+
+• Carte Club
+
+Choisir :
+
+• Carte Club
+
+CARTE CLUB
+
+1. Vérifier le nombre d'unités restantes.
+2. Scanner la carte.
+3. Les unités consommées sont déduites automatiquement.
+4. Cliquer sur VALIDER.
+
+RÉCAPITULATIF
+
+Le récapitulatif affiche :
+
+• Discipline
+• Nombre de tours
+• Unités consommées
+• Unités restantes
+
+Cliquer sur Terminer la session.
+
+DOSSIER CLIENT
+
+La session est enregistrée dans :
+
+• L'historique du client
+• Les statistiques
+• Les exports PDF
+
+Puis revenir à l'accueil.
+
+HISTORIQUE
+
+Consultation des :
+• Sessions
+• Paiements
+• Montants
+• Observations
+
+STATISTIQUES
+
+Consultation :
+• Skieurs
+• Sessions
+• Tours
+• Chiffre d'affaires
+• Présences
+
+Export PDF disponible.
+""",
+        """
+QUICK USER GUIDE
+
+1. New skier
+
+Enter:
+• Last name
+• First name
+• Birth date
+• Phone
+• E-mail
+
+Then press Save.
+
+2. Choose a discipline
+
+Select:
+• BI-SKI
+• SLALOM
+• TRICKS
+• WAKEBOARD
+• JUMP
+
+3. Session time
+
+Record:
+• Start time
+• Finish time
+• Number of laps
+
+Then press Save session.
+
+4. Billing
+
+Use the calculator.
+
+Example:
+10 x 5 = 50 €
+
+Then press Enter payment.
+
+5. Payment
+
+Choose:
+• Cash
+• Check
+• Credit card
+• Bank transfer
+• Credit
+• Club Card
+
+6. Summary
+
+Add notes if needed then press:
+
+End session.
+
+The session is saved.
+
+CREDIT MANAGEMENT
+
+• Red indicator appears.
+• Revenue is not counted.
+
+CLUB CARD
+
+• 1 lap = 1 unit.
+• Card can be reloaded.
+
+HISTORY
+
+View:
+• Sessions
+• Payments
+• Amounts
+• Notes
+
+STATISTICS
+
+View:
+• Skiers
+• Sessions
+• Laps
+• Revenue
+• Attendance
+
+PDF export available.
+""",
+      ),
+      style: const TextStyle(
+        fontSize: 18,
+        height: 1.5,
+      ),
+    ),
+  ],
+),
       ),
     );
   }

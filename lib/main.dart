@@ -4001,8 +4001,45 @@ class PresencesPage extends StatelessWidget {
     );
   }
 }
+
+
 class GuidePage extends StatelessWidget {
   const GuidePage({super.key});
+
+  Future<void> exporterGuidePDF() async {
+  final pdf = pw.Document();
+
+  pdf.addPage(
+    pw.MultiPage(
+      build: (context) => [
+        pw.Text(
+          t(
+            "WATER SKI APP - GUIDE UTILISATEUR",
+            "WATER SKI APP - USER GUIDE",
+          ),
+          style: pw.TextStyle(
+            fontSize: 24,
+            fontWeight: pw.FontWeight.bold,
+          ),
+        ),
+
+        pw.SizedBox(height: 20),
+
+        pw.Text(
+          t(
+            "GUIDE RAPIDE D'UTILISATION\n\nVoir le guide complet dans l'application.",
+            "QUICK USER GUIDE\n\nSee the full guide inside the app.",
+          ),
+        ),
+      ],
+    ),
+  );
+
+  await Printing.sharePdf(
+    bytes: await pdf.save(),
+    filename: "guide_utilisateur.pdf",
+  );
+}
 
   @override
   Widget build(BuildContext context) {
@@ -4021,6 +4058,25 @@ class GuidePage extends StatelessWidget {
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
 
+  SizedBox(
+  width: double.infinity,
+  child: ElevatedButton.icon(
+    onPressed: () async {
+      await exporterGuidePDF();
+    },
+    icon: const Icon(Icons.picture_as_pdf),
+    label: Text(
+      t("Exporter guide PDF", "Export guide PDF"),
+    ),
+    style: ElevatedButton.styleFrom(
+      backgroundColor: Colors.red,
+      foregroundColor: Colors.white,
+      padding: const EdgeInsets.symmetric(vertical: 16),
+    ),
+  ),
+),
+
+const SizedBox(height: 20),
    
 
     Text(
@@ -4283,15 +4339,12 @@ Choisir :
 
 • Carte Club
 
-Choisir :
-
-• Carte Club
 
 CARTE CLUB
 
 1. Vérifier le nombre d'unités restantes.
 2. Scanner la carte.
-3. Les unités consommées sont déduites automatiquement.
+3. Les unités consommées sont déduites manuellement par vous : ( moniteur ou coach)
 4. Cliquer sur VALIDER.
 
 RÉCAPITULATIF
@@ -4317,7 +4370,7 @@ Puis revenir à l'accueil.
 
 HISTORIQUE
 
-Consultation des :
+Consultation des dossiers individuels :
 • Sessions
 • Paiements
 • Montants
@@ -4325,7 +4378,7 @@ Consultation des :
 
 STATISTIQUES
 
-Consultation :
+Consultation des statistiques collectives:
 • Skieurs
 • Sessions
 • Tours

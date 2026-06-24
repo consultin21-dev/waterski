@@ -36,12 +36,26 @@ String tr(String key) {
 }
 
 final Map<String, Map<String, String>> traductions = {
-  "fr": {
+  "lang_fr": {
     "fr": "FR",
+    "en": "FR",
+    "it": "FR",
+    "es": "FR",
+    "de": "FR",
+  },
+  "lang_en": {
+    "fr": "EN",
     "en": "EN",
+    "it": "EN",
+    "es": "EN",
+    "de": "EN",
+  },
+  "lang_it": {
+    "fr": "IT",
+    "en": "IT",
     "it": "IT",
-    "es": "ES",
-    "de": "DE",
+    "es": "IT",
+    "de": "IT",
   },
 };
 
@@ -385,14 +399,28 @@ appBar: AppBar(
   ),
 ),
   actions: [
-    TextButton(
-  onPressed: () {
-  setState(() {
-    langue = langue == "fr" ? "en" : "fr";
-  });
-},
+    PopupMenuButton<String>(
+  onSelected: (value) {
+    setState(() {
+      langue = value;
+    });
+  },
+  itemBuilder: (context) => const [
+    PopupMenuItem(
+      value: "fr",
+      child: Text("FR"),
+    ),
+    PopupMenuItem(
+      value: "en",
+      child: Text("EN"),
+    ),
+    PopupMenuItem(
+      value: "it",
+      child: Text("IT"),
+    ),
+  ],
   child: Text(
-  langue.toUpperCase(),
+    langue.toUpperCase(),
     style: const TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.bold,

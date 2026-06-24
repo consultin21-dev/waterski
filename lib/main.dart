@@ -57,6 +57,95 @@ final Map<String, Map<String, String>> traductions = {
     "es": "IT",
     "de": "IT",
   },
+  "guide_user": {
+  "fr": "Guide utilisateur",
+  "en": "User Guide",
+  "it": "Guida utente",
+},
+
+"statistics": {
+  "fr": "Statistiques",
+  "en": "Statistics",
+  "it": "Statistiche",
+},
+
+"attendance": {
+  "fr": "Présences",
+  "en": "Attendance",
+  "it": "Presenze",
+},
+"scan_card": {
+  "fr": "Scanner carte",
+  "en": "Scan card",
+  "it": "Scansiona carta",
+},
+"new_skier": {
+  "fr": "Nouveau skieur",
+  "en": "New skier",
+  "it": "Nuovo sciatore",
+},
+"search_skier": {
+  "fr": "Rechercher un skieur",
+  "en": "Search skier",
+  "it": "Cerca sciatore",
+},
+"skiers": {
+  "fr": "Skieurs",
+  "en": "Skiers",
+  "it": "Sciatori",
+},
+
+"credits": {
+  "fr": "Crédits",
+  "en": "Credits",
+  "it": "Crediti",
+},
+
+"sessions": {
+  "fr": "Sessions",
+  "en": "Sessions",
+  "it": "Sessioni",
+},
+"new_skier_title": {
+  "fr": "Nouveau Skieur",
+  "en": "New Skier",
+  "it": "Nuovo sciatore",
+},
+
+"history": {
+  "fr": "Historique",
+  "en": "History",
+  "it": "Storico",
+},
+
+"first_name": {
+  "fr": "Prénom",
+  "en": "First name",
+  "it": "Nome",
+},
+
+"last_name": {
+  "fr": "Nom",
+  "en": "Last name",
+  "it": "Cognome",
+},
+
+"birth_date": {
+  "fr": "Date de naissance",
+  "en": "Birth date",
+  "it": "Data di nascita",
+},
+
+"phone": {
+  "fr": "Téléphone",
+  "en": "Phone",
+  "it": "Telefono",
+},
+"save": {
+  "fr": "Enregistrer",
+  "en": "Save",
+  "it": "Salva",
+},
 };
 
 Future<void> sauvegarderDonnees() async {
@@ -496,7 +585,7 @@ Container(
               color: Colors.blue,
             ),
           ),
-          const Text("Skieurs"),
+          Text(tr("skiers")),
         ],
       ),
 
@@ -511,7 +600,7 @@ Container(
               color: Colors.blue,
             ),
           ),
-          const Text("Crédits"),
+          Text(tr("credits")),
         ],
       ),
 
@@ -526,7 +615,7 @@ Container(
               color: Colors.blue,
             ),
           ),
-          const Text("Sessions"),
+          Text(tr("sessions")),
         ],
       ),
     ],
@@ -537,7 +626,7 @@ Container(
 
 boutonMenu(
   icon: Icons.menu_book,
-  texte: t("Guide utilisateur", "User Guide"),
+  texte: tr("guide_user"),
   couleur: Colors.teal,
   onPressed: () {
     Navigator.push(
@@ -553,7 +642,7 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.bar_chart,
-  texte: t("Statistiques", "Statistics"),
+  texte: tr("statistics"),
   couleur: Colors.deepPurple,
   onPressed: () {
     Navigator.push(
@@ -569,7 +658,7 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.people,
-  texte: t("Présences", "Attendance"),
+  texte: tr("attendance"),
   couleur: Colors.orange,
   onPressed: () {
     final presences = <PresenceLigne>[];
@@ -600,7 +689,7 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.qr_code_scanner,
-  texte: t("Scanner carte", "Scan card"),
+  texte: tr("scan_card"),
   couleur: Colors.redAccent,
   onPressed: () async {
     final result = await Navigator.push(
@@ -627,7 +716,7 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.person_add,
-  texte: t("Nouveau skieur", "New skier"),
+  texte: tr("new_skier"),
   couleur: Colors.green,
   onPressed: () {
     setState(() {
@@ -762,8 +851,8 @@ Container(
 
         decoration: InputDecoration(
 
-          hintText:
-            t("Rechercher un skieur", "Search skier"),
+          hintText: tr("search_skier"),
+            
 
           prefixIcon:
               const Icon(Icons.search),
@@ -785,8 +874,8 @@ Container(
   crossAxisAlignment: CrossAxisAlignment.start,
   children: [
 
-    Text(
-  t("Nouveau Skieur", "New Skier"),
+Text(
+  tr("new_skier_title"),
   style: const TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
@@ -811,7 +900,7 @@ Container(
           setState(() {});
         },
   icon: const Icon(Icons.history),
-  label: Text(t("Historique", "History"))
+    label: Text(tr("history"))
    ),
   ],
 ),
@@ -823,7 +912,7 @@ Container(
           TextField(
             controller: prenomController,
             decoration:  InputDecoration(
-              labelText: t("Prénom", "First name"),
+            hintText: tr("first_name"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -833,7 +922,7 @@ Container(
           TextField(
             controller: nomController,
             decoration:  InputDecoration(
-              labelText: t("Nom", "Last name"),
+            labelText: tr("last_name"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -843,7 +932,7 @@ Container(
           TextField(
             controller: naissanceController,
             decoration:  InputDecoration(
-              labelText: t("Date de naissance", "Date of birth"),
+              labelText: tr("birth_date"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -853,7 +942,7 @@ Container(
           TextField(
             controller: telephoneController,
             decoration:  InputDecoration(
-              labelText: t("Téléphone", "Phone"),
+            labelText: tr("phone"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -905,7 +994,7 @@ Row(
       icon:
           const Icon(Icons.bar_chart),
 
-      label: Text(t("Statistiques", "Statistics")),
+       label: Text(tr("statistics")),
 
       style:
           ElevatedButton.styleFrom(
@@ -1000,7 +1089,7 @@ const SizedBox(height: 30),
               ),
 
               child: Text(
-                t("Enregistrer", "Save"),
+                tr("save"),
                 style: const TextStyle(fontSize: 20),
               ),
             ),

@@ -23,11 +23,27 @@ import 'package:flutter/rendering.dart';
 
 List<Skieur> skieursGlobal = [];
 
-bool anglais = false;
+String langue = "fr";
 
 String t(String fr, String en) {
-  return anglais ? en : fr;
+  return langue == "en" ? en : fr;
 }
+
+String tr(String key) {
+  return traductions[key]?[langue] ??
+      traductions[key]?["fr"] ??
+      key;
+}
+
+final Map<String, Map<String, String>> traductions = {
+  "fr": {
+    "fr": "FR",
+    "en": "EN",
+    "it": "IT",
+    "es": "ES",
+    "de": "DE",
+  },
+};
 
 Future<void> sauvegarderDonnees() async {
   final box = Hive.box('waterski');
@@ -371,12 +387,12 @@ appBar: AppBar(
   actions: [
     TextButton(
   onPressed: () {
-    setState(() {
-      anglais = !anglais;
-    });
-  },
+  setState(() {
+    langue = langue == "fr" ? "en" : "fr";
+  });
+},
   child: Text(
-  anglais ? "EN" : "FR",
+  langue.toUpperCase(),
     style: const TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.bold,

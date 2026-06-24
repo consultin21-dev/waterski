@@ -4245,17 +4245,313 @@ Retour à l'accueil.
 
 """,
   """
+QUICK USER GUIDE
+
+1. New skier
+
+Enter:
+- Last name
+- First name
+- Birth date
+- Phone
+- E-mail
+
+Then press Save.
+
+2. Choose a discipline
+
+Select:
+- BI-SKI
+- SLALOM
+- TRICKS
+- WAKEBOARD
+- JUMP
+
+3. Session time
+
+Record:
+- Start time
+- Finish time
+- Number of laps
+
+Then press Save session.
+
+4. Billing
+
+Use the built-in calculator.
+
+Example:
+10 x 5 = 50 EUR
+
+Then press Enter payment.
+
+5. Payment
+
+Choose:
+- Cash
+- Check
+- Credit card
+- Bank transfer
+- Credit
+- Club Card
+
+6. Summary
+
+Add a note if needed then click:
+
+End session.
+
+The session is saved in the customer's history.
+
+CREDIT MANAGEMENT
+
+- A red indicator appears.
+- The amount is not included in revenue.
+
+CREDIT SETTLEMENT
+
+When a session or unit purchase is recorded as Credit:
+
+- The credit appears in the customer file.
+- A red indicator appears on the home page.
+- The amount is not included in revenue.
+
+PAYING A CREDIT
+
+1. From the home page, enter the customer's name.
+
+2. Open the customer file.
+
+3. Open History.
+
+4. Click Credit paid.
+
+- The red indicator disappears.
+- The indicator turns green.
+
+5. Return to the home page.
+
+6. Search for the customer again.
+
+7. Verify the displayed information.
+
+DISCIPLINE
+
+- Click SKIP to go to Billing.
+
+BILLING
+
+1. Enter the amount to settle.
+2. Click Enter payment.
+
+PAYMENT
+
+Choose the payment method:
+
+- Cash
+- Check
+- Credit card
+- Bank transfer
+
+SUMMARY
+
+1. Verify the displayed information.
+2. Add a note if necessary.
+3. Click End session.
+
+CUSTOMER FILE
+
+The credit is now marked as paid.
+
+The amount is included in:
+
+- Revenue
+- Statistics
+- PDF exports
+
+The indicator turns green.
+
+Return to the home page.
+
+CLUB CARD
+
+- 1 lap = 1 unit.
+- Recharge possible at any time.
+
+CREATING AND LOADING A CARD
+
+1. Create a new skier.
+2. Enter:
+   - Last name
+   - First name
+   - Birth date
+   - Phone
+   - E-mail
+3. Click Save.
+
+DISCIPLINE
+
+Click SKIP.
+
+BILLING
+
+1. Enter the number of units to load.
+
+Example:
+60 units
+
+2. Calculate the amount.
+
+Example:
+60 x 5 EUR = 300 EUR
+
+3. Click Enter payment.
+
+PAYMENT
+
+Choose:
+
+- Cash
+- Check
+- Credit card
+- Bank transfer
+- Credit
+
+CLUB CARD
+
+1. Verify the displayed number of units.
+2. Scan a card.
+3. Verify assignment.
+4. Click VALIDATE.
+
+SUMMARY
+
+- Payment completed
+- Amount paid
+- Units loaded
+- Units remaining
+
+Click End session.
+
+CUSTOMER FILE
+
+- Customer history
+- Statistics
+- PDF exports
+
+Return to home page.
+
+USING A CLUB CARD
+
+When a skier already has a Club Card:
+
+1. Scan the card.
+
+2. Verify the displayed information:
+
+- Last name
+- First name
+- Birth date
+- Phone
+- E-mail
+
+3. Click Save.
+
+DISCIPLINE
+
+Select a discipline:
+
+- BI-SKI
+- SLALOM
+- TRICKS
+- WAKEBOARD
+- JUMP
+
+The application opens the Session Time page.
+
+SESSION TIME
+
+Enter:
+
+- Start time
+- Finish time
+- Number of laps completed
+
+Then click Save session.
+
+BILLING
+
+Verify the number of laps.
+
+Click Enter payment.
+
+PAYMENT
+
+Choose:
+
+- Club Card
+
+CLUB CARD
+
+1. Verify remaining units.
+2. Scan the card.
+3. Units are manually deducted by the instructor or coach.
+4. Click VALIDATE.
+
+SUMMARY
+
+The summary displays:
+
+- Discipline
+- Number of laps
+- Units used
+- Units remaining
+
+Click End session.
+
+CUSTOMER FILE
+
+The session is saved in:
+
+- Customer history
+- Statistics
+- PDF exports
+
+Return to the home page.
+
+HISTORY
+
+View individual records:
+
+- Sessions
+- Payments
+- Amounts
+- Notes
+
+STATISTICS
+
+View collective statistics:
+
+- Skiers
+- Sessions
+- Laps
+- Revenue
+- Attendance
+
 PDF export available.
 """,
-).split('\n').map(
-  (ligne) => pw.Text(
+).split('\n').map((ligne) {
+  if (ligne.trim().isEmpty) {
+    return pw.SizedBox(height: 12);
+  }
+
+  return pw.Text(
     ligne,
     style: pw.TextStyle(
-  fontSize: 11,
-  lineSpacing: 2,
+      fontSize: 11,
     ),
-  ),
-),
+  );
+}),
       ],
     ),
   );
@@ -4599,7 +4895,7 @@ Consultation des statistiques collectives:
 
 Export PDF disponible.
 """,
-        """
+       """
 QUICK USER GUIDE
 
 1. New skier
@@ -4607,11 +4903,11 @@ QUICK USER GUIDE
 Enter:
 • Last name
 • First name
-• Birth date
+• Date of birth
 • Phone
 • E-mail
 
-Then press Save.
+Then click Save.
 
 2. Choose a discipline
 
@@ -4629,22 +4925,22 @@ Record:
 • Finish time
 • Number of laps
 
-Then press Save session.
+Then click Save session.
 
 4. Billing
 
-Use the calculator.
+Use the built-in calculator.
 
 Example:
 10 x 5 = 50 €
 
-Then press Enter payment.
+Then click Enter payment.
 
 5. Payment
 
 Choose:
 • Cash
-• Check
+• Cheque
 • Credit card
 • Bank transfer
 • Credit
@@ -4652,25 +4948,228 @@ Choose:
 
 6. Summary
 
-Add notes if needed then press:
+Add a note if necessary, then click:
 
 End session.
 
-The session is saved.
+The session is saved in the customer history.
 
 CREDIT MANAGEMENT
 
-• Red indicator appears.
-• Revenue is not counted.
+• A red indicator appears.
+• The amount is not included in the revenue.
+
+CREDIT SETTLEMENT
+
+When a session or a unit purchase is recorded as Credit:
+
+• The credit appears in the customer file.
+• A red indicator appears on the home page.
+• The amount is not included in the revenue.
+
+PAYMENT OF A CREDIT
+
+1. From the home page, enter the customer's name.
+
+2. Open the customer file.
+
+3. Go to History.
+
+4. Click Credit paid.
+
+• The red indicator disappears.
+• The indicator turns green.
+
+5. Return to the home page.
+
+6. Search for the customer again.
+
+7. Check the displayed information.
+
+DISCIPLINE
+
+• Click SKIP to go to billing.
+
+BILLING
+
+1. Enter the amount to settle.
+2. Click Enter payment.
+
+PAYMENT
+
+Choose the payment method:
+
+• Cash
+• Cheque
+• Credit card
+• Bank transfer
+
+SUMMARY
+
+1. Check the displayed information.
+2. Add a note if necessary.
+3. Click End session.
+
+CUSTOMER FILE
+
+The credit is then marked as paid.
+
+The amount is included in:
+
+• Revenue
+• Statistics
+• PDF exports
+• The tracking indicator turns green.
+
+Then return to the home page.
 
 CLUB CARD
 
 • 1 lap = 1 unit.
-• Card can be reloaded.
+• Recharge possible at any time.
+
+CREATING AND LOADING A CARD
+
+1. Create a new skier.
+2. Enter:
+   - Last name
+   - First name
+   - Date of birth
+   - Phone
+   - E-mail
+3. Click Save.
+
+DISCIPLINE
+
+Click SKIP.
+
+BILLING
+
+1. Enter the number of units to credit.
+
+Example:
+60 units
+
+2. Calculate the amount.
+
+Example:
+60 x 5 € = 300 €
+
+3. Click Enter payment.
+
+PAYMENT
+
+Choose:
+• Cash
+• Cheque
+• Credit card
+• Bank transfer
+• Credit
+
+CLUB CARD
+
+1. Check the number of units displayed.
+2. Scan a card.
+3. Check the assignment.
+4. Click VALIDATE.
+
+SUMMARY
+
+• Payment completed
+• Amount paid
+• Units loaded
+• Remaining units
+
+Click End session.
+
+CUSTOMER FILE
+
+• Customer history
+• Statistics
+• PDF exports
+
+Return to the home page.
+
+USING A CLUB CARD
+
+When a skier already has a Club Card:
+
+1. Scan the card.
+
+2. Check the displayed information:
+   - Last name
+   - First name
+   - Date of birth
+   - Phone
+   - E-mail
+
+3. Click Save.
+
+DISCIPLINE
+
+Select the discipline:
+
+• BI-SKI
+• SLALOM
+• TRICKS
+• WAKEBOARD
+• JUMP
+
+The application opens the Session time page.
+
+SESSION TIME
+
+Enter:
+
+• Start time
+• Finish time
+• Number of laps completed
+
+Then click Save session.
+
+BILLING
+
+Check the number of laps recorded.
+
+Click Enter payment.
+
+PAYMENT
+
+Choose:
+
+• Club Card
+
+CLUB CARD
+
+1. Check the number of remaining units.
+2. Scan the card.
+3. The units used are deducted manually by you: instructor or coach.
+4. Click VALIDATE.
+
+SUMMARY
+
+The summary displays:
+
+• Discipline
+• Number of laps
+• Units used
+• Remaining units
+
+Click End session.
+
+CUSTOMER FILE
+
+The session is saved in:
+
+• Customer history
+• Statistics
+• PDF exports
+
+Then return to the home page.
 
 HISTORY
 
-View:
+View individual files:
 • Sessions
 • Payments
 • Amounts
@@ -4678,7 +5177,7 @@ View:
 
 STATISTICS
 
-View:
+View collective statistics:
 • Skiers
 • Sessions
 • Laps

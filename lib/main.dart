@@ -146,6 +146,69 @@ final Map<String, Map<String, String>> traductions = {
   "en": "Save",
   "it": "Salva",
 },
+"season_statistics": {
+  "fr": "STATISTIQUES SAISON",
+  "en": "SEASON STATISTICS",
+  "it": "STATISTICHE STAGIONE",
+},
+"start_short": {
+  "fr": "Début",
+  "en": "Start",
+  "it": "Inizio",
+},
+
+"end_short": {
+  "fr": "Fin",
+  "en": "End",
+  "it": "Fine",
+},
+
+"registered_skiers": {
+  "fr": "Skieurs enregistrés",
+  "en": "Registered skiers",
+  "it": "Sciatori registrati",
+},
+
+"completed_sessions": {
+  "fr": "Sessions réalisées",
+  "en": "Completed sessions",
+  "it": "Sessioni effettuate",
+},
+"completed_laps": {
+  "fr": "Tours réalisés",
+  "en": "Completed laps",
+  "it": "Giri effettuati",
+},
+
+"season_revenue": {
+  "fr": "CA saison",
+  "en": "Season revenue",
+  "it": "Incasso stagione",
+},
+
+"attendance_list": {
+  "fr": "Liste des présences",
+  "en": "Attendance list",
+  "it": "Elenco presenze",
+},
+
+"disciplines": {
+  "fr": "Disciplines",
+  "en": "Disciplines",
+  "it": "Discipline",
+},
+
+"payments": {
+  "fr": "Paiements",
+  "en": "Payments",
+  "it": "Pagamenti",
+},
+
+"export_statistics_pdf": {
+  "fr": "Exporter statistiques PDF",
+  "en": "Export statistics PDF",
+  "it": "Esporta statistiche PDF",
+},
 };
 
 Future<void> sauvegarderDonnees() async {
@@ -3567,7 +3630,7 @@ Widget legendeCouleur(Color couleur, String texte) {
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         title: Text(
-          t("STATISTIQUES SAISON", "SEASON STATISTICS"),
+          tr("season_statistics"),
         ),
       ),
 
@@ -3616,7 +3679,7 @@ Widget legendeCouleur(Color couleur, String texte) {
 
           dateDebut == null
 
-          ? t("Début", "Start")
+          ? tr("start_short")
 
           : "${dateDebut!.day}/"
             "${dateDebut!.month}/"
@@ -3661,7 +3724,7 @@ Widget legendeCouleur(Color couleur, String texte) {
 
           dateFin == null
 
-          ? t("Fin", "End")
+          ? tr("end_short")
 
           : "${dateFin!.day}/"
             "${dateFin!.month}/"
@@ -3675,7 +3738,7 @@ Widget legendeCouleur(Color couleur, String texte) {
 const SizedBox(height:20),
 
             Text(
-  "${t("Skieurs enregistrés", "Registered skiers")} : $totalSkieurs",
+"${tr("registered_skiers")} : $totalSkieurs",
   style: const TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.bold,
@@ -3685,19 +3748,19 @@ const SizedBox(height:20),
 const SizedBox(height: 10),
 
 Text(
-"${t("Sessions réalisées", "Completed sessions")} : $totalSessions",
+"${tr("completed_sessions")} : $totalSessions",
 ),
 
             const SizedBox(height: 20),
 
             Text(
-              "${t("Tours réalisés", "Completed laps")} : $totalTours",
+              "${tr("completed_laps")} : $totalTours",
             ),
 
            const SizedBox(height: 20),
 
 Text(
-"${t("CA saison", "Season revenue")} : ${totalCA.toStringAsFixed(2)} EUR",
+"${tr("season_revenue")} : ${totalCA.toStringAsFixed(2)} EUR",
 style: const TextStyle(
 fontSize: 20,
 fontWeight: FontWeight.bold,
@@ -3719,15 +3782,17 @@ SizedBox(
       );
     },
     icon: const Icon(Icons.people),
-    label: Text(t("Liste des présences", "Attendance list")),
+    label: Text(
+      tr("attendance_list"),
+    ),
   ),
 ),
 
 const SizedBox(height: 20),
 
 
-  Text(
-  t("Disciplines", "Disciplines"),
+ Text(
+  tr("disciplines"),
   style: TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
@@ -3792,7 +3857,7 @@ const SizedBox(height: 20),
 
 
   Text(
-  t("Paiements", "Payments"),
+  tr("payments"),
   style: TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
@@ -3865,8 +3930,10 @@ SizedBox(
     },
     icon: const Icon(Icons.picture_as_pdf),
     label: Text(
-    t("Exporter statistiques PDF", "Export statistics PDF"),
-  ),
+    tr("export_statistics_pdf"),
+),
+    
+  
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.red,
       foregroundColor: Colors.white,

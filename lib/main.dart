@@ -209,6 +209,17 @@ final Map<String, Map<String, String>> traductions = {
   "en": "Export statistics PDF",
   "it": "Esporta statistiche PDF",
 },
+"presences_title": {
+  "fr": "PRÉSENCES",
+  "en": "ATTENDANCE",
+  "it": "PRESENZE",
+},
+
+"export_presences_pdf": {
+  "fr": "Exporter présences PDF",
+  "en": "Export attendance PDF",
+  "it": "Esporta presenze PDF",
+},
 };
 
 Future<void> sauvegarderDonnees() async {
@@ -4147,7 +4158,7 @@ class PresencesPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         title: Text(
-           t("PRÉSENCES", "ATTENDANCE"),
+          tr("presences_title"),
          )
       ),
 
@@ -4161,7 +4172,7 @@ class PresencesPage extends StatelessWidget {
                 onPressed: exporterPresencesPDF,
                 icon: const Icon(Icons.picture_as_pdf),
               label: Text(
-                 t("Exporter présences PDF", "Export attendance PDF"),
+                 tr("export_presences_pdf"),
                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,

@@ -906,10 +906,16 @@ const SizedBox(height: 30),
   });
 
   ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(
-      content: Text("Veuillez sélectionner ou saisir un skieur"),
+  SnackBar(
+    content: Text(
+      t(
+        "Veuillez sélectionner ou saisir un skieur",
+        "Please select or enter a skier",
+        "Seleziona o inserisci uno sciatore",
+      ),
     ),
-  );
+  ),
+);
 
   return;
 }
@@ -964,7 +970,7 @@ const SizedBox(height: 30),
               ),
 
               child: Text(
-                t("Enregistrer", "Save"),
+                t("Enregistrer", "Save", "Salva"),
                 style: const TextStyle(fontSize: 20),
               ),
             ),

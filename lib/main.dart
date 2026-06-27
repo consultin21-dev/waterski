@@ -23,10 +23,12 @@ import 'package:flutter/rendering.dart';
 
 List<Skieur> skieursGlobal = [];
 
-bool anglais = false;
+String langue = "fr";
 
-String t(String fr, String en) {
-  return anglais ? en : fr;
+String t(String fr, String en, [String? it]) {
+  if (langue == "en") return en;
+  if (langue == "it") return it ?? en;
+  return fr;
 }
 
 Future<void> sauvegarderDonnees() async {
@@ -369,14 +371,20 @@ appBar: AppBar(
   ),
 ),
   actions: [
-    TextButton(
+TextButton(
   onPressed: () {
     setState(() {
-      anglais = !anglais;
+      if (langue == "fr") {
+        langue = "en";
+      } else if (langue == "en") {
+        langue = "it";
+      } else {
+        langue = "fr";
+      }
     });
   },
   child: Text(
-  anglais ? "EN" : "FR",
+    langue.toUpperCase(),
     style: const TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.bold,
@@ -452,7 +460,7 @@ Container(
               color: Colors.blue,
             ),
           ),
-          const Text("Skieurs"),
+          Text(t("Skieurs", "Skiers", "Sciatori")),
         ],
       ),
 
@@ -467,7 +475,7 @@ Container(
               color: Colors.blue,
             ),
           ),
-          const Text("Crédits"),
+           Text(t("Crédits", "Credits", "Crediti")),
         ],
       ),
 
@@ -482,7 +490,7 @@ Container(
               color: Colors.blue,
             ),
           ),
-          const Text("Sessions"),
+          Text(t("Sessions", "Sessions", "Sessioni")),
         ],
       ),
     ],
@@ -493,7 +501,7 @@ Container(
 
 boutonMenu(
   icon: Icons.menu_book,
-  texte: t("Guide utilisateur", "User Guide"),
+  texte: t("Guide utilisateur", "User Guide","Guida utente"),
   couleur: Colors.teal,
   onPressed: () {
     Navigator.push(
@@ -509,7 +517,7 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.bar_chart,
-  texte: t("Statistiques", "Statistics"),
+  texte: t("Statistiques", "Statistics", "Statistiche"),
   couleur: Colors.deepPurple,
   onPressed: () {
     Navigator.push(
@@ -525,7 +533,7 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.people,
-  texte: t("Présences", "Attendance"),
+  texte: t("Présences", "Attendance", "Presenze"),
   couleur: Colors.orange,
   onPressed: () {
     final presences = <PresenceLigne>[];
@@ -556,7 +564,7 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.qr_code_scanner,
-  texte: t("Scanner carte", "Scan card"),
+  texte: t("Scanner carte", "Scan card", "Scansiona carta"),
   couleur: Colors.redAccent,
   onPressed: () async {
     final result = await Navigator.push(
@@ -583,7 +591,7 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.person_add,
-  texte: t("Nouveau skieur", "New skier"),
+  texte: t("Nouveau skieur", "New skier", "Nuovo sciatore"),
   couleur: Colors.green,
   onPressed: () {
     setState(() {
@@ -719,7 +727,7 @@ Container(
         decoration: InputDecoration(
 
           hintText:
-            t("Rechercher un skieur", "Search skier"),
+            t("Rechercher un skieur", "Search skier", "Cerca sciatore"),
 
           prefixIcon:
               const Icon(Icons.search),
@@ -742,7 +750,7 @@ Container(
   children: [
 
     Text(
-  t("Nouveau Skieur", "New Skier"),
+   t("Nouveau Skieur", "New Skier", "Nuovo sciatore"),
   style: const TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
@@ -767,7 +775,7 @@ Container(
           setState(() {});
         },
   icon: const Icon(Icons.history),
-  label: Text(t("Historique", "History"))
+  label: Text(t("Historique", "History", "Storico"))
    ),
   ],
 ),
@@ -779,7 +787,7 @@ Container(
           TextField(
             controller: prenomController,
             decoration:  InputDecoration(
-              labelText: t("Prénom", "First name"),
+              labelText: t("Prénom", "First name", "Nome"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -789,7 +797,7 @@ Container(
           TextField(
             controller: nomController,
             decoration:  InputDecoration(
-              labelText: t("Nom", "Last name"),
+              labelText: t("Nom", "Last name", "Cognome"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -799,7 +807,7 @@ Container(
           TextField(
             controller: naissanceController,
             decoration:  InputDecoration(
-              labelText: t("Date de naissance", "Date of birth"),
+              labelText:t("Date de naissance", "Date of birth", "Data di nascita"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -809,7 +817,7 @@ Container(
           TextField(
             controller: telephoneController,
             decoration:  InputDecoration(
-              labelText: t("Téléphone", "Phone"),
+              labelText:t("Téléphone", "Phone", "Telefono"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -819,7 +827,7 @@ Container(
           TextField(
             controller: emailController,
             decoration: InputDecoration(
-              labelText: t("Email", "Email"),
+              labelText: t("Email", "Email", "Email"),
               border: OutlineInputBorder(),
             ),
           ),
@@ -861,7 +869,7 @@ Row(
       icon:
           const Icon(Icons.bar_chart),
 
-      label: Text(t("Statistiques", "Statistics")),
+      label: Text(t("Statistiques", "Statistics", "Statistiche")),
 
       style:
           ElevatedButton.styleFrom(

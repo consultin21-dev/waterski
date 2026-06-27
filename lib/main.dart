@@ -3788,8 +3788,8 @@ class StatistiquesSkieurPage extends StatelessWidget {
         backgroundColor:
             Colors.deepPurple,
 
-        title: const Text(
-          "STATISTIQUES SKIEUR",
+        title: Text(
+           t("STATISTIQUES SKIEUR", "SKIER STATISTICS"),
         ),
       ),
 
@@ -3824,11 +3824,11 @@ class StatistiquesSkieurPage extends StatelessWidget {
             const SizedBox(height:30),
 
             Text(
-              "Tours : $totalTours",
+              "${t("Tours", "Laps")} : $totalTours",
             ),
 
             Text(
-              "CA : ${totalCA.toStringAsFixed(2)} EUR",
+              "${t("CA", "Revenue")} : ${totalCA.toStringAsFixed(2)} EUR",
             ),
 
             const SizedBox(height:20),
@@ -3845,8 +3845,8 @@ class StatistiquesSkieurPage extends StatelessWidget {
 
             const SizedBox(height:20),
 
-            const Text(
-              "Paiements",
+            Text(
+              t("Paiements", "Payments"),
             ),
 
             ...paiements.entries.map(

@@ -25,9 +25,11 @@ List<Skieur> skieursGlobal = [];
 
 String langue = "fr";
 
-String t(String fr, String en, [String? it]) {
+String t(String fr, String en, [String? it, String? es, String? de]) {
   if (langue == "en") return en;
   if (langue == "it") return it ?? en;
+  if (langue == "es") return es ?? en;
+  if (langue == "de") return de ?? en;
   return fr;
 }
 
@@ -374,13 +376,17 @@ appBar: AppBar(
 TextButton(
   onPressed: () {
     setState(() {
-      if (langue == "fr") {
-        langue = "en";
-      } else if (langue == "en") {
-        langue = "it";
-      } else {
-        langue = "fr";
-      }
+     if (langue == "fr") {
+  langue = "en";
+} else if (langue == "en") {
+  langue = "it";
+} else if (langue == "it") {
+  langue = "es";
+} else if (langue == "es") {
+  langue = "de";
+} else {
+  langue = "fr";
+} 
     });
   },
   child: Text(
@@ -460,7 +466,7 @@ Container(
               color: Colors.blue,
             ),
           ),
-          Text(t("Skieurs", "Skiers", "Sciatori")),
+          Text(t("Skieurs", "Skiers", "Sciatori", "Esquiadores", "Skifahrer")),
         ],
       ),
 
@@ -475,7 +481,7 @@ Container(
               color: Colors.blue,
             ),
           ),
-           Text(t("Crédits", "Credits", "Crediti")),
+           Text(t("Crédits", "Credits", "Crediti", "Créditos", "Guthaben")),
         ],
       ),
 
@@ -490,7 +496,7 @@ Container(
               color: Colors.blue,
             ),
           ),
-          Text(t("Sessions", "Sessions", "Sessioni")),
+         Text(t("Sessions", "Sessions", "Sessioni", "Sesiones", "Sitzungen")),
         ],
       ),
     ],
@@ -500,9 +506,16 @@ Container(
 ),
 
 boutonMenu(
-  icon: Icons.menu_book,
-  texte: t("Guide utilisateur", "User Guide","Guida utente"),
-  couleur: Colors.teal,
+  icon: Icons.bar_chart,
+  texte: t(
+    "Statistiques",
+    "Statistics",
+    "Statistiche",
+    "Estadísticas",
+    "Statistiken",
+  ),
+  couleur: Colors.deepPurple,
+  
   onPressed: () {
     Navigator.push(
       context,
@@ -517,7 +530,13 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.bar_chart,
-  texte: t("Statistiques", "Statistics", "Statistiche"),
+  texte: t(
+  "Statistiques",
+  "Statistics",
+  "Statistiche",
+  "Estadísticas",
+  "Statistiken",
+),
   couleur: Colors.deepPurple,
   onPressed: () {
     Navigator.push(
@@ -533,7 +552,13 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.people,
-  texte: t("Présences", "Attendance", "Presenze"),
+  texte:t(
+  "Présences",
+  "Attendance",
+  "Presenze",
+  "Asistencias",
+  "Anwesenheiten",
+),
   couleur: Colors.orange,
   onPressed: () {
     final presences = <PresenceLigne>[];
@@ -564,7 +589,13 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.qr_code_scanner,
-  texte: t("Scanner carte", "Scan card", "Scansiona carta"),
+  texte:t(
+  "Scanner carte",
+  "Scan card",
+  "Scansiona carta",
+  "Escanear tarjeta",
+  "Karte scannen",
+),
   couleur: Colors.redAccent,
   onPressed: () async {
     final result = await Navigator.push(
@@ -591,7 +622,13 @@ const SizedBox(height: 12),
 
 boutonMenu(
   icon: Icons.person_add,
-  texte: t("Nouveau skieur", "New skier", "Nuovo sciatore"),
+  texte:t(
+  "Nouveau skieur",
+  "New skier",
+  "Nuovo sciatore",
+  "Nuevo esquiador",
+  "Neuer Skifahrer",
+),
   couleur: Colors.green,
   onPressed: () {
     setState(() {
@@ -727,7 +764,13 @@ Container(
         decoration: InputDecoration(
 
           hintText:
-            t("Rechercher un skieur", "Search skier", "Cerca sciatore"),
+t(
+  "Rechercher un skieur",
+  "Search skier",
+  "Cerca sciatore",
+  "Buscar un esquiador",
+  "Skifahrer suchen",
+),
 
           prefixIcon:
               const Icon(Icons.search),
@@ -750,7 +793,13 @@ Container(
   children: [
 
     Text(
-   t("Nouveau Skieur", "New Skier", "Nuovo sciatore"),
+   t(
+  "Nouveau Skieur",
+  "New Skier",
+  "Nuovo sciatore",
+  "Nuevo esquiador",
+  "Neuer Skifahrer",
+),
   style: const TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
@@ -775,7 +824,13 @@ Container(
           setState(() {});
         },
   icon: const Icon(Icons.history),
-  label: Text(t("Historique", "History", "Storico"))
+  label: Text(t(
+  "Historique",
+  "History",
+  "Storico",
+  "Historial",
+  "Verlauf",
+))
    ),
   ],
 ),
@@ -787,7 +842,13 @@ Container(
           TextField(
             controller: prenomController,
             decoration:  InputDecoration(
-              labelText: t("Prénom", "First name", "Nome"),
+              labelText: t(
+  "Prénom",
+  "First name",
+  "Nome",
+  "Nombre",
+  "Vorname",
+),
               border: OutlineInputBorder(),
             ),
           ),
@@ -797,7 +858,13 @@ Container(
           TextField(
             controller: nomController,
             decoration:  InputDecoration(
-              labelText: t("Nom", "Last name", "Cognome"),
+              labelText: t(
+  "Nom",
+  "Last name",
+  "Cognome",
+  "Apellido",
+  "Nachname",
+),
               border: OutlineInputBorder(),
             ),
           ),
@@ -807,7 +874,13 @@ Container(
           TextField(
             controller: naissanceController,
             decoration:  InputDecoration(
-              labelText:t("Date de naissance", "Date of birth", "Data di nascita"),
+              labelText: t(
+  "Date de naissance",
+  "Date of birth",
+  "Data di nascita",
+  "Fecha de nacimiento",
+  "Geburtsdatum",
+),
               border: OutlineInputBorder(),
             ),
           ),
@@ -817,7 +890,13 @@ Container(
           TextField(
             controller: telephoneController,
             decoration:  InputDecoration(
-              labelText:t("Téléphone", "Phone", "Telefono"),
+              labelText: t(
+  "Téléphone",
+  "Phone",
+  "Telefono",
+  "Teléfono",
+  "Telefon",
+),
               border: OutlineInputBorder(),
             ),
           ),
@@ -827,7 +906,13 @@ Container(
           TextField(
             controller: emailController,
             decoration: InputDecoration(
-              labelText: t("Email", "Email", "Email"),
+              labelText: t(
+  "Email",
+  "Email",
+  "Email",
+  "Correo electrónico",
+  "E-Mail",
+),
               border: OutlineInputBorder(),
             ),
           ),
@@ -869,7 +954,13 @@ Row(
       icon:
           const Icon(Icons.bar_chart),
 
-      label: Text(t("Statistiques", "Statistics", "Statistiche")),
+      label: Text(t(
+  "Statistiques",
+  "Statistics",
+  "Statistiche",
+  "Estadísticas",
+  "Statistiken",
+)),
 
       style:
           ElevatedButton.styleFrom(
@@ -908,11 +999,13 @@ const SizedBox(height: 30),
   ScaffoldMessenger.of(context).showSnackBar(
   SnackBar(
     content: Text(
-      t(
-        "Veuillez sélectionner ou saisir un skieur",
-        "Please select or enter a skier",
-        "Seleziona o inserisci uno sciatore",
-      ),
+t(
+  "Veuillez sélectionner ou saisir un skieur",
+  "Please select or enter a skier",
+  "Seleziona o inserisci uno sciatore",
+  "Seleccione o introduzca un esquiador",
+  "Bitte wählen Sie einen Skifahrer aus oder geben Sie einen ein",
+),
     ),
   ),
 );

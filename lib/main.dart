@@ -1063,7 +1063,13 @@ t(
               ),
 
               child: Text(
-                t("Enregistrer", "Save", "Salva"),
+               t(
+  "Enregistrer",
+  "Save",
+  "Salva",
+  "Guardar",
+  "Speichern",
+), 
                 style: const TextStyle(fontSize: 20),
               ),
             ),

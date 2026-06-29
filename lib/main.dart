@@ -2962,7 +2962,13 @@ Future<void> exporterHistoriquePDF() async {
       build: (context) => [
 
         pw.Text(
-          "DOSSIER CLIENT",
+          t(
+  "DOSSIER CLIENT",
+  "CUSTOMER FILE",
+  "SCHEDA CLIENTE",
+  "FICHA DEL CLIENTE",
+  "KUNDENAKTE",
+),
           style: pw.TextStyle(
             fontSize: 24,
             fontWeight: pw.FontWeight.bold,
@@ -2984,7 +2990,13 @@ Future<void> exporterHistoriquePDF() async {
         pw.SizedBox(height:20),
 
         pw.Text(
-          "Historique des sessions",
+          t(
+  "Historique des sessions",
+  "Session history",
+  "Storico delle sessioni",
+  "Historial de sesiones",
+  "Sitzungsverlauf",
+),
           style: pw.TextStyle(
             fontSize:18,
             fontWeight: pw.FontWeight.bold,
@@ -3127,7 +3139,15 @@ if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
 
       appBar: AppBar(
         backgroundColor: Colors.blue.shade900,
-        title: Text(t("DOSSIER CLIENT", "CUSTOMER FILE")),
+        title: Text(
+  t(
+    "DOSSIER CLIENT",
+    "CUSTOMER FILE",
+    "SCHEDA CLIENTE",
+    "FICHA DEL CLIENTE",
+    "KUNDENAKTE",
+  ),
+),
         ),
       
 
@@ -3175,7 +3195,13 @@ if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
         foregroundColor: Colors.white,
       ),
       child: Text(
-      t("CRÉDIT RÉGLÉ", "CREDIT PAID"),
+      t(
+  "Crédit",
+  "Credit",
+  "Credito",
+  "Crédito",
+  "Guthaben",
+),
    ),
     
   ),
@@ -3186,7 +3212,13 @@ if (!s.paiement.toUpperCase().contains('CRÉDIT') &&
 
 
       Text(
-  t("Historique", "History"),
+  t(
+  "Historique",
+  "History",
+  "Storico",
+  "Historial",
+  "Verlauf",
+),
   style: const TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
@@ -3200,7 +3232,13 @@ if (dateDebut != null || dateFin != null)
     "${dateFin == null ? "" : "${dateFin!.day}/${dateFin!.month}/${dateFin!.year}"}",
   ),
 Text(
-  "Sessions affichées : ${sessionsFiltrees.length}",
+  "${t(
+    "Sessions affichées",
+    "Displayed sessions",
+    "Sessioni visualizzate",
+    "Sesiones mostradas",
+    "Angezeigte Sitzungen",
+  )} : ${sessionsFiltrees.length}",
 ),
 Row(
 
@@ -3240,7 +3278,13 @@ Row(
 
           dateDebut == null
 
-          ? t("Date début", "Start date")
+          ? t(
+  "Date début",
+  "Start date",
+  "Data di inizio",
+  "Fecha de inicio",
+  "Startdatum",
+)
 
           : "${dateDebut!.day}/"
             "${dateDebut!.month}/"
@@ -3285,7 +3329,13 @@ Row(
 
           dateFin == null
 
-          ? t("Date fin", "End date")
+          ? t(
+  "Date fin",
+  "End date",
+  "Data di fine",
+  "Fecha de fin",
+  "Enddatum",
+)
 
           : "${dateFin!.day}/"
             "${dateFin!.month}/"
@@ -3322,7 +3372,13 @@ SizedBox(
     ),
 
     label:  Text(
-      t("Statistiques générales", "General statistics"),
+      t(
+  "Statistiques générales",
+  "General statistics",
+  "Statistiche generali",
+  "Estadísticas generales",
+  "Allgemeine Statistiken",
+),
     ),
 
     style:
@@ -3353,7 +3409,13 @@ SizedBox(
     ),
 
     label: Text(
-  t("Exporter historique PDF", "Export history PDF"),
+  t(
+  "Exporter historique PDF",
+  "Export history PDF",
+  "Esporta storico PDF",
+  "Exportar historial PDF",
+  "PDF-Verlauf exportieren",
+),
 ),
 
     style: ElevatedButton.styleFrom(
@@ -3392,7 +3454,13 @@ SizedBox(
     },
 
 child: Text(
-  t("Retour accueil", "Back to home"),
+  t(
+  "Retour à l'accueil",
+  "Back to home",
+  "Torna alla home",
+  "Volver al inicio",
+  "Zurück zur Startseite",
+),
    ),
   ),
 ),
@@ -3430,17 +3498,53 @@ Expanded(
 
 "${s.duree}\n"
 
-"${t("Départ", "Departure")} : ${s.depart}\n"
+"${t(
+  "Départ",
+  "Departure",
+  "Partenza",
+  "Salida",
+  "Abfahrt",
+)} : ${s.depart}\n"
 
-"${t("Arrivée", "Arrival")} : ${s.arrivee}\n"
+"${t(
+  "Arrivée",
+  "Arrival",
+  "Arrivo",
+  "Llegada",
+  "Ankunft",
+)} : ${s.arrivee}\n"
 
-"${t("Tours", "Laps")} : ${s.tours}\n"
+"${t(
+  "Tours",
+  "Laps",
+  "Giri",
+  "Vueltas",
+  "Runden",
+)} : ${s.tours}\n"
 
-"${t("Paiement", "Payment")} : ${s.paiement}\n"
+"${t(
+  "Paiement",
+  "Payment",
+  "Pagamento",
+  "Pago",
+  "Zahlung",
+)} : ${s.paiement}\n"
 
-"${t("Montant", "Amount")} : ${s.montant.toStringAsFixed(2)} €\n"
+"${t(
+  "Montant",
+  "Amount",
+  "Importo",
+  "Importe",
+  "Betrag",
+)} : ${s.montant.toStringAsFixed(2)} €\n"
 
-"${t("Observation", "Observation")} : ${s.observation}",
+"${t(
+  "Observation",
+  "Observation",
+  "Osservazione",
+  "Observación",
+  "Beobachtung",
+)} : ${s.observation}",
 ),
 
 

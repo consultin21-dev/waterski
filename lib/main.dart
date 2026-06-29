@@ -1475,45 +1475,45 @@ t(
 
         const SizedBox(height: 20),
 
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  debut = DateTime.now();
-                  fin = null;
-                });
-              },
-              child: Text(
-  t(
-    "Départ",
-    "Start",
-    "Partenza",
-    "Salida",
-    "Start",
-  ),
-),
-
-           ElevatedButton(
-  onPressed: () {
-    setState(() {
-      fin = DateTime.now();
-    });
-  },
-  child: Text(
-    t(
-      "Arrivée",
-      "Finish",
-      "Arrivo",
-      "Llegada",
-      "Ankunft",
-    ),
-  ),
-), 
-          ],
+      Row(
+  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  children: [
+    ElevatedButton(
+      onPressed: () {
+        setState(() {
+          debut = DateTime.now();
+          fin = null;
+        });
+      },
+      child: Text(
+        t(
+          "Départ",
+          "Start",
+          "Partenza",
+          "Salida",
+          "Start",
         ),
+      ),
+    ),
+
+    ElevatedButton(
+      onPressed: () {
+        setState(() {
+          fin = DateTime.now();
+        });
+      },
+      child: Text(
+        t(
+          "Arrivée",
+          "Finish",
+          "Arrivo",
+          "Llegada",
+          "Ankunft",
+        ),
+      ),
+    ),
+  ],
+),
 
         const SizedBox(height: 25),
 

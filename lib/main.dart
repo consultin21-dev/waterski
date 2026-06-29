@@ -1368,7 +1368,13 @@ Widget build(BuildContext context) {
         );
       },
      child: Text(
-        t("PASSER", "SKIP"),
+        t(
+  "PASSER",
+  "SKIP",
+  "SALTA",
+  "OMITIR",
+  "ÜBERSPRINGEN",
+),
         style: const TextStyle(color: Colors.white),
       ), 
     ),
@@ -1416,7 +1422,13 @@ Widget build(BuildContext context) {
         const SizedBox(height: 20),
 
         Text(
-          t("Temps de session", "Session time"),
+t(
+  "Temps de session",
+  "Session time",
+  "Tempo della sessione",
+  "Tiempo de la sesión",
+  "Sitzungszeit",
+),
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -1439,13 +1451,25 @@ Widget build(BuildContext context) {
 
         if (debut != null)
           Text(
-            "${t("Départ", "Start")} : ${debut!.hour}:${debut!.minute.toString().padLeft(2, '0')}",
+            "${t(
+  "Départ",
+  "Start",
+  "Partenza",
+  "Salida",
+  "Start",
+)} : ${debut!.hour}:${debut!.minute.toString().padLeft(2, '0')}",
             style: const TextStyle(fontSize: 18),
           ),
 
         if (fin != null)
            Text(
-             "${t("Arrivée", "Finish")} : ${fin!.hour}:${fin!.minute.toString().padLeft(2, '0')}",
+             "${t(
+  "Arrivée",
+  "Finish",
+  "Arrivo",
+  "Llegada",
+  "Ankunft",
+)} : ${fin!.hour}:${fin!.minute.toString().padLeft(2, '0')}",
              style: const TextStyle(fontSize: 18),
           ),
 
@@ -1462,24 +1486,45 @@ Widget build(BuildContext context) {
                   fin = null;
                 });
               },
-              child: Text(t("Départ", "Start")),
-            ),
+              child: Text(
+  t(
+    "Départ",
+    "Start",
+    "Partenza",
+    "Salida",
+    "Start",
+  ),
+),
 
-            ElevatedButton(
-              onPressed: () {
-                setState(() {
-                  fin = DateTime.now();
-                });
-              },
-              child: Text(t("Arrivée", "Finish")),
-            ),
+           ElevatedButton(
+  onPressed: () {
+    setState(() {
+      fin = DateTime.now();
+    });
+  },
+  child: Text(
+    t(
+      "Arrivée",
+      "Finish",
+      "Arrivo",
+      "Llegada",
+      "Ankunft",
+    ),
+  ),
+), 
           ],
         ),
 
         const SizedBox(height: 25),
 
            Text(
-             t("Nombre de tours", "Number of laps"),
+             t(
+  "Nombre de tours",
+  "Number of laps",
+  "Numero di giri",
+  "Número de vueltas",
+  "Anzahl der Runden",
+),
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
@@ -1559,7 +1604,13 @@ Widget build(BuildContext context) {
             
 
             child: Text(
-              t("Enregistrer la session", "Save session"),
+              t(
+  "Enregistrer la session",
+  "Save session",
+  "Salva la sessione",
+  "Guardar la sesión",
+  "Sitzung speichern",
+),
               style: TextStyle(fontSize: 20),
             ),
           ),

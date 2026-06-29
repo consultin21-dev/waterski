@@ -1724,7 +1724,13 @@ class _FacturationPageState extends State<FacturationPage> {
 
       appBar: AppBar(
         backgroundColor: Colors.blue.shade900,
-       title: Text(t("FACTURATION", "BILLING")), 
+       title: Text(t(
+  "FACTURATION",
+  "BILLING",
+  "FATTURAZIONE",
+  "FACTURACIÓN",
+  "ABRECHNUNG",
+)), 
       ),
 
       body: SingleChildScrollView(
@@ -1743,31 +1749,78 @@ class _FacturationPageState extends State<FacturationPage> {
               ),
             ),
 
+            
+
             const SizedBox(height: 10),
 
-            Text("${t("Naissance", "Birth date")} : ${widget.skieur.naissance}"),
-            Text("${t("Discipline", "Discipline")} : ${widget.discipline}"),
+
+
+            Text("${t(
+  "Naissance",
+  "Birth date",
+  "Data di nascita",
+  "Fecha de nacimiento",
+  "Geburtsdatum",
+)} : ${widget.skieur.naissance}"),
+
+            Text("${t(
+  "Discipline",
+  "Discipline",
+  "Disciplina",
+  "Disciplina",
+  "Disziplin",
+)} : ${widget.discipline}"),
 
             const SizedBox(height: 20),
 
             if (widget.debut != null)
             Text(
-                "${t("Départ", "Start")} : ${widget.debut!.hour}:${widget.debut!.minute.toString().padLeft(2, '0')}",
+                "${t(
+  "Départ",
+  "Start",
+  "Partenza",
+  "Salida",
+  "Start",
+)} : ${widget.debut!.hour}:${widget.debut!.minute.toString().padLeft(2, '0')}",
             ),
 
             if (widget.fin != null)
              Text(
-                "${t("Arrivée", "Finish")} : ${widget.fin!.hour}:${widget.fin!.minute.toString().padLeft(2, '0')}",
+                "${t(
+  "Arrivée",
+  "Finish",
+  "Arrivo",
+  "Llegada",
+  "Ankunft",
+)} : ${widget.fin!.hour}:${widget.fin!.minute.toString().padLeft(2, '0')}",
             ),
 
-             Text("${t("Temps réalisé", "Time achieved")} : ${widget.duree}"),
+             Text("${t(
+  "Temps réalisé",
+  "Time achieved",
+  "Tempo realizzato",
+  "Tiempo realizado",
+  "Erreichte Zeit",
+)} : ${widget.duree}"),
 
-             Text("${t("Nombre de tours", "Number of laps")} : ${widget.tours}"),
+             Text("${t(
+  "Nombre de tours",
+  "Number of laps",
+  "Numero di giri",
+  "Número de vueltas",
+  "Anzahl der Runden",
+)} : ${widget.tours}"),
 
             const SizedBox(height: 40),
 
 Text(
-  t("Unités à créditer", "Units to credit"),
+  t(
+  "Unités à créditer",
+  "Units to credit",
+  "Unità da accreditare",
+  "Unidades a acreditar",
+  "Gutzuschreibende Einheiten",
+),
   style: const TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
@@ -1780,7 +1833,13 @@ TextField(
   controller: unitesController,
   keyboardType: TextInputType.number,
   decoration: InputDecoration(
-  labelText: t("Nombre d'unités", "Number of units"),
+  labelText:t(
+  "Nombre d'unités",
+  "Number of units",
+  "Numero di unità",
+  "Número de unidades",
+  "Anzahl der Einheiten",
+),
   border: const OutlineInputBorder(),
 ),
 ),
@@ -1788,7 +1847,13 @@ TextField(
 const SizedBox(height: 30),
 
             Text(
-  t("Calculatrice", "Calculator"),
+  t(
+  "Calculatrice",
+  "Calculator",
+  "Calcolatrice",
+  "Calculadora",
+  "Rechner",
+),
   style: const TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
@@ -1800,7 +1865,13 @@ const SizedBox(height: 30),
             TextField(
               controller: calculController,
               decoration: InputDecoration(
-                hintText: t("Exemple : 25*3", "Example: 25*3"),
+                hintText: t(
+  "Exemple : 25*3",
+  "Example: 25*3",
+  "Esempio: 25*3",
+  "Ejemplo: 25*3",
+  "Beispiel: 25*3",
+),
                 border: OutlineInputBorder(),
               ),
             ),
@@ -1812,7 +1883,13 @@ const SizedBox(height: 30),
   child: ElevatedButton(
     onPressed: calculer,
     child: Text(
-      t("Calculer", "Calculate"),
+      t(
+  "Calculer",
+  "Calculate",
+  "Calcola",
+  "Calcular",
+  "Berechnen",
+),
     ),
   ),
 ),
@@ -1862,7 +1939,13 @@ Center(
       padding: const EdgeInsets.symmetric(vertical: 18),
     ),
     child: Text(
-      t("Taper règlement", "Enter payment"),
+      t(
+  "Taper règlement",
+  "Enter payment",
+  "Inserisci il pagamento",
+  "Introducir el pago",
+  "Zahlung eingeben",
+),
       style: const TextStyle(fontSize: 20),
     ),
   ),

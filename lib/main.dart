@@ -2273,7 +2273,13 @@ Widget clubButton(
       ),
 
       child:  Text(
-        t("CARTE CLUB", "CLUB CARD"),
+        t(
+  "CARTE CLUB",
+  "CLUB CARD",
+  "CLUB CARD",
+  "CLUB CARD",
+  "CLUB CARD",
+),
         style: TextStyle(
           fontSize: 22,
           color: Colors.white,
@@ -2360,7 +2366,13 @@ unitesDepart = unites;
 
              Center(
               child: Text(
-                t("Scanner une carte", "Scan a card"),
+t(
+  "Scanner une carte",
+  "Scan a card",
+  "Scansiona una carta",
+  "Escanear una tarjeta",
+  "Karte scannen",
+),
                 style: TextStyle(
                   fontSize: 22,
                   fontWeight: FontWeight.bold,
@@ -2426,7 +2438,13 @@ await sauvegarderDonnees();
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
 content: Text(
-  "${t("Carte attribuée à", "Card assigned to")} ${widget.skieur.prenom} ${widget.skieur.nom}",
+  "${t(
+  "Carte attribuée à",
+  "Card assigned to",
+  "Carta assegnata a",
+  "Tarjeta asignada a",
+  "Karte zugewiesen an",
+)} ${widget.skieur.prenom} ${widget.skieur.nom}",
 ),
       
     ),
@@ -2434,13 +2452,25 @@ content: Text(
 }
 
 },
-child: Text(t("Scanner une carte", "Scan a card"))
+child: Text(t(
+  "Scanner une carte",
+  "Scan a card",
+  "Scansiona una carta",
+  "Escanear una tarjeta",
+  "Karte scannen",
+))
   ),
 ),
             const SizedBox(height: 40),
 
             Text(
-  t("Unités restantes", "Remaining units"),
+  t(
+  "Unités restantes",
+  "Remaining units",
+  "Unità rimanenti",
+  "Unidades restantes",
+  "Verbleibende Einheiten",
+),
   style: const TextStyle(
     fontSize: 24,
     fontWeight: FontWeight.bold,
@@ -2549,7 +2579,13 @@ builder: (context) => RecapPage(
       padding: const EdgeInsets.symmetric(vertical: 18),
     ),
     child: Text(
-  t("VALIDER", "VALIDATE"),
+  t(
+  "Valider",
+  "Confirm",
+  "Conferma",
+  "Validar",
+  "Bestätigen",
+),
   style: const TextStyle(fontSize: 20),
 ),
 

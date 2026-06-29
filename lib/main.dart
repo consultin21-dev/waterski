@@ -1107,7 +1107,13 @@ class DisciplinePage extends StatelessWidget {
     appBar: AppBar(
   backgroundColor: Colors.blue.shade900,
   title: Text(
-  t("DISCIPLINES", "DISCIPLINES"),
+  t(
+    "DISCIPLINES",
+    "DISCIPLINES",
+    "DISCIPLINE",
+    "DISCIPLINAS",
+    "DISZIPLINEN",
+  ),
 ),
 
   actions: [
@@ -1128,9 +1134,17 @@ class DisciplinePage extends StatelessWidget {
         );
       },
       child: Text(
-        t("PASSER", "SKIP"),
-        style: TextStyle(color: Colors.white),
-      ),
+  t(
+    "PASSER",
+    "SKIP",
+    "SALTA",
+    "OMITIR",
+    "ÜBERSPRINGEN",
+  ),
+  style: const TextStyle(
+    color: Colors.white,
+  ),
+),
     ),
   ],
 ),
@@ -1158,15 +1172,21 @@ class DisciplinePage extends StatelessWidget {
     margin: const EdgeInsets.only(top: 15),
     padding: const EdgeInsets.all(12),
     color: Colors.red,
-    child: const Text(
-      "⚠ CRÉDIT EN COURS",
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        color: Colors.white,
-        fontWeight: FontWeight.bold,
-        fontSize: 18,
-      ),
-    ),
+    child: Text(
+  t(
+    "⚠ CRÉDIT EN COURS",
+    "⚠ CREDIT PENDING",
+    "⚠ CREDITO IN CORSO",
+    "⚠ CRÉDITO PENDIENTE",
+    "⚠ OFFENER KREDIT",
+  ),
+  textAlign: TextAlign.center,
+  style: const TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.bold,
+    fontSize: 18,
+  ),
+),
   ),
 
             const SizedBox(height: 8),
@@ -1194,32 +1214,38 @@ class DisciplinePage extends StatelessWidget {
             const SizedBox(height: 40),
 
              Text(
-              t("Choisissez une discipline", "Choose a discipline"),
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+  t(
+    "Choisissez une discipline",
+    "Choose a discipline",
+    "Scegli una disciplina",
+    "Elija una disciplina",
+    "Wählen Sie eine Disziplin",
+  ),
+  style: const TextStyle(
+    fontSize: 24,
+    fontWeight: FontWeight.bold,
+  ),
+),
 
             const SizedBox(height: 25),
 
-            disciplineButton(context, skieur, "BI-SKI", "BI-SKIING", Colors.blue),
+            disciplineButton(context, skieur, "BI-SKI", "BI-SKIING", "BI-SKI", "BI-SKI", "BI-SKI", Colors.blue),
 
-            const SizedBox(height: 15),
+const SizedBox(height: 15),
 
-            disciplineButton(context, skieur, "SLALOM", "SLALOM", Colors.red),
+disciplineButton(context, skieur, "SLALOM", "SLALOM", "SLALOM", "SLALOM", "SLALOM", Colors.red),
 
-            const SizedBox(height: 15),
+const SizedBox(height: 15),
 
-            disciplineButton(context, skieur, "FIGURES", "TRICKS", Colors.purple),
+disciplineButton(context, skieur, "FIGURES", "TRICKS", "FIGURE", "FIGURAS", "FIGUREN", Colors.purple),
 
-            const SizedBox(height: 15),
+const SizedBox(height: 15),
 
-            disciplineButton(context, skieur, "WAKEBOARD", "WAKEBOARD", Colors.orange),
+disciplineButton(context, skieur, "WAKEBOARD", "WAKEBOARD", "WAKEBOARD", "WAKEBOARD", "WAKEBOARD", Colors.orange),
 
-            const SizedBox(height: 15),
+const SizedBox(height: 15),
 
-            disciplineButton(context, skieur, "SAUT", "JUMPING", Colors.green),
+disciplineButton(context, skieur, "SAUT", "JUMPING", "SALTO", "SALTO", "SPRUNG", Colors.green),
           ],
         ),
       ),
@@ -1233,9 +1259,18 @@ Widget disciplineButton(
   Skieur skieur,
   String texteFr,
   String texteEn,
+  String texteIt,
+  String texteEs,
+  String texteDe,
   Color couleur,
 ) {
-  final discipline = t(texteFr, texteEn);
+  final discipline = t(
+    texteFr,
+    texteEn,
+    texteIt,
+    texteEs,
+    texteDe,
+  );
 
   return SizedBox(
     width: double.infinity,

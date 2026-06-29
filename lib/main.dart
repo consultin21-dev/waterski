@@ -2649,7 +2649,13 @@ class _RecapPageState extends State<RecapPage> {
 
       appBar: AppBar(
         backgroundColor: Colors.blue.shade900,
-        title: Text(t("RÉCAPITULATIF", "SUMMARY")),
+        title: Text(t(
+  "RÉCAPITULATIF",
+  "SUMMARY",
+  "RIEPILOGO",
+  "RESUMEN",
+  "ZUSAMMENFASSUNG",
+)),
       ),
 
       body: SingleChildScrollView(
@@ -2671,52 +2677,108 @@ class _RecapPageState extends State<RecapPage> {
             const SizedBox(height: 10),
 
             Text(
-              "${t("Date de naissance", "Date of birth")} : ${widget.skieur.naissance}",
+              "${t(
+  "Date de naissance",
+  "Birth date",
+  "Data di nascita",
+  "Fecha de nacimiento",
+  "Geburtsdatum",
+)} : ${widget.skieur.naissance}",
               style: const TextStyle(fontSize: 18),
             ),
 
             const SizedBox(height: 20),
 
             Text(
-              "${t("Discipline", "Discipline")} : ${widget.discipline}",
+              "${t(
+  "Discipline",
+  "Discipline",
+  "Disciplina",
+  "Disciplina",
+  "Disziplin",
+)} : ${widget.discipline}",
               style: const TextStyle(fontSize: 20),
             ),
 
             Text(
-              "${t("Durée session", "Session duration")} : ${widget.duree}",
+              "${t(
+  "Durée session",
+  "Session duration",
+  "Durata della sessione",
+  "Duración de la sesión",
+  "Sitzungsdauer",
+)} : ${widget.duree}",
               style: const TextStyle(fontSize: 20),
             ),
             
             Text(
-               "${t("Départ", "Start")} : ${widget.depart}",
+               "${t(
+  "Départ",
+  "Start",
+  "Partenza",
+  "Salida",
+  "Start",
+)} : ${widget.depart}",
               style: const TextStyle(fontSize: 20),
             ),
 
              Text(
-               "${t("Arrivée", "Finish")} : ${widget.arrivee}",
+               "${t(
+  "Arrivée",
+  "Finish",
+  "Arrivo",
+  "Llegada",
+  "Ankunft",
+)} : ${widget.arrivee}",
                style: const TextStyle(fontSize: 20),
             ),
 
 
             Text(
-              "${t("Tours réalisés", "Completed laps")} : ${widget.tours}",
+              "${t(
+  "Tours réalisés",
+  "Completed laps",
+  "Giri effettuati",
+  "Vueltas realizadas",
+  "Gefahrene Runden",
+)} : ${widget.tours}",
               style: const TextStyle(fontSize: 20),
             ),
 
             Text(
-              "${t("Paiement", "Payment")} : ${widget.paiement}",
+              "${t(
+  "Paiements",
+  "Payments",
+  "Pagamenti",
+  "Pagos",
+  "Zahlungen",
+)} : ${widget.paiement}",
               style: const TextStyle(fontSize: 20),
             ),
 
             Text(
-              "${t("Montant", "Amount")} : ${widget.montant.toStringAsFixed(2)} €",
+              "${t(
+  "Montant",
+  "Amount",
+  "Importo",
+  "Importe",
+  "Betrag",
+)} : ${widget.montant.toStringAsFixed(2)} €",
              style: const TextStyle(fontSize: 20),
             ),
 
             const SizedBox(height: 40),
 
+
+
             Text(
-              t("Observations sportives", "Coaching notes"),
+              t(
+  "Observations sportives",
+  "Coaching notes",
+  "Osservazioni sportive",
+  "Observaciones deportivas",
+  "Sportliche Beobachtungen",
+),
               
               style: TextStyle(
                 fontSize: 24,
@@ -2731,10 +2793,13 @@ class _RecapPageState extends State<RecapPage> {
               maxLines: 8,
 
               decoration: InputDecoration(
-                   hintText: t(
-                   "Exemple : travailler la tension des bras pour la prochaine séance...",
-                   "Example: work on arm tension for the next session...",
-                ),
+                   hintText:t(
+  "Travailler la tension des bras pour la prochaine séance",
+  "Work on arm tension for the next session",
+  "Lavorare sulla tensione delle braccia per la prossima sessione",
+  "Trabajar la tensión de los brazos para la próxima sesión",
+  "An der Armspannung für die nächste Einheit arbeiten",
+),
                 border: const OutlineInputBorder(),
               ),
             ),
@@ -2782,7 +2847,13 @@ class _RecapPageState extends State<RecapPage> {
 
     SnackBar(
       content: Text(
-    t("Session enregistrée", "Session saved"),
+    t(
+  "Session enregistrée",
+  "Session saved",
+  "Sessione salvata",
+  "Sesión guardada",
+  "Sitzung gespeichert",
+),
        
      )
     ),
@@ -2815,7 +2886,13 @@ class _RecapPageState extends State<RecapPage> {
 
     child: 
       Text(
-        t("Terminer la session", "End session"),
+        t(
+  "Terminer la session",
+  "End session",
+  "Termina la sessione",
+  "Finalizar la sesión",
+  "Sitzung beenden",
+),
                   
                   style: TextStyle(fontSize: 20),
                 ),

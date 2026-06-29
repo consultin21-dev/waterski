@@ -1989,7 +1989,13 @@ class ReglementPage extends StatelessWidget {
 
       appBar: AppBar(
   backgroundColor: Colors.blue.shade900,
-  title: Text(t("Règlement", "Payment")),
+  title: Text(t(
+  "Règlement",
+  "Payment",
+  "Pagamento",
+  "Pago",
+  "Zahlung",
+)),
 ),
 
       body: Padding(
@@ -2011,7 +2017,13 @@ class ReglementPage extends StatelessWidget {
 
             paiementButton(
   context,
-  t("ESPÈCE", "CASH"),
+t(
+  "ESPÈCE",
+  "CASH",
+  "CONTANTI",
+  "EFECTIVO",
+  "BARGELD",
+),
   Colors.green,
   skieur,
   discipline,
@@ -2027,7 +2039,13 @@ const SizedBox(height: 15),
 
 paiementButton(
   context,
-  t("CHEQUE", "CHECK"),
+  t(
+  "CHÈQUE",
+  "CHEQUE",
+  "ASSEGNO",
+  "CHEQUE",
+  "SCHECK",
+),
   Colors.orange,
   skieur,
   discipline,
@@ -2043,7 +2061,13 @@ paiementButton(
 
             paiementButton(
             context,
-           t("CARTE BLEUE", "CREDIT CARD"),
+           t(
+  "CARTE BLEUE",
+  "BANK CARD",
+  "CARTA DI CREDITO",
+  "TARJETA BANCARIA",
+  "BANKKARTE",
+),
            Colors.blue,
            skieur,
            discipline,
@@ -2059,7 +2083,13 @@ paiementButton(
 
             paiementButton(
             context,
-           t("VIREMENT", "BANK TRANSFER"),
+           t(
+  "VIREMENT",
+  "BANK TRANSFER",
+  "BONIFICO",
+  "TRANSFERENCIA",
+  "BANKÜBERWEISUNG",
+),
            Colors.purple,
            skieur,
            discipline,
@@ -2076,7 +2106,13 @@ paiementButton(
 
             paiementButton(
             context,
-            t("CREDIT", "CREDIT"),
+            t(
+  "CRÉDIT",
+  "CREDIT",
+  "CREDITO",
+  "CRÉDITO",
+  "GUTHABEN",
+),
             Colors.red,
             skieur,
             discipline,
@@ -2133,7 +2169,13 @@ Widget paiementButton(
     ScaffoldMessenger.of(context).showSnackBar(
   SnackBar(
     content: Text(
-      "${t("Paiement enregistré", "Payment saved")} : $texte",
+      "${t(
+  "Paiement enregistré",
+  "Payment recorded",
+  "Pagamento registrato",
+  "Pago registrado",
+  "Zahlung gespeichert",
+)} : $texte",
     ),
   ),
 );

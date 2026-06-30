@@ -3586,7 +3586,15 @@ class _ScannerPageState extends State<ScannerPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("SCAN QR"),
+        title: Text(
+  t(
+    "SCAN QR",
+    "QR SCAN",
+    "SCANSIONE QR",
+    "ESCANEAR QR",
+    "QR-SCAN",
+  ),
+),
       ),
 
       body: MobileScanner(
@@ -3975,7 +3983,13 @@ Widget legendeCouleur(Color couleur, String texte) {
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         title: Text(
-          t("STATISTIQUES SAISON", "SEASON STATISTICS"),
+          t(
+  "STATISTIQUES SAISON",
+  "SEASON STATISTICS",
+  "STATISTICHE STAGIONE",
+  "ESTADÍSTICAS DE TEMPORADA",
+  "SAISONSTATISTIKEN",
+),
         ),
       ),
 
@@ -4024,7 +4038,13 @@ Widget legendeCouleur(Color couleur, String texte) {
 
           dateDebut == null
 
-          ? t("Début", "Start")
+          ? t(
+  "Début",
+  "Start",
+  "Inizio",
+  "Inicio",
+  "Beginn",
+)
 
           : "${dateDebut!.day}/"
             "${dateDebut!.month}/"
@@ -4069,7 +4089,13 @@ Widget legendeCouleur(Color couleur, String texte) {
 
           dateFin == null
 
-          ? t("Fin", "End")
+          ?t(
+  "Fin",
+  "End",
+  "Fine",
+  "Fin",
+  "Ende",
+)
 
           : "${dateFin!.day}/"
             "${dateFin!.month}/"
@@ -4083,7 +4109,13 @@ Widget legendeCouleur(Color couleur, String texte) {
 const SizedBox(height:20),
 
             Text(
-  "${t("Skieurs enregistrés", "Registered skiers")} : $totalSkieurs",
+  "${t(
+  "Skieurs enregistrés",
+  "Registered skiers",
+  "Sciatori registrati",
+  "Esquiadores registrados",
+  "Registrierte Skifahrer",
+)} : $totalSkieurs",
   style: const TextStyle(
     fontSize: 22,
     fontWeight: FontWeight.bold,
@@ -4093,19 +4125,37 @@ const SizedBox(height:20),
 const SizedBox(height: 10),
 
 Text(
-"${t("Sessions réalisées", "Completed sessions")} : $totalSessions",
+"${t(
+  "Sessions réalisées",
+  "Completed sessions",
+  "Sessioni effettuate",
+  "Sesiones realizadas",
+  "Durchgeführte Sitzungen",
+)} : $totalSessions",
 ),
 
             const SizedBox(height: 20),
 
             Text(
-              "${t("Tours réalisés", "Completed laps")} : $totalTours",
+              "${t(
+  "Tours réalisés",
+  "Completed laps",
+  "Giri effettuati",
+  "Vueltas realizadas",
+  "Gefahrene Runden",
+)} : $totalTours",
             ),
 
            const SizedBox(height: 20),
 
 Text(
-"${t("CA saison", "Season revenue")} : ${totalCA.toStringAsFixed(2)} EUR",
+"${t(
+  "CA saison",
+  "Season revenue",
+  "Fatturato stagione",
+  "Ingresos de la temporada",
+  "Saisonumsatz",
+)} : ${totalCA.toStringAsFixed(2)} EUR",
 style: const TextStyle(
 fontSize: 20,
 fontWeight: FontWeight.bold,
@@ -4127,7 +4177,13 @@ SizedBox(
       );
     },
     icon: const Icon(Icons.people),
-    label: Text(t("Liste des présences", "Attendance list")),
+    label: Text(t(
+  "Liste des présences",
+  "Attendance list",
+  "Elenco delle presenze",
+  "Lista de asistencias",
+  "Anwesenheitsliste",
+)),
   ),
 ),
 

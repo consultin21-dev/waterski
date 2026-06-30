@@ -1,3 +1,4 @@
+Statistiques
 
 import 'package:flutter/material.dart';
 
@@ -508,13 +509,13 @@ Container(
 boutonMenu(
   icon: Icons.bar_chart,
   texte: t(
-    "Statistiques",
-    "Statistics",
-    "Statistiche",
-    "Estadísticas",
-    "Statistiken",
-  ),
-  couleur: Colors.deepPurple,
+  "Guide utilisateur",
+  "User guide",
+  "Guida utente",
+  "Guía del usuario",
+  "Benutzerhandbuch",
+),
+couleur: Colors.teal,
   
   onPressed: () {
     Navigator.push(

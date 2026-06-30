@@ -4592,7 +4592,13 @@ class PresencesPage extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: Colors.deepPurple,
         title: Text(
-           t("PRÉSENCES", "ATTENDANCE"),
+           t(
+  "PRÉSENCES",
+  "ATTENDANCE",
+  "PRESENZE",
+  "ASISTENCIAS",
+  "ANWESENHEITEN",
+),
          )
       ),
 
@@ -4606,7 +4612,13 @@ class PresencesPage extends StatelessWidget {
                 onPressed: exporterPresencesPDF,
                 icon: const Icon(Icons.picture_as_pdf),
               label: Text(
-                 t("Exporter présences PDF", "Export attendance PDF"),
+                 t(
+  "Exporter présences PDF",
+  "Export attendance PDF",
+  "Esporta presenze PDF",
+  "Exportar asistencias PDF",
+  "Anwesenheiten als PDF exportieren",
+),
                ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
@@ -4631,10 +4643,34 @@ class PresencesPage extends StatelessWidget {
                       "${skieur.prenom} ${skieur.nom} - ${skieur.naissance}",
                     ),
                     subtitle: Text(
-                      "${t("Date", "Date")} : ${session.venue.day}/${session.venue.month}/${session.venue.year}\n"
-                        "${t("Discipline", "Discipline")} : ${session.discipline}\n"
-                        "${t("Arrivée", "Arrival")} : ${session.depart}\n"
-                        "${t("Départ", "Departure")} : ${session.arrivee}"
+                      "${t(
+  "Date",
+  "Date",
+  "Data",
+  "Fecha",
+  "Datum",
+)} : ${session.venue.day}/${session.venue.month}/${session.venue.year}\n"
+                        "${t(
+  "Discipline",
+  "Discipline",
+  "Disciplina",
+  "Disciplina",
+  "Disziplin",
+)} : ${session.discipline}\n"
+            "${t(
+  "Départ",
+  "Departure",
+  "Partenza",
+  "Salida",
+  "Abfahrt",
+)} : ${session.depart}\n"
+"${t(
+  "Arrivée",
+  "Arrival",
+  "Arrivo",
+  "Llegada",
+  "Ankunft",
+)} : ${session.arrivee}"            
                     ),
                   ),
                 );

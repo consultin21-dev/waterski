@@ -4191,7 +4191,13 @@ const SizedBox(height: 20),
 
 
   Text(
-  t("Disciplines", "Disciplines"),
+  t(
+  "Disciplines",
+  "Disciplines",
+  "Discipline",
+  "Disciplinas",
+  "Disziplinen",
+),
   style: TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
@@ -4256,7 +4262,13 @@ const SizedBox(height: 20),
 
 
   Text(
-  t("Paiements", "Payments"),
+  t(
+  "Paiements",
+  "Payments",
+  "Pagamenti",
+  "Pagos",
+  "Zahlungen",
+),
   style: TextStyle(
     fontSize: 20,
     fontWeight: FontWeight.bold,
@@ -4329,7 +4341,13 @@ SizedBox(
     },
     icon: const Icon(Icons.picture_as_pdf),
     label: Text(
-    t("Exporter statistiques PDF", "Export statistics PDF"),
+    t(
+  "Exporter statistiques PDF",
+  "Export statistics PDF",
+  "Esporta statistiche PDF",
+  "Exportar estadísticas PDF",
+  "Statistiken als PDF exportieren",
+),
   ),
     style: ElevatedButton.styleFrom(
       backgroundColor: Colors.red,
@@ -4386,7 +4404,13 @@ class StatistiquesSkieurPage extends StatelessWidget {
             Colors.deepPurple,
 
         title: Text(
-           t("STATISTIQUES SKIEUR", "SKIER STATISTICS"),
+t(
+  "STATISTIQUES SKIEUR",
+  "SKIER STATISTICS",
+  "STATISTICHE SCIATORE",
+  "ESTADÍSTICAS DEL ESQUIADOR",
+  "SKIFAHRER-STATISTIKEN",
+),
         ),
       ),
 
@@ -4421,18 +4445,36 @@ class StatistiquesSkieurPage extends StatelessWidget {
             const SizedBox(height:30),
 
             Text(
-              "${t("Tours", "Laps")} : $totalTours",
+              "${t(
+  "Tours",
+  "Laps",
+  "Giri",
+  "Vueltas",
+  "Runden",
+)} : $totalTours",
             ),
 
             Text(
-              "${t("CA", "Revenue")} : ${totalCA.toStringAsFixed(2)} EUR",
+              "${t(
+  "CA",
+  "Revenue",
+  "Fatturato",
+  "Ingresos",
+  "Umsatz",
+)} : ${totalCA.toStringAsFixed(2)} EUR",
             ),
 
             const SizedBox(height:20),
 
-            const Text(
-              "Disciplines",
-            ),
+            Text(
+  t(
+    "Disciplines",
+    "Disciplines",
+    "Discipline",
+    "Disciplinas",
+    "Disziplinen",
+  ),
+),
 
             ...disciplines.entries.map(
                (e) => Text(
@@ -4443,7 +4485,13 @@ class StatistiquesSkieurPage extends StatelessWidget {
             const SizedBox(height:20),
 
             Text(
-              t("Paiements", "Payments"),
+             t(
+  "Paiements",
+  "Payments",
+  "Pagamenti",
+  "Pagos",
+  "Zahlungen",
+), 
             ),
 
             ...paiements.entries.map(

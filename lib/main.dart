@@ -1,4 +1,4 @@
-Statistiques
+
 
 import 'package:flutter/material.dart';
 
@@ -4695,10 +4695,13 @@ class GuidePage extends StatelessWidget {
     pw.MultiPage(
       build: (context) => [
         pw.Text(
-          t(
-            "WATER SKI APP - GUIDE UTILISATEUR",
-            "WATER SKI APP - USER GUIDE",
-          ),
+t(
+  "WATER SKI APP - GUIDE UTILISATEUR",
+  "WATER SKI APP - USER GUIDE",
+  "WATER SKI APP - GUIDA UTENTE",
+  "WATER SKI APP - GUÍA DEL USUARIO",
+  "WATER SKI APP - BENUTZERHANDBUCH",
+),
           style: pw.TextStyle(
             fontSize: 18,
             height: 1.5,
@@ -5250,8 +5253,14 @@ PDF export available.
       appBar: AppBar(
         backgroundColor: Colors.teal,
         title: Text(
-          t("GUIDE UTILISATEUR", "USER GUIDE"),
-        ),
+  t(
+    "GUIDE UTILISATEUR",
+    "USER GUIDE",
+    "GUIDA UTENTE",
+    "GUÍA DEL USUARIO",
+    "BENUTZERHANDBUCH",
+  ),
+),
       ),
 
       body: SingleChildScrollView(
@@ -5269,9 +5278,17 @@ PDF export available.
     },
     icon: const Icon(Icons.picture_as_pdf),
     label: Text(
-      t("Exporter guide PDF", "Export guide PDF"),
-    ),
-    style: ElevatedButton.styleFrom(
+
+  t(
+    "Exporter guide PDF",
+    "Export guide PDF",
+    "Esporta guida PDF",
+    "Exportar guía PDF",
+    "Benutzerhandbuch als PDF exportieren",
+  ),
+),
+
+style: ElevatedButton.styleFrom(
       backgroundColor: Colors.red,
       foregroundColor: Colors.white,
       padding: const EdgeInsets.symmetric(vertical: 16),
@@ -5867,6 +5884,321 @@ View collective statistics:
 • Attendance
 
 PDF export available.
+""",
+
+"""
+GUIDA RAPIDA
+
+1. Nuovo sciatore
+
+Inserire:
+- Cognome
+- Nome
+- Data di nascita
+- Telefono
+- E-mail
+
+Quindi fare clic su Salva.
+
+2. Scegliere una disciplina
+
+Selezionare:
+- BI-SKI
+- SLALOM
+- FIGURE
+- WAKEBOARD
+- SALTO
+
+3. Tempo della sessione
+
+Registrare:
+- Ora di partenza
+- Ora di arrivo
+- Numero di giri
+
+Quindi fare clic su Salva la sessione.
+
+4. Fatturazione
+
+Utilizzare la calcolatrice integrata.
+
+Esempio:
+10 x 5 = 50 EUR
+
+Quindi fare clic su Inserisci pagamento.
+
+5. Pagamento
+
+Scegliere:
+- Contanti
+- Assegno
+- Carta bancaria
+- Bonifico
+- Credito
+- Carta Club
+
+6. Riepilogo
+
+Aggiungere un'osservazione se necessario, quindi fare clic su:
+
+Termina la sessione.
+
+La sessione viene salvata nello storico del cliente.
+
+GESTIONE DEL CREDITO
+
+- Compare una spia rossa.
+- L'importo non viene conteggiato nel fatturato.
+
+REGOLARIZZAZIONE DI UN CREDITO
+
+Quando una sessione o un acquisto di unita viene registrato come Credito:
+
+- Il credito compare nella scheda cliente.
+- Compare una spia rossa nella pagina iniziale.
+- L'importo non viene conteggiato nel fatturato.
+
+
+
+PAGAMENTO DI UN CREDITO
+
+1. Dalla pagina iniziale inserire il nome del cliente.
+
+2. Aprire la scheda cliente.
+
+3. Aprire lo Storico.
+
+4. Fare clic su Credito saldato.
+
+- La spia rossa scompare.
+- La spia diventa verde.
+
+5. Tornare alla pagina iniziale.
+
+6. Cercare nuovamente il cliente.
+
+7. Verificare le informazioni visualizzate.
+
+DISCIPLINA
+
+- Fare clic su SALTA per passare alla Fatturazione.
+
+FATTURAZIONE
+
+1. Inserire l'importo da regolarizzare.
+
+2. Fare clic su Inserisci pagamento.
+
+PAGAMENTO
+
+Scegliere il metodo di pagamento:
+
+- Contanti
+- Assegno
+- Carta bancaria
+- Bonifico
+
+RIEPILOGO
+
+1. Verificare le informazioni visualizzate.
+
+2. Aggiungere una osservazione se necessario.
+
+3. Fare clic su Termina la sessione.
+
+SCHEDA CLIENTE
+
+Il credito viene contrassegnato come saldato.
+
+L'importo viene incluso in:
+
+- Fatturato
+- Statistiche
+- Esportazioni PDF
+
+- La spia di controllo diventa verde.
+
+Quindi tornare alla pagina iniziale.
+
+
+
+CARTA CLUB
+
+- 1 giro = 1 unita.
+- Ricarica possibile in qualsiasi momento.
+
+CREAZIONE E RICARICA DI UNA CARTA
+
+1. Creare un nuovo sciatore.
+
+2. Inserire:
+- Cognome
+- Nome
+- Data di nascita
+- Telefono
+- E-mail
+
+3. Fare clic su Salva.
+
+DISCIPLINA
+
+Fare clic su SALTA.
+
+FATTURAZIONE
+
+1. Inserire il numero di unita da accreditare.
+
+Esempio:
+60 unita
+
+2. Calcolare l'importo.
+
+Esempio:
+60 x 5 EUR = 300 EUR
+
+3. Fare clic su Inserisci pagamento.
+
+PAGAMENTO
+
+Scegliere:
+
+- Contanti
+- Assegno
+- Carta bancaria
+- Bonifico
+- Credito
+
+CARTA CLUB
+
+1. Verificare il numero di unita visualizzate.
+
+2. Scansionare una carta.
+
+3. Verificare l'assegnazione.
+
+4. Fare clic su CONFERMA.
+
+RIEPILOGO
+
+- Pagamento effettuato
+- Importo pagato
+- Unita caricate
+- Unita rimanenti
+
+Fare clic su Termina la sessione.
+
+SCHEDA CLIENTE
+
+- Storico cliente
+- Statistiche
+- Esportazioni PDF
+
+Tornare alla pagina iniziale.
+
+
+
+UTILIZZO DI UNA CARTA CLUB
+
+Quando uno sciatore possiede gia una Carta Club:
+
+1. Scansionare la carta.
+
+2. Verificare le informazioni visualizzate:
+- Cognome
+- Nome
+- Data di nascita
+- Telefono
+- E-mail
+
+3. Fare clic su Salva.
+
+DISCIPLINA
+
+Selezionare la disciplina:
+
+- BI-SKI
+- SLALOM
+- FIGURE
+- WAKEBOARD
+- SALTO
+
+L'applicazione apre la pagina Tempo della sessione.
+
+TEMPO DELLA SESSIONE
+
+Inserire:
+
+- Ora di partenza
+- Ora di arrivo
+- Numero di giri effettuati
+
+Quindi fare clic su Salva la sessione.
+
+FATTURAZIONE
+
+Verificare il numero di giri registrati.
+
+Fare clic su Inserisci pagamento.
+
+PAGAMENTO
+
+Scegliere:
+
+- Carta Club
+
+CARTA CLUB
+
+1. Verificare il numero di unita rimanenti.
+
+2. Scansionare la carta.
+
+3. Le unita consumate vengono detratte manualmente dal monitore o dal coach.
+
+4. Fare clic su CONFERMA.
+
+RIEPILOGO
+
+Il riepilogo visualizza:
+
+- Disciplina
+- Numero di giri
+- Unita consumate
+- Unita rimanenti
+
+Fare clic su Termina la sessione.
+
+SCHEDA CLIENTE
+
+La sessione viene registrata in:
+
+- Storico del cliente
+- Statistiche
+- Esportazioni PDF
+
+Quindi tornare alla pagina iniziale.
+
+STORICO
+
+Consultazione delle schede individuali:
+
+- Sessioni
+- Pagamenti
+- Importi
+- Osservazioni
+
+STATISTICHE
+
+Consultazione delle statistiche generali:
+
+- Sciatori
+- Sessioni
+- Giri
+- Fatturato
+- Presenze
+
+Esportazione PDF disponibile.
+
+
 """,
       ),
       style: const TextStyle(

@@ -6517,6 +6517,325 @@ Exportacion PDF disponible.
 
 """,
 
+"""
+
+KURZANLEITUNG
+
+1. Neuer Skifahrer
+
+Eingeben:
+- Nachname
+- Vorname
+- Geburtsdatum
+- Telefon
+- E-Mail
+
+Dann auf Speichern klicken.
+
+2. Disziplin auswahlen
+
+Auswahlen:
+- BI-SKI
+- SLALOM
+- FIGUREN
+- WAKEBOARD
+- SPRUNG
+
+3. Sitzungszeit
+
+Erfassen:
+- Startzeit
+- Ankunftszeit
+- Anzahl der Runden
+
+Dann auf Sitzung speichern klicken.
+
+4. Abrechnung
+
+Den integrierten Rechner verwenden.
+
+Beispiel:
+10 x 5 = 50 EUR
+
+Dann auf Zahlung eingeben klicken.
+
+5. Zahlung
+
+Auswahlen:
+
+- Bargeld
+- Scheck
+- Bankkarte
+- Uberweisung
+- Guthaben
+- Clubkarte
+
+6. Zusammenfassung
+
+Falls erforderlich eine Bemerkung hinzufugen und dann auf
+
+Sitzung beenden
+
+klicken.
+
+Die Sitzung wird im Kundenverlauf gespeichert.
+
+VERWALTUNG DES GUTHABENS
+
+- Eine rote Anzeige erscheint.
+- Der Betrag wird nicht im Umsatz berucksichtigt.
+
+AUSGLEICH EINES GUTHABENS
+
+Wenn eine Sitzung oder ein Kauf von Einheiten als Guthaben gespeichert wird:
+
+- Das Guthaben erscheint in der Kundenakte.
+- Eine rote Anzeige erscheint auf der Startseite.
+- Der Betrag wird nicht im Umsatz berucksichtigt.
+
+
+
+ZAHLUNG EINES GUTHABENS
+
+1. Auf der Startseite den Namen des Kunden eingeben.
+
+2. Die Kundenakte offnen.
+
+3. Den Verlauf offnen.
+
+4. Auf Guthaben bezahlt klicken.
+
+- Die rote Anzeige verschwindet.
+- Die Anzeige wird grun.
+
+5. Zur Startseite zuruckkehren.
+
+6. Den Kunden erneut suchen.
+
+7. Die angezeigten Informationen prufen.
+
+DISZIPLIN
+
+- Auf UBERSPRINGEN klicken, um zur Abrechnung zu gehen.
+
+ABRECHNUNG
+
+1. Den auszugleichenden Betrag eingeben.
+
+2. Auf Zahlung eingeben klicken.
+
+ZAHLUNG
+
+Die Zahlungsart auswahlen:
+
+- Bargeld
+- Scheck
+- Bankkarte
+- Uberweisung
+
+ZUSAMMENFASSUNG
+
+1. Die angezeigten Informationen prufen.
+
+2. Falls erforderlich eine Bemerkung hinzufugen.
+
+3. Auf Sitzung beenden klicken.
+
+KUNDENAKTE
+
+Das Guthaben wird als bezahlt markiert.
+
+Der Betrag wird einbezogen in:
+
+- Umsatz
+- Statistiken
+- PDF-Exporte
+
+- Die Kontrollanzeige wird grun.
+
+Dann zur Startseite zuruckkehren.
+
+
+
+CLUBKARTE
+
+- 1 Runde = 1 Einheit.
+- Aufladen jederzeit moglich.
+
+ERSTELLUNG UND AUFLADUNG EINER KARTE
+
+1. Einen neuen Skifahrer erstellen.
+
+2. Eingeben:
+- Nachname
+- Vorname
+- Geburtsdatum
+- Telefon
+- E-Mail
+
+3. Auf Speichern klicken.
+
+DISZIPLIN
+
+Auf UBERSPRINGEN klicken.
+
+ABRECHNUNG
+
+1. Die Anzahl der gutzuschreibenden Einheiten eingeben.
+
+Beispiel:
+60 Einheiten
+
+2. Den Betrag berechnen.
+
+Beispiel:
+60 x 5 EUR = 300 EUR
+
+3. Auf Zahlung eingeben klicken.
+
+ZAHLUNG
+
+Auswahlen:
+
+- Bargeld
+- Scheck
+- Bankkarte
+- Uberweisung
+- Guthaben
+
+CLUBKARTE
+
+1. Die angezeigte Anzahl der Einheiten prufen.
+
+2. Eine Karte scannen.
+
+3. Die Zuordnung prufen.
+
+4. Auf BESTATIGEN klicken.
+
+ZUSAMMENFASSUNG
+
+- Zahlung erfolgt
+- Betrag bezahlt
+- Einheiten geladen
+- Verbleibende Einheiten
+
+Auf Sitzung beenden klicken.
+
+KUNDENAKTE
+
+- Kundenverlauf
+- Statistiken
+- PDF-Exporte
+
+Zur Startseite zuruckkehren.
+
+
+
+VERWENDUNG EINER CLUBKARTE
+
+Wenn ein Skifahrer bereits eine Clubkarte besitzt:
+
+1. Die Karte scannen.
+
+2. Die angezeigten Informationen prufen:
+- Nachname
+- Vorname
+- Geburtsdatum
+- Telefon
+- E-Mail
+
+3. Auf Speichern klicken.
+
+DISZIPLIN
+
+Eine Disziplin auswahlen:
+
+- BI-SKI
+- SLALOM
+- FIGUREN
+- WAKEBOARD
+- SPRUNG
+
+Die Anwendung offnet die Seite Sitzungszeit.
+
+SITZUNGSZEIT
+
+Eingeben:
+
+- Startzeit
+- Ankunftszeit
+- Anzahl der gefahrenen Runden
+
+Dann auf Sitzung speichern klicken.
+
+ABRECHNUNG
+
+Die Anzahl der aufgezeichneten Runden prufen.
+
+Auf Zahlung eingeben klicken.
+
+ZAHLUNG
+
+Auswahlen:
+
+- Clubkarte
+
+CLUBKARTE
+
+1. Die verbleibende Anzahl der Einheiten prufen.
+
+2. Die Karte scannen.
+
+3. Die verbrauchten Einheiten werden manuell vom Trainer oder Coach abgezogen.
+
+4. Auf BESTATIGEN klicken.
+
+ZUSAMMENFASSUNG
+
+Die Zusammenfassung zeigt:
+
+- Disziplin
+- Anzahl der Runden
+- Verbrauchte Einheiten
+- Verbleibende Einheiten
+
+Auf Sitzung beenden klicken.
+
+KUNDENAKTE
+
+Die Sitzung wird gespeichert in:
+
+- Kundenverlauf
+- Statistiken
+- PDF-Exporten
+
+Dann zur Startseite zuruckkehren.
+
+VERLAUF
+
+Anzeige der einzelnen Kundenakten:
+
+- Sitzungen
+- Zahlungen
+- Betrage
+- Bemerkungen
+
+STATISTIKEN
+
+Anzeige der Gesamtstatistiken:
+
+- Skifahrer
+- Sitzungen
+- Runden
+- Umsatz
+- Anwesenheiten
+
+PDF-Export verfugbar.
+
+
+
+""",
       ),
       style: const TextStyle(
             fontSize: 18,

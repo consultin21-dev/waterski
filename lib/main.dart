@@ -6200,6 +6200,323 @@ Esportazione PDF disponibile.
 
 
 """,
+"""
+
+GUIA RAPIDA
+
+1. Nuevo esquiador
+
+Introducir:
+- Apellido
+- Nombre
+- Fecha de nacimiento
+- Telefono
+- E-mail
+
+Luego hacer clic en Guardar.
+
+2. Elegir una disciplina
+
+Seleccionar:
+- BI-SKI
+- SLALOM
+- FIGURAS
+- WAKEBOARD
+- SALTO
+
+3. Tiempo de sesion
+
+Registrar:
+- Hora de salida
+- Hora de llegada
+- Numero de vueltas
+
+Luego hacer clic en Guardar la sesion.
+
+4. Facturacion
+
+Usar la calculadora integrada.
+
+Ejemplo:
+10 x 5 = 50 EUR
+
+Luego hacer clic en Introducir el pago.
+
+5. Pago
+
+Elegir:
+- Efectivo
+- Cheque
+- Tarjeta bancaria
+- Transferencia
+- Credito
+- Tarjeta Club
+
+6. Resumen
+
+Anadir una observacion si es necesario, luego hacer clic en:
+
+Finalizar la sesion.
+
+La sesion se guarda en el historial del cliente.
+
+GESTION DEL CREDITO
+
+- Aparece un indicador rojo.
+- El importe no se contabiliza en los ingresos.
+
+REGULARIZACION DE UN CREDITO
+
+Cuando una sesion o una compra de unidades se registra como Credito:
+
+- El credito aparece en la ficha del cliente.
+- Aparece un indicador rojo en la pagina de inicio.
+- El importe no se contabiliza en los ingresos.
+
+
+
+PAGO DE UN CREDITO
+
+1. Desde la pagina de inicio introducir el nombre del cliente.
+
+2. Abrir la ficha del cliente.
+
+3. Abrir el Historial.
+
+4. Hacer clic en Credito pagado.
+
+- El indicador rojo desaparece.
+- El indicador pasa a verde.
+
+5. Volver a la pagina de inicio.
+
+6. Buscar de nuevo al cliente.
+
+7. Verificar la informacion mostrada.
+
+DISCIPLINA
+
+- Hacer clic en OMITIR para pasar a Facturacion.
+
+FACTURACION
+
+1. Introducir el importe a regularizar.
+
+2. Hacer clic en Introducir el pago.
+
+PAGO
+
+Elegir el metodo de pago:
+
+- Efectivo
+- Cheque
+- Tarjeta bancaria
+- Transferencia
+
+RESUMEN
+
+1. Verificar la informacion mostrada.
+
+2. Anadir una observacion si es necesario.
+
+3. Hacer clic en Finalizar la sesion.
+
+FICHA DEL CLIENTE
+
+El credito queda marcado como pagado.
+
+El importe se integra en:
+
+- Ingresos
+- Estadisticas
+- Exportaciones PDF
+
+- El indicador de seguimiento pasa a verde.
+
+Luego volver a la pagina de inicio.
+
+
+
+TARJETA CLUB
+
+- 1 vuelta = 1 unidad.
+- Recarga posible en cualquier momento.
+
+CREACION Y RECARGA DE UNA TARJETA
+
+1. Crear un nuevo esquiador.
+
+2. Introducir:
+- Apellido
+- Nombre
+- Fecha de nacimiento
+- Telefono
+- E-mail
+
+3. Hacer clic en Guardar.
+
+DISCIPLINA
+
+Hacer clic en OMITIR.
+
+FACTURACION
+
+1. Introducir el numero de unidades a acreditar.
+
+Ejemplo:
+60 unidades
+
+2. Calcular el importe.
+
+Ejemplo:
+60 x 5 EUR = 300 EUR
+
+3. Hacer clic en Introducir el pago.
+
+PAGO
+
+Elegir:
+
+- Efectivo
+- Cheque
+- Tarjeta bancaria
+- Transferencia
+- Credito
+
+TARJETA CLUB
+
+1. Verificar el numero de unidades mostradas.
+
+2. Escanear una tarjeta.
+
+3. Verificar la asignacion.
+
+4. Hacer clic en VALIDAR.
+
+RESUMEN
+
+- Pago efectuado
+- Importe pagado
+- Unidades cargadas
+- Unidades restantes
+
+Hacer clic en Finalizar la sesion.
+
+FICHA DEL CLIENTE
+
+- Historial del cliente
+- Estadisticas
+- Exportaciones PDF
+
+Volver a la pagina de inicio.
+
+
+
+USO DE UNA TARJETA CLUB
+
+Cuando un esquiador ya dispone de una Tarjeta Club:
+
+1. Escanear la tarjeta.
+
+2. Verificar la informacion mostrada:
+- Apellido
+- Nombre
+- Fecha de nacimiento
+- Telefono
+- E-mail
+
+3. Hacer clic en Guardar.
+
+DISCIPLINA
+
+Seleccionar la disciplina:
+
+- BI-SKI
+- SLALOM
+- FIGURAS
+- WAKEBOARD
+- SALTO
+
+La aplicacion abre la pagina Tiempo de sesion.
+
+TIEMPO DE SESION
+
+Introducir:
+
+- Hora de salida
+- Hora de llegada
+- Numero de vueltas realizadas
+
+Luego hacer clic en Guardar la sesion.
+
+FACTURACION
+
+Verificar el numero de vueltas registradas.
+
+Hacer clic en Introducir el pago.
+
+PAGO
+
+Elegir:
+
+- Tarjeta Club
+
+TARJETA CLUB
+
+1. Verificar el numero de unidades restantes.
+
+2. Escanear la tarjeta.
+
+3. Las unidades consumidas se descuentan manualmente por el monitor o el entrenador.
+
+4. Hacer clic en VALIDAR.
+
+RESUMEN
+
+El resumen muestra:
+
+- Disciplina
+- Numero de vueltas
+- Unidades consumidas
+- Unidades restantes
+
+Hacer clic en Finalizar la sesion.
+
+FICHA DEL CLIENTE
+
+La sesion se registra en:
+
+- Historial del cliente
+- Estadisticas
+- Exportaciones PDF
+
+Luego volver a la pagina de inicio.
+
+HISTORIAL
+
+Consulta de los registros individuales:
+
+- Sesiones
+- Pagos
+- Importes
+- Observaciones
+
+ESTADISTICAS
+
+Consulta de las estadisticas generales:
+
+- Esquiadores
+- Sesiones
+- Vueltas
+- Ingresos
+- Asistencias
+
+Exportacion PDF disponible.
+
+
+
+""",
+
       ),
       style: const TextStyle(
             fontSize: 18,
